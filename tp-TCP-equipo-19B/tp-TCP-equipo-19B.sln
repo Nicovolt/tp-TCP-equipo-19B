@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35323.107
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tp-TCP-equipo-19B", "tp-TCP-equipo-19B\tp-TCP-equipo-19B.csproj", "{C12641FB-107C-4070-B3C2-E3DF18D7B3D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "negocio", "negocio\negocio.csproj", "{40B59D53-B8EB-47DA-93F4-F60F4A772012}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C12641FB-107C-4070-B3C2-E3DF18D7B3D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C12641FB-107C-4070-B3C2-E3DF18D7B3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C12641FB-107C-4070-B3C2-E3DF18D7B3D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40B59D53-B8EB-47DA-93F4-F60F4A772012}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40B59D53-B8EB-47DA-93F4-F60F4A772012}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40B59D53-B8EB-47DA-93F4-F60F4A772012}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40B59D53-B8EB-47DA-93F4-F60F4A772012}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
