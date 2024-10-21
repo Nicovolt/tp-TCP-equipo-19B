@@ -13,5 +13,12 @@ namespace tp_TCP_equipo_19B
         {
 
         }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string busqueda = searchTextBox.Text;
+
+
+        }
     }
 }

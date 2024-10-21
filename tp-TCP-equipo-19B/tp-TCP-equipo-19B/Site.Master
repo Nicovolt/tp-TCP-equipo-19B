@@ -1,70 +1,348 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="tp_TCP_equipo_19B.SiteMaster" %>
 
 <!DOCTYPE html>
+<style>
+    .header {
+        margin-top: 0;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-<html lang="es">
+    html, body {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .wrapper {
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .content {
+        flex: 1;
+    }
+
+  .navegacion {
+    width: 100%;
+    margin: 0 auto; /* Para centrar horizontalmente */
+    background: black;
+    color: white;
+    box-shadow: 0 0 6px 0 rgb(0, 0, 0);
+    text-align: center; /* Para centrar los elementos internos */
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin-top: 10px; /* Espacio entre el header y los elementos del menú */
+}
+
+.menu > li {
+    position: relative;
+    margin-right: 20px; /* Espacio entre los elementos del menú */
+}
+
+.menu > li > a {
+    text-decoration: none;
+    color: white;
+    padding: 15px 20px;
+    display: block;
+    transition: all 0.3s;
+}
+
+.menu > li > a:hover {
+    background: white;
+    color: black;
+}
+
+.sudmenu {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    visibility: hidden;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    z-index: 1000;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.sudmenu li {
+    width: 100%;
+}
+
+.sudmenu li a {
+    display: block;
+    padding: 15px;
+    color: black;
+    text-decoration: none;
+}
+
+.menu li:hover .sudmenu {
+    visibility: visible;
+    opacity: 1;
+}
+
+    .footer {
+    
+    height: 70px;
+    width: 100%;
+    position: relative;
+    color: white;
+    background: black;
+    text-align: center;
+    font-size: 16px;
+    line-height: 70px;
+    margin-top: 0; /* Elimina cualquier margen superior */
+    }
+
+     .top {
+    height: 70px;
+    width: 100%;
+    position: relative;
+    color: black;
+    background: black;
+    text-align: center;
+    font-size: 16px;
+    line-height: 70px;
+    margin-top: 0; /* Elimina cualquier margen superior */
+}
+
+
+
+    .icono-cart {
+        font-size: 20px;
+        margin-right: 5px;
+    }
+
+    .menu li.cart {
+        display: inline-flex;
+        align-items: center;
+    }
+
+        .menu li.cart a {
+            display: inline-flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+        }
+
+            .menu li.cart a:hover {
+                background: white;
+                transition: all .3s;
+            }
+
+        .menu li.cart .cart-label {
+            color: white;
+        }
+        .menu li.cart a:hover .icono-cart {
+            color: black; /* Cambia el color del ícono a negro */
+        }
+
+           li a {
+            text-decoration: none;
+            color: black; /* Color por defecto */
+            padding: 10px;
+            display: block;
+        }
+
+        /* Estilo cuando el mouse está sobre el enlace */
+        li a:hover {
+            color: lightblue; /* Color de texto al pasar el mouse */
+        }
+        .center {
+            text-align: center; /* Centra el contenido horizontalmente */
+            margin: 0 auto; /* Centra el div en el centro de la página */
+            width: 50%; /* Ancho del div */
+            padding: 20px; /* Espaciado interno */
+        }
+   .search-bar {
+       width: 200px;
+       border: 1px solid #ccc;
+       border-radius: 20px;
+       overflow: hidden;
+        margin-top: 20px;
+        text-align: center; /* Centra el contenedor horizontalmente */
+   }
+
+   .search-input {
+       flex: 1; /* Expande el campo de entrada para ocupar el espacio disponible */
+       width: calc(100% - 50px); /* Ajusta el ancho del campo de entrada */
+       border: none;
+       outline: none;
+       padding: 10px;
+       font-size: 16px;
+   }
+
+   .search-button {
+       background-color: #000000;
+       color: white;
+       border: none;
+       padding: 10px 14.5px;
+       border-radius: 0 20px 20px 0;
+       cursor: pointer;
+   }
+
+   /* Estilos para el ícono de lupa */
+   .search-icon {
+       font-size: 20px;
+   }
+   .search-container {
+    text-align: center; /* Centra el contenedor horizontalmente */
+    margin-top: 50px; /* Espacio superior entre la imagen y el contenedor de búsqueda */
+    margin-bottom: 50px;
+    width: 80%; /* Ancho del contenedor de búsqueda como un porcentaje del contenedor padre */
+    max-width: 500px; /* Ancho máximo del contenedor de búsqueda para limitar su tamaño */
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+}
+
+      body, html {
+            margin-top: 0;
+            padding: 0;
+            width: 100%;
+        }
+        .carousel {
+            width: 100%;
+        }
+        .carousel-inner {
+            width: 100%;
+        }
+        .carousel-inner img {
+            width: 100%;
+            height: 300px;
+            
+        }
+         .carousel-item {
+            max-height: 410px; /* Altura máxima para todas las imágenes */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            object-fit: contain;
+        }
+
+</style>
+<html>
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - Mi aplicación ASP.NET</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+    <link href="#" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+   
 
-    <asp:PlaceHolder runat="server">
-        <%: Scripts.Render("~/bundles/modernizr") %>
-    </asp:PlaceHolder>
-
-    <webopt:bundlereference runat="server" path="~/Content/css" />
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
+  
 </head>
 <body>
-    <form runat="server">
-        <asp:ScriptManager runat="server">
-            <Scripts>
-                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
-                <%--Framework Scripts--%>
-                <asp:ScriptReference Name="MsAjaxBundle" />
-                <asp:ScriptReference Name="jquery" />
-                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
-                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
-                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
-                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
-                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
-                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
-                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
-                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
-                <asp:ScriptReference Name="WebFormsBundle" />
-                <%--Site Scripts--%>
-            </Scripts>
-        </asp:ScriptManager>
+    
+    
+    <form id="form1" runat="server">
+        <div class="wrapper">
+            <header class="header">
+                <div class="top">
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Nombre de la aplicación</a>
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/About">Acerca de</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contacto</a></li>
-                    </ul>
                 </div>
+               
+              <div id="carouselExampleIndicators" class="carousel slide center" data-bs-ride="carousel">
+                  <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  </div>
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU7or0JD4pAegHylElz4SV49NTT_y_4yDtoA&s" class="d-block w-100" alt="">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjrIokQ9Y4fAg9C3u1ur5MFQbuX_GXREtcQg&s" class="d-block w-100" alt="">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVIQeHTo_bU_AHr-g7CNpPqd7yVDwTOqfAmg&s" class="d-block w-100" alt="">
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+               </div>
+                   <div class="search-container">
+                         <asp:TextBox ID="searchTextBox" runat="server" CssClass="search-input" placeholder="Buscar..." onkeydown="enter(event)"></asp:TextBox>
+                         <asp:LinkButton ID="btnSearch" runat="server" CssClass="search-button" OnClick="btnSearch_Click" type="button">
+                          <i class="fas fa-search"></i>
+                         </asp:LinkButton>
+                   </div>
+
+                <nav class="navegacion">
+                    <ul class="menu">
+                        <li><a href="Default.aspx">Inicio</a></li>
+                        <li><a href="#">Productos</a>
+                            <ul class="sudmenu">
+                                <li><a href="Articulo.aspx?nombre=Placasdevideo">Placas de video</a></li>
+                                <li><a href="Articulo.aspx?nombre=Gabinetes">Gabinetes</a></li>
+                                <li><a href="Articulo.aspx?nombre=Perifericos">Perifericos</a></li>
+                                <li><a href="Articulo.aspx?nombre=Monitores">Monitores</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Informacion</a></li>
+                        <li id="adminMenu" runat="server"><a href="#">Administrar</a>
+                            <ul class="sudmenu">
+                                <li><a href="">Nuevo Articulo</a></li>
+                                <li><a href="">Nueva Categoria</a></li>
+                                <li><a href="">Nueva Marca</a></li>
+                                <li><a href="">Modificar Categoria</a></li>
+                                <li><a href="">Modificar Marca</a></li>
+                                <li><a href="">Modificar Articulo</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="cart">
+                            <a href="" runat="server"><i class="fa-solid fa-cart-shopping icono-cart" runat="server"></i></a>
+                            <asp:Label ID="Label1" runat="server" CssClass="cart-label"></asp:Label>
+                        </li>
+                    </ul>
+                </nav>
+                 
+                
+            </header>
+            <div class="content">
+                <section>
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+                    </asp:ContentPlaceHolder>
+                </section>
             </div>
-        </nav>
-        <div class="container body-content">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server">
-            </asp:ContentPlaceHolder>
-            <hr />
-            <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Mi aplicación ASP.NET</p>
-            </footer>
         </div>
     </form>
-    <asp:PlaceHolder runat="server">
-        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
-    </asp:PlaceHolder>
+    <footer class="footer">
+        <p>Equipo 19B - Todos los derechos reservados</p>
+    </footer>
 </body>
 </html>
+ <script>
+     function enter(event) {
+         if (event.keyCode === 13 || event.which === 13) {
+             event.preventDefault();
+             document.getElementById('<%= btnSearch.ClientID %>').click();
+         }
+     }
+
+
+ </script>
