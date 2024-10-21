@@ -17,6 +17,13 @@ BEGIN
         telefono VARCHAR(20)
     );
 END
+ELSE
+BEGIN
+    IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Cliente' AND COLUMN_NAME = 'admin')
+    BEGIN
+        ALTER TABLE Cliente ADD admin TINYINT NOT NULL DEFAULT 0;
+    END
+END
 
 IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Marca')
 BEGIN
@@ -29,8 +36,7 @@ END
 IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Categoria')
 BEGIN
     CREATE TABLE Categoria (
-        id_categoria INT   
- IDENTITY(1,1) PRIMARY KEY,
+        id_categoria INT IDENTITY(1,1) PRIMARY KEY,
         nombre VARCHAR(90) NOT NULL
     );
 END
@@ -46,5 +52,17 @@ BEGIN
         id_categoria INT FOREIGN KEY REFERENCES Categoria(id_categoria),
         porcentaje_descuento TINYINT DEFAULT 0,
         stock INT NOT NULL DEFAULT 0
+    );
+END
+
+IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Home_banner')
+BEGIN
+    CREATE TABLE Home_banner (
+        id_banner INT IDENTITY(1,1) PRIMARY KEY,
+        url_banner TEXT NOT NULL,
+        activo TINYINT NOT NULL DEFAULT 0,
+        id_cuenta INT NOT NULL,
+        fecha DATETIME,
+        orden INT
     );
 END
