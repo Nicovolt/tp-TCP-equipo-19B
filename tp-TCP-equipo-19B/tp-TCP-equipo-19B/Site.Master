@@ -296,16 +296,16 @@
                         <li><a href="Default.aspx">Inicio</a></li>
                         <li><a href="#">Productos</a>
                             <ul class="sudmenu">
-                                <li><a href="Articulo.aspx?nombre=Placasdevideo">Placas de video</a></li>
-                                <li><a href="Articulo.aspx?nombre=Gabinetes">Gabinetes</a></li>
-                                <li><a href="Articulo.aspx?nombre=Perifericos">Perifericos</a></li>
-                                <li><a href="Articulo.aspx?nombre=Monitores">Monitores</a></li>
+                                <li><a href="Productos.aspx?nombre=Placasdevideo">Placas de video</a></li>
+                                <li><a href="Productos.aspx?nombre=Gabinetes">Gabinetes</a></li>
+                                <li><a href="Productos.aspx?nombre=Perifericos">Perifericos</a></li>
+                                <li><a href="Productos.aspx?nombre=Monitores">Monitores</a></li>
                             </ul>
                         </li>
                         <li><a href="#">Informacion</a></li>
                         <li id="adminMenu" runat="server"><a href="#">Administrar</a>
                             <ul class="sudmenu">
-                                <li><a href="">Nuevo Articulo</a></li>
+                                <li><a href="">Nuevo Producto</a></li>
                                 <li><a href="">Nueva Categoria</a></li>
                                 <li><a href="">Nueva Marca</a></li>
                                 <li><a href="">Modificar Categoria</a></li>
