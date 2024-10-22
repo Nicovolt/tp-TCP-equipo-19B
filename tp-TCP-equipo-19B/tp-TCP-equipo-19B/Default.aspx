@@ -2,6 +2,7 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
     <main>
-        <h1>Pantalla principal de productos</h1>
+        <h1>Pantalla  de productos</h1>
+        
     </main>
 </asp:Content>
