@@ -66,3 +66,72 @@ BEGIN
         orden INT
     );
 END
+
+IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Usuario')
+BEGIN
+	CREATE TABLE Usuario(
+	id_usuario INT IDENTITY(1,1) PRIMARY KEY,
+	nombre_usuario VARCHAR(90) NOT NULL UNIQUE,
+    contrasena VARBINARY(64) NOT NULL
+);
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_EncriptarContrasena')
+BEGIN
+    EXEC('
+    CREATE PROCEDURE sp_EncriptarContrasena
+        @contrasena NVARCHAR(4000),
+        @contrasenaEncriptada VARBINARY(64) OUTPUT
+    AS
+    BEGIN
+        SET @contrasenaEncriptada = HASHBYTES(''SHA2_256'', @contrasena);
+    END
+    ');
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_InsertarUsuario')
+BEGIN
+    EXEC('
+    CREATE PROCEDURE sp_InsertarUsuario
+        @nombre_usuario NVARCHAR(90),
+        @contrasena NVARCHAR(4000)
+    AS
+    BEGIN
+        DECLARE @contrasenaEncriptada VARBINARY(64);
+        EXEC sp_EncriptarContrasena @contrasena, @contrasenaEncriptada OUTPUT;
+
+        INSERT INTO Usuario (nombre_usuario, contrasena)
+        VALUES (@nombre_usuario, @contrasenaEncriptada);
+    END
+    ');
+END
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_VerificarLogin')
+BEGIN
+    EXEC('
+    CREATE PROCEDURE sp_VerificarLogin
+        @nombre_usuario NVARCHAR(90),
+        @contrasena NVARCHAR(4000),
+        @loginExitoso BIT OUTPUT
+    AS
+    BEGIN
+        DECLARE @contrasenaEncriptada VARBINARY(64);
+        EXEC sp_EncriptarContrasena @contrasena, @contrasenaEncriptada OUTPUT;
+
+        IF EXISTS (
+            SELECT 1
+            FROM Usuario
+            WHERE nombre_usuario = @nombre_usuario
+            AND contrasena = @contrasenaEncriptada
+        )
+        BEGIN
+            SET @loginExitoso = 1;
+        END
+        ELSE
+        BEGIN
+            SET @loginExitoso = 0;
+        END
+    END
+    ');
+END
+
