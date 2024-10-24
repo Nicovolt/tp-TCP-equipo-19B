@@ -19,7 +19,7 @@ namespace negocio
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=  ; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=TP_CUATRIMESTRAL_DB  ; integrated security=true");
             comando = new SqlCommand("");
         }
         public void setearConsulta(string consulta)
@@ -29,21 +29,7 @@ namespace negocio
             comando.CommandText = consulta;
         }
 
-        public void ejecutarLectura()
-        {
-            comando.Connection = conexion;
-            try
-            {
-                conexion.Open();
-                lector = comando.ExecuteReader();
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-        }
+       
 
         public void ejecutarAccion()
         {
