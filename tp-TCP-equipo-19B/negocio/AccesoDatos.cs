@@ -19,7 +19,7 @@ namespace negocio
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=  ; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=TP_CUATRIMESTRAL_DB ; integrated security=true");
             comando = new SqlCommand("");
         }
         public void setearConsulta(string consulta)
@@ -27,6 +27,13 @@ namespace negocio
             comando.Parameters.Clear(); // Utilizo este metodo para limpiar el comando
             comando.CommandType = System.Data.CommandType.Text;
             comando.CommandText = consulta;
+        }
+
+        public void setearProcedimiento(string sp)
+        {
+            comando.Parameters.Clear();
+            comando.CommandType = System.Data.CommandType.StoredProcedure;
+            comando.CommandText = sp;
         }
 
         public void ejecutarLectura()
