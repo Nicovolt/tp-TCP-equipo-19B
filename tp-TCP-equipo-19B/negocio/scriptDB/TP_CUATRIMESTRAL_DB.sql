@@ -7,156 +7,181 @@ END
 
 USE TP_CUATRIMESTRAL_DB;
 
-IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Cliente')
+-- Eliminar restricciones de clave foránea de Producto
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'Producto' AND CONSTRAINT_TYPE = 'FOREIGN KEY')
 BEGIN
-    CREATE TABLE Cliente (
-        id_cliente INT IDENTITY(1,1) PRIMARY KEY,
-        nombre VARCHAR(90) NOT NULL,
-        apellido VARCHAR(90) NOT NULL,
-        email VARCHAR(250) NOT NULL UNIQUE,
-        telefono VARCHAR(20)
-    );
-END
-ELSE
-BEGIN
-    IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Cliente' AND COLUMN_NAME = 'admin')
-    BEGIN
-        ALTER TABLE Cliente ADD admin TINYINT NOT NULL DEFAULT 0;
-    END
+    DECLARE @sql NVARCHAR(MAX) = '';
+    SELECT @sql += 'ALTER TABLE Producto DROP CONSTRAINT ' + QUOTENAME(CONSTRAINT_NAME) + '; '
+    FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+    WHERE TABLE_NAME = 'Producto' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
+    EXEC sp_executesql @sql;
 END
 
-IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Marca')
+-- Eliminar restricciones de clave foránea de Imagen
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'Imagen' AND CONSTRAINT_TYPE = 'FOREIGN KEY')
 BEGIN
-    CREATE TABLE Marca (
-        id_marca INT IDENTITY(1,1) PRIMARY KEY,
-        nombre VARCHAR(90) NOT NULL
-    );
+    DECLARE @query NVARCHAR(MAX) = '';
+    SELECT @query += 'ALTER TABLE Imagen DROP CONSTRAINT ' + QUOTENAME(CONSTRAINT_NAME) + '; '
+    FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+    WHERE TABLE_NAME = 'Imagen' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
+    EXEC sp_executesql @query;
 END
 
-IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Categoria')
+-- Eliminar tabla Producto primero debido a las restricciones de clave foránea
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Producto')
 BEGIN
-    CREATE TABLE Categoria (
-        id_categoria INT IDENTITY(1,1) PRIMARY KEY,
-        nombre VARCHAR(90) NOT NULL
-    );
+    DROP TABLE Producto;
 END
 
-IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Producto')
+-- Eliminar y crear tabla Cliente
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Cliente')
 BEGIN
-    CREATE TABLE Producto (
-        id_producto INT IDENTITY(1,1) PRIMARY KEY,
-        nombre VARCHAR(155) NOT NULL,
-        descripcion VARCHAR(250),
-        precio DECIMAL(10,2) NOT NULL,
-        id_marca INT FOREIGN KEY REFERENCES Marca(id_marca),
-        id_categoria INT FOREIGN KEY REFERENCES Categoria(id_categoria),
-        porcentaje_descuento TINYINT DEFAULT 0,
-        stock INT NOT NULL DEFAULT 0
-    );
+    DROP TABLE Cliente;
 END
-ELSE
-BEGIN
-    IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Producto' AND COLUMN_NAME = 'activo')
-    BEGIN
-        ALTER TABLE Producto ADD activo TINYINT NOT NULL DEFAULT 0;
-    END
-END
+CREATE TABLE Cliente (
+    id_cliente INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(90) NOT NULL,
+    apellido VARCHAR(90) NOT NULL,
+    email VARCHAR(250) NOT NULL UNIQUE,
+    telefono VARCHAR(20),
+    admin tinyint not null default 0
+);
 
-IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Home_banner')
+-- Eliminar y crear tabla Marca
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Marca')
 BEGIN
-    CREATE TABLE Home_banner (
-        id_banner INT IDENTITY(1,1) PRIMARY KEY,
-        url_banner TEXT NOT NULL,
-        activo TINYINT NOT NULL DEFAULT 0,
-        id_cuenta INT NOT NULL,
-        fecha DATETIME,
-        orden INT
-    );
+    DROP TABLE Marca;
 END
+CREATE TABLE Marca (
+    id_marca INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(90) NOT NULL
+);
 
-IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Usuario')
+-- Eliminar y crear tabla Categoria
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Categoria')
 BEGIN
-	CREATE TABLE Usuario(
-	id_usuario INT IDENTITY(1,1) PRIMARY KEY,
-	nombre_usuario VARCHAR(90) NOT NULL UNIQUE,
+    DROP TABLE Categoria;
+END
+CREATE TABLE Categoria (
+    id_categoria INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(90) NOT NULL
+);
+
+-- Crear tabla Producto después de Marca y Categoria
+CREATE TABLE Producto (
+    id_producto INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(155) NOT NULL,
+    descripcion VARCHAR(250),
+    precio DECIMAL(10,2) NOT NULL,
+    id_marca INT FOREIGN KEY REFERENCES Marca(id_marca),
+    id_categoria INT FOREIGN KEY REFERENCES Categoria(id_categoria),
+    porcentaje_descuento TINYINT DEFAULT 0,
+    stock INT NOT NULL DEFAULT 0,
+    activo TINYINT NOT NULL DEFAULT 0
+);
+
+-- Eliminar y crear tabla Home_banner
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Home_banner')
+BEGIN
+    DROP TABLE Home_banner;
+END
+CREATE TABLE Home_banner (
+    id_banner INT IDENTITY(1,1) PRIMARY KEY,
+    url_banner TEXT NOT NULL,
+    activo TINYINT NOT NULL DEFAULT 0,
+    id_cuenta INT NOT NULL,
+    fecha DATETIME,
+    orden INT
+);
+
+-- Eliminar y crear tabla Usuario
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Usuario')
+BEGIN
+    DROP TABLE Usuario;
+END
+CREATE TABLE Usuario(
+    id_usuario INT IDENTITY(1,1) PRIMARY KEY,
+    nombre_usuario VARCHAR(90) NOT NULL UNIQUE,
     contrasena VARBINARY(64) NOT NULL
 );
-END
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_EncriptarContrasena')
+-- Procedimiento almacenado sp_EncriptarContrasena
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_EncriptarContrasena')
 BEGIN
-    EXEC('
-    CREATE PROCEDURE sp_EncriptarContrasena
-        @contrasena NVARCHAR(4000),
-        @contrasenaEncriptada VARBINARY(64) OUTPUT
-    AS
+    DROP PROCEDURE sp_EncriptarContrasena;
+END
+EXEC('
+CREATE PROCEDURE sp_EncriptarContrasena
+    @contrasena NVARCHAR(4000),
+    @contrasenaEncriptada VARBINARY(64) OUTPUT
+AS
+BEGIN
+    SET @contrasenaEncriptada = HASHBYTES(''SHA2_256'', @contrasena);
+END
+');
+
+-- Procedimiento almacenado sp_InsertarUsuario
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_InsertarUsuario')
+BEGIN
+    DROP PROCEDURE sp_InsertarUsuario;
+END
+EXEC('
+CREATE PROCEDURE sp_InsertarUsuario
+    @nombre_usuario NVARCHAR(90),
+    @contrasena NVARCHAR(4000)
+AS
+BEGIN
+    DECLARE @contrasenaEncriptada VARBINARY(64);
+    EXEC sp_EncriptarContrasena @contrasena, @contrasenaEncriptada OUTPUT;
+
+    INSERT INTO Usuario (nombre_usuario, contrasena)
+    VALUES (@nombre_usuario, @contrasenaEncriptada);
+END
+');
+
+-- Procedimiento almacenado sp_VerificarLogin
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_VerificarLogin')
+BEGIN
+    DROP PROCEDURE sp_VerificarLogin;
+END
+EXEC('
+CREATE PROCEDURE sp_VerificarLogin
+    @nombre_usuario NVARCHAR(90),
+    @contrasena NVARCHAR(4000),
+    @loginExitoso BIT OUTPUT
+AS
+BEGIN
+    DECLARE @contrasenaEncriptada VARBINARY(64);
+    EXEC sp_EncriptarContrasena @contrasena, @contrasenaEncriptada OUTPUT;
+
+    IF EXISTS (
+        SELECT 1
+        FROM Usuario
+        WHERE nombre_usuario = @nombre_usuario
+        AND contrasena = @contrasenaEncriptada
+    )
     BEGIN
-        SET @contrasenaEncriptada = HASHBYTES(''SHA2_256'', @contrasena);
+        SET @loginExitoso = 1;
     END
-    ');
-END
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_InsertarUsuario')
-BEGIN
-    EXEC('
-    CREATE PROCEDURE sp_InsertarUsuario
-        @nombre_usuario NVARCHAR(90),
-        @contrasena NVARCHAR(4000)
-    AS
+    ELSE
     BEGIN
-        DECLARE @contrasenaEncriptada VARBINARY(64);
-        EXEC sp_EncriptarContrasena @contrasena, @contrasenaEncriptada OUTPUT;
-
-        INSERT INTO Usuario (nombre_usuario, contrasena)
-        VALUES (@nombre_usuario, @contrasenaEncriptada);
-    END
-    ');
-END
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_VerificarLogin')
-BEGIN
-    EXEC('
-    CREATE PROCEDURE sp_VerificarLogin
-        @nombre_usuario NVARCHAR(90),
-        @contrasena NVARCHAR(4000),
-        @loginExitoso BIT OUTPUT
-    AS
-    BEGIN
-        DECLARE @contrasenaEncriptada VARBINARY(64);
-        EXEC sp_EncriptarContrasena @contrasena, @contrasenaEncriptada OUTPUT;
-
-        IF EXISTS (
-            SELECT 1
-            FROM Usuario
-            WHERE nombre_usuario = @nombre_usuario
-            AND contrasena = @contrasenaEncriptada
-        )
-        BEGIN
-            SET @loginExitoso = 1;
-        END
-        ELSE
-        BEGIN
-            SET @loginExitoso = 0;
-        END
-    END
-    ');
-END
-
-IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Imagen')
-BEGIN
-	CREATE TABLE Imagen (
-		Id int IDENTITY(1,1) NOT NULL,
-		IdProducto int FOREIGN KEY REFERENCES Producto(id_producto),
-		ImagenUrl varchar(1000) COLLATE Modern_Spanish_CI_AS NOT NULL,
-		CONSTRAINT PK_IMAGENES PRIMARY KEY (Id)
-	);
-END
-BEGIN
-    IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Imagen' AND COLUMN_NAME = 'activo')
-    BEGIN
-        ALTER TABLE Imagen ADD activo TINYINT NOT NULL DEFAULT 0;
+        SET @loginExitoso = 0;
     END
 END
+');
+
+-- Eliminar y crear tabla Imagen
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Imagen')
+BEGIN
+    DROP TABLE Imagen;
+END
+CREATE TABLE Imagen (
+    Id int IDENTITY(1,1) NOT NULL,
+    IdProducto int FOREIGN KEY REFERENCES Producto(id_producto),
+    ImagenUrl varchar(1000) COLLATE Modern_Spanish_CI_AS NOT NULL,
+    CONSTRAINT PK_IMAGENES PRIMARY KEY (Id),
+    activo TINYINT NOT NULL DEFAULT 0
+);
 
 -- Insert de datos
 
@@ -207,7 +232,7 @@ INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Producto (nombre,descripcion,precio,id_marca
 	 (N'Fuente Antec 550W',N'Fuente 80 Plus Bronze CSK550',68650.00,10,8,0,50);
 
 -- Imagenes
-INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,eliminado) VALUES
+INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,activo) VALUES
 	 (10,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_38277_Fuente_Antec_550W_80_Plus_Bronze_CSK550_67f87193-grn.jpg',0),
 	 (9,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_16749_Procesador_AMD_RYZEN_5_3600_4.2GHz_Turbo_AM4_Wraith_Stealth_Cooler_f8ab4915-grn.jpg',0),
 	 (8,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_29474_Memoria_Team_DDR5_32GB__2x16GB__6400MHz_T-Force_Delta_RGB_Black_CL40_Intel_XMP_3.0_884828e7-grn.jpg',0),
@@ -218,10 +243,8 @@ INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,eliminado) VALU
 	 (6,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41549_Monitor_Gamer_Curvo_ViewSonic_VX3218C-2K_32__1500R_QHD_1440p_165Hz_VA_1ms_MPRT_FreeSync_Premium_e66d7f5f-grn.jpg',0),
 	 (6,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41551_Monitor_Gamer_Curvo_ViewSonic_VX3218C-2K_32__1500R_QHD_1440p_165Hz_VA_1ms_MPRT_FreeSync_Premium_76a0d126-grn.jpg',0),
 	 (6,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41550_Monitor_Gamer_Curvo_ViewSonic_VX3218C-2K_32__1500R_QHD_1440p_165Hz_VA_1ms_MPRT_FreeSync_Premium_e7f78e55-grn.jpg',0);
-INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,eliminado) VALUES
+INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,activo) VALUES
 	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41330_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_b55acf2f-grn.jpg',0),
 	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41331_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_0d8d4ec7-grn.jpg',1),
 	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41333_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_ed981310-grn.jpg',0),
 	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41334_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_d93bcd40-grn.jpg',0);
-
-	
