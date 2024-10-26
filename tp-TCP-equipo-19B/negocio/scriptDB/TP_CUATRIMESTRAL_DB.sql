@@ -183,6 +183,120 @@ CREATE TABLE Imagen (
     activo TINYINT NOT NULL DEFAULT 0
 );
 
+-- Procedimiento almacenado sp_ListarImagenes
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ListarImagenes')
+BEGIN
+    DROP PROCEDURE sp_ListarImagenes;
+END
+GO
+CREATE PROCEDURE sp_ListarImagenes
+AS
+BEGIN
+    SELECT * FROM Imagen;
+END
+GO
+
+-- Procedimiento almacenado sp_ListarImagenesActivas
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ListarImagenesActivas')
+BEGIN
+    DROP PROCEDURE sp_ListarImagenesActivas;
+END
+GO
+CREATE PROCEDURE sp_ListarImagenesActivas
+AS
+BEGIN
+    SELECT * FROM Imagen WHERE Activo = 1;
+END
+GO
+
+-- Procedimiento almacenado sp_InsertarImagen
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_InsertarImagen')
+BEGIN
+    DROP PROCEDURE sp_InsertarImagen;
+END
+GO
+CREATE PROCEDURE sp_InsertarImagen
+	@IdProducto int ,
+	@ImagenUrl varchar(1000),
+	@activo tinyint
+AS
+BEGIN
+    INSERT INTO Imagen (IdProducto, ImagenUrl, Activo)
+    VALUES (@IdProducto, @ImagenUrl, @activo);
+END
+GO
+
+-- Procedimiento almacenado sp_ActualizarImagen
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ActualizarImagen')
+BEGIN
+    DROP PROCEDURE sp_ActualizarImagen;
+END
+GO
+CREATE PROCEDURE sp_ActualizarImagen
+	@id int,
+	@IdProducto int ,
+	@ImagenUrl varchar(1000),
+	@activo tinyint
+AS
+BEGIN
+    UPDATE Imagen
+    SET IdProducto = @IdProducto,
+        ImagenUrl = @ImagenUrl,
+        Activo = @Activo
+    WHERE Id = @Id;
+END
+GO
+
+-- Procedimiento almacenado sp_EliminarImagen
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_EliminarImagen')
+BEGIN
+    DROP PROCEDURE sp_EliminarImagen;
+END
+GO
+CREATE PROCEDURE sp_EliminarImagen
+    @Id INT
+AS
+BEGIN
+    DELETE FROM Imagen
+    WHERE Id = @Id;
+END
+GO
+
+-- Procedimiento almacenado sp_ActualizarEstadoImagen
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ActualizarEstadoImagen')
+BEGIN
+    DROP PROCEDURE sp_ActualizarEstadoImagen;
+END
+GO
+CREATE PROCEDURE sp_ActualizarEstadoImagen
+    @Id INT,
+    @Activo TINYINT
+AS
+BEGIN
+    UPDATE Imagen
+    SET Activo = @Activo
+    WHERE Id = @Id;
+END
+GO
+
+-- Procedimiento almacenado sp_ListarImagenPorArticulo
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ListarImagenPorArticulo')
+BEGIN
+    DROP PROCEDURE sp_ListarImagenPorArticulo;
+END
+GO
+CREATE PROCEDURE sp_ListarImagenPorArticulo
+    @IdProducto INT
+AS
+BEGIN
+    SELECT * 
+    FROM Imagen i
+    WHERE 
+   		i.IdProducto = @IdProducto 
+   		AND activo = 1;
+END
+GO
+
 -- Insert de datos
 
 -- Categoria
