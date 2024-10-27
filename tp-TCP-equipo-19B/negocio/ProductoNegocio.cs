@@ -50,5 +50,26 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void Modificar(string Nombre, string NewNombre)   /// aun falta completar
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE Producto SET nombre = @NewNombre WHERE nombre =  @Nombre ");
+                datos.setearParametro("@NewNombre", NewNombre);
+                datos.setearParametro("@Nombre", Nombre);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

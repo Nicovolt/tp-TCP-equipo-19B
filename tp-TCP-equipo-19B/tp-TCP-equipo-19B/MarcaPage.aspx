@@ -13,6 +13,8 @@
              <asp:TextBox ID="txtMarca" runat="server" CssClass="search-input" placeholder="Buscar..." onkeydown="enter(event)"></asp:TextBox> runat="server" />
              <asp:Button id="btnAgregar" Text="Agregar" runat="server" Onclick="btnAgregar_Click" />
              <asp:Button id="btnEliminar" Text="Eliminar" runat="server" Onclick="btnEliminar_Click" />
+            <asp:Button id="btnModificar" Text="Modificar" runat="server" Onclick="btnModificar_Click" />
+             <asp:TextBox ID="txtNuevaMarca" runat="server" CssClass="search-input" placeholder="Buscar..." onkeydown="enter(event)"></asp:TextBox> runat="server" />
         </div>
     </form>
 </body>

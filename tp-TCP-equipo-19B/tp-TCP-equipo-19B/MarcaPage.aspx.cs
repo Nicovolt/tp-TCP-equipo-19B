@@ -33,5 +33,15 @@ namespace tp_TCP_equipo_19B
 
             marcaNegocio.Eliminar(marca);
         }
+
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            string Marca = txtMarca.Text;
+            string Nueva = txtNuevaMarca.Text;
+
+            MarcaNegocio marcaNegocio = new MarcaNegocio();
+
+            marcaNegocio.Modificar(Marca, Nueva);
+        }
     }
 }
