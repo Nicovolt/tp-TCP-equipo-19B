@@ -74,7 +74,18 @@
     background: white;
     z-index: 1000;
     transition: opacity 0.3s, visibility 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Agregar sombra para el submenú */
+    border-radius: 4px; /* Opcional: bordes redondeados */
+
 }
+.sudmenu a {
+    padding: 10px; /* Espaciado dentro de los enlaces */
+    text-decoration: none; /* Sin subrayado */
+    color: black; /* Color del texto */
+    display: block; /* Para que el área de clic sea más grande */
+}
+
+
 
 .sudmenu li {
     width: 100%;

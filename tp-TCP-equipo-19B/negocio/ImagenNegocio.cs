@@ -23,7 +23,7 @@ namespace negocio
                     Imagen imagen = new Imagen();
                     imagen.Id = (int)data.Lector["Id"];
                     imagen.IdProducto = (int)data.Lector["IdProducto"];
-                    imagen.UrlImagen = (string)data.Lector["UrlImagen"];
+                    imagen.ImagenUrl = (string)data.Lector["UrlImagen"];
                     imagen.Activo = (bool)data.Lector["activo"];
 
                     imagenes.Add(imagen);
@@ -55,7 +55,7 @@ namespace negocio
                     Imagen imagen = new Imagen();
                     imagen.Id = (int)data.Lector["Id"];
                     imagen.IdProducto = (int)data.Lector["IdProducto"];
-                    imagen.UrlImagen = (string)data.Lector["UrlImagen"];
+                    imagen.ImagenUrl = (string)data.Lector["UrlImagen"];
                     imagen.Activo = (bool)data.Lector["activo"];
 
                     imagenes.Add(imagen);
@@ -166,7 +166,8 @@ namespace negocio
 
             try
             {
-                data.setearProcedimiento("sp_ListarImagenPorArticulo");
+                // Consulta directa a la tabla Imagen
+                data.setearConsulta("SELECT Id, IdProducto, ImagenUrl, Activo FROM Imagen WHERE IdProducto = @IdProducto");
                 data.setearParametro("@IdProducto", id);
                 data.ejecutarLectura();
 
@@ -174,9 +175,15 @@ namespace negocio
                 {
                     Imagen imagen = new Imagen();
                     imagen.Id = (int)data.Lector["Id"];
-                    imagen.IdProducto = (int)data.Lector["IdProducto"];
-                    imagen.UrlImagen = (string)data.Lector["UrlImagen"];
-                    imagen.Activo = (bool)data.Lector["activo"];
+
+                    // Manejar la posibilidad de que IdProducto sea nulo
+                    imagen.IdProducto = data.Lector["IdProducto"] != DBNull.Value ? (int)data.Lector["IdProducto"] : 0; // O cualquier otro valor por defecto que necesites
+
+                    // Asegúrate de que ImagenUrl nunca sea nulo
+                    imagen.ImagenUrl = (string)data.Lector["ImagenUrl"]; // Este campo no debería ser nulo, pero se puede manejar
+
+                    // Manejar el campo Activo
+                    imagen.Activo = (byte)data.Lector["Activo"] != 0; // Convertimos tinyint a bool
 
                     imagenes.Add(imagen);
                 }
@@ -185,12 +192,16 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al listar por articulo", ex);
+                throw new Exception("Error al listar imágenes por artículo", ex);
             }
             finally
             {
                 data.cerrarConexion();
             }
         }
+
+
+
+
     }
 }

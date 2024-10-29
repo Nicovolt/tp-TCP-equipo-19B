@@ -10,7 +10,8 @@ namespace dominio
     {
         public int Id { get; set; }
         public int IdProducto { get; set; }
-        public string UrlImagen { get; set; }
+        public string ImagenUrl { get; set; } // Cambiado a ImagenUrl
         public bool Activo { get; set; }
     }
 }
+
