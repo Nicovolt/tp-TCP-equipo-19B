@@ -59,13 +59,18 @@ namespace negocio
 
 
 
-        public void Agregar(string NuevoProducto)
+        public void Agregar(Productos Pro)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("insert into Producto(nombre) values(@NuevoProducto)");
-                datos.setearParametro("@NuevoProducto", NuevoProducto);
+                datos.setearConsulta("insert into Producto(nombre, descripcion, precio, porcentaje_descuento, id_marca, id_categoria) values(@nombre,Descripcion,Precio,PorsentajeDescuento,Id_marca,Id_categoria)");
+                datos.setearParametro("@nombre", Pro.Nombre);
+                datos.setearParametro("@Descripcion", Pro.Descripcion);
+                datos.setearParametro("@Precio", Pro.Precio);
+                datos.setearParametro("@PorsentajeDescuento", Pro.PorsentajeDescuento);
+                datos.setearParametro("@Id_marca", Pro.Id_marca);
+                datos.setearParametro("@Id_categoria", Pro.Id_categoria);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

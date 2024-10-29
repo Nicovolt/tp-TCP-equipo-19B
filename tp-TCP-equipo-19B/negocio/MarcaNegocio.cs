@@ -9,6 +9,34 @@ namespace negocio
 {
     public class MarcaNegocio
     {
+
+        public List<Marca> ListarMarcas()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<Marca> marcas = new List<Marca>();
+            datos.setearConsulta("select * from Marca");
+            try
+            {
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Marca marca = new Marca();
+                    marca.IdMarca = (int)datos.Lector["id_marca"];
+                    marca.Nombre = (string)datos.Lector["nombre"];
+                    marcas.Add(marca);
+                }
+                return marcas;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            { 
+             datos.cerrarConexion();    
+            }
+        }
        
         public void Agregar(string nuevaMarca)
         {
