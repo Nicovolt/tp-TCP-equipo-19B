@@ -1,157 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using dominio;
+using negocio;
+using static System.Net.Mime.MediaTypeNames;
 
-namespace negocio
+namespace Negocio
 {
     public class ImagenNegocio
     {
-        public List<Imagen> listarTodos()
+        public List<Imagen> listar()
         {
-            List<Imagen> imagenes = new List<Imagen>();
+            List<Imagen> lista = new List<Imagen>();
             AccesoDatos data = new AccesoDatos();
 
             try
             {
-                data.setearProcedimiento("sp_ListarImagenes");
+                data.setearConsulta("SELECT i.Id, i.IdArticulo, i.ImagenUrl FROM IMAGENES i;");
                 data.ejecutarLectura();
+
                 while (data.Lector.Read())
                 {
-                    Imagen imagen = new Imagen();
-                    imagen.Id = (int)data.Lector["Id"];
-                    imagen.IdProducto = (int)data.Lector["IdProducto"];
-                    imagen.UrlImagen = (string)data.Lector["UrlImagen"];
-                    imagen.Activo = (bool)data.Lector["activo"];
+                    Imagen aux = new Imagen();
+                    aux.Id = (int)data.Lector["i.Id"];
+                    aux.IdProducto = (int)data.Lector["i.IdArticulo"];
+                    aux.UrlImagen = (string)data.Lector["i.ImagenUrl"];
 
-                    imagenes.Add(imagen);
+                    lista.Add(aux);
                 }
 
-                return imagenes;
+                return lista;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al listar las imágenes", ex);
+
+                throw ex;
             }
             finally
             {
                 data.cerrarConexion();
             }
         }
-
-        public List<Imagen> listarActivos()
+        public void agregar(Imagen item)
         {
-            List<Imagen> imagenes = new List<Imagen>();
             AccesoDatos data = new AccesoDatos();
-
             try
             {
-                data.setearProcedimiento("sp_ListarImagenesActivas");
-                data.ejecutarLectura();
-                while (data.Lector.Read())
-                {
-                    Imagen imagen = new Imagen();
-                    imagen.Id = (int)data.Lector["Id"];
-                    imagen.IdProducto = (int)data.Lector["IdProducto"];
-                    imagen.UrlImagen = (string)data.Lector["UrlImagen"];
-                    imagen.Activo = (bool)data.Lector["activo"];
-
-                    imagenes.Add(imagen);
-                }
-
-                return imagenes;
+                data.setearConsulta("INSERT INTO IMAGENES (IdProducto,ImagenUrl) VALUES (@IdArticulo@,@Url@)");
+                data.setearParametro("@IdArticulo@", item.IdProducto);
+                data.setearParametro("@Url@", item.UrlImagen);
+                data.ejecutarAccion();
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
-                throw new Exception("Error al listar las imágenes activas", ex);
+
+                throw ex;
             }
             finally
             {
                 data.cerrarConexion();
             }
         }
-
-        public void agregarImagen(int idProducto, string imagenUrl, bool activo)
+        public void editar(Imagen item)
         {
             AccesoDatos data = new AccesoDatos();
-
             try
             {
-                data.setearProcedimiento("sp_InsertarImagen");
-                data.setearParametro("@IdProducto", idProducto);
-                data.setearParametro("@ImagenUrl", imagenUrl);
-                data.setearParametro("@activo", activo ? 1 : 0);
+                data.setearConsulta("UPDATE IMAGENES SET ImagenUrl = @Url@ WHERE Id = @Id@");
+                data.setearParametro("@Url@", item.UrlImagen);
+                data.setearParametro("@Id@", item.Id);
                 data.ejecutarAccion();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al insertar la imagen", ex);
-            }
-            finally
-            {
-                data.cerrarConexion();
-            }
-        }
 
-        public void actualizarImagen(int id, int idProducto, string urlImagen, bool activo)
-        {
-            AccesoDatos data = new AccesoDatos();
-
-            try
-            {
-                data.setearProcedimiento("sp_ActualizarImagen");
-                data.setearParametro("@Id", id);
-                data.setearParametro("@IdProducto", idProducto);
-                data.setearParametro("@UrlImagen", urlImagen);
-                data.setearParametro("@activo", activo ? 1 : 0);
-                data.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al actualizar la imagen", ex);
-            }
-            finally
-            {
-                data.cerrarConexion();
-            }
-        }
-
-        public void eliminarImagen(int id)
-        {
-            AccesoDatos data = new AccesoDatos();
-
-            try
-            {
-                data.setearProcedimiento("sp_EliminarImagen");
-                data.setearParametro("@Id", id);
-                data.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al eliminar la imagen", ex);
-            }
-            finally
-            {
-                data.cerrarConexion();
-            }
-        }
-
-        public void actualizarEstadoImagen(int id, bool activo)
-        {
-            AccesoDatos data = new AccesoDatos();
-
-            try
-            {
-                data.setearProcedimiento("sp_ActualizarEstadoImagen");
-                data.setearParametro("@Id", id);
-                data.setearParametro("@Activo", activo ? 1 : 0);
-                data.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al actualizar el estado de la imagen", ex);
+                throw ex;
             }
             finally
             {
@@ -161,36 +87,33 @@ namespace negocio
 
         public List<Imagen> listaImagenesPorArticulo(int id)
         {
-            List<Imagen> imagenes = new List<Imagen>();
+            List<Imagen> lista = new List<Imagen>();
             AccesoDatos data = new AccesoDatos();
 
             try
             {
-                data.setearProcedimiento("sp_ListarImagenPorArticulo");
-                data.setearParametro("@IdProducto", id);
+                data.setearConsulta("SELECT Id, IdArticulo, ImagenUrl FROM IMAGENES i WHERE i.IdArticulo = @id@;");
+                data.setearParametro("@id@", id);
                 data.ejecutarLectura();
 
                 while (data.Lector.Read())
                 {
-                    Imagen imagen = new Imagen();
-                    imagen.Id = (int)data.Lector["Id"];
-                    imagen.IdProducto = (int)data.Lector["IdProducto"];
-                    imagen.UrlImagen = (string)data.Lector["UrlImagen"];
-                    imagen.Activo = (bool)data.Lector["activo"];
+                    Imagen aux = new Imagen();
+                    aux.Id = (int)data.Lector["Id"];
+                    aux.IdProducto = (int)data.Lector["IdArticulo"];
+                    aux.UrlImagen = (string)data.Lector["ImagenUrl"];
 
-                    imagenes.Add(imagen);
+                    lista.Add(aux);
                 }
 
-                return imagenes;
+                return lista;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al listar por articulo", ex);
+
+                throw ex;
             }
-            finally
-            {
-                data.cerrarConexion();
-            }
+            finally { data.cerrarConexion(); }
         }
     }
 }
