@@ -65,13 +65,14 @@ namespace negocio
             try
             {
                 // Elimina la referencia a porcentaje_descuento en la consulta
-                datos.setearConsulta("insert into Producto(nombre, descripcion, precio, id_marca, id_categoria) values(@nombre, @Descripcion, @Precio, @Id_marca, @Id_categoria)");
+                datos.setearConsulta("insert into Producto(nombre, descripcion, precio, id_marca, id_categoria,stock) values(@nombre, @Descripcion, @Precio, @Id_marca, @Id_categoria,@stock)");
 
                 datos.setearParametro("@nombre", producto.Nombre);
                 datos.setearParametro("@Descripcion", producto.Descripcion);
                 datos.setearParametro("@Precio", producto.Precio);
                 datos.setearParametro("@Id_marca", producto.Id_marca);
                 datos.setearParametro("@Id_categoria", producto.Id_categoria);
+                datos.setearParametro("@stock",producto.stock);
 
                 datos.ejecutarAccion(); // Ejecuta la consulta sin el campo eliminado
             }

@@ -54,6 +54,7 @@ namespace tp_TCP_equipo_19B
             productoNuevo.Id_marca = int.Parse(ddlMarca.SelectedValue);
             productoNuevo.PorsentajeDescuento = 0;
             productoNuevo.Precio = decimal.Parse(inpPrecio.Text);
+            productoNuevo.stock = int.Parse(inpStock.Text);
             productoNuevo.ListaImagenes = new List<Imagen>
                 {
                     new Imagen { ImagenUrl = inpImagen.Text }

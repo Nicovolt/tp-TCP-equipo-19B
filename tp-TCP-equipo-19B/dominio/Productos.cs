@@ -15,6 +15,7 @@ public class Productos
     public int PorsentajeDescuento { get; set; }
     public int Id_marca { get; set; }
     public int Id_categoria { get; set; }
+    public int stock { get; set; }
     public List<Imagen> ListaImagenes { get; set; }
 }
 
