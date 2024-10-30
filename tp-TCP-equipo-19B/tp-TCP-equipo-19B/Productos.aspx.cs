@@ -58,6 +58,20 @@ namespace tp_TCP_equipo_19B
                 {
                     new Imagen { ImagenUrl = inpImagen.Text }
                 };
+
+            ProductoNegocio negocio = new ProductoNegocio();    
+            negocio.Agregar(productoNuevo);
+            try
+            {
+               
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Producto agregado exitosamente!');", true);
+            }
+            catch (Exception ex)
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Error al agregar el producto: " + ex.Message + "');", true);
+            }
+
         }
     }
 }

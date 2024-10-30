@@ -316,7 +316,7 @@
                         <li><a href="#">Informacion</a></li>
                         <li id="adminMenu" runat="server"><a href="#">Administrar</a>
                             <ul class="sudmenu">
-                                <li><a href="">Nuevo Producto</a></li>
+                                <li><a href="productos.aspx">Nuevo Producto</a></li>
                                 <li><a href="">Nueva Categoria</a></li>
                                 <li><a href="">Nueva Marca</a></li>
                                 <li><a href="">Modificar Categoria</a></li>
