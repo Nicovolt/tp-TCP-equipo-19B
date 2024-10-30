@@ -9,17 +9,17 @@ using System.Web.UI.WebControls;
 
 namespace tp_TCP_equipo_19B
 {
-    public partial class ProductoPage : System.Web.UI.Page
+    public partial class Formulario_web1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 CarcarCategoria();
-                CarcarMarca();  
+                CarcarMarca();
             }
-           
-        
+
+
         }
 
 
@@ -30,7 +30,7 @@ namespace tp_TCP_equipo_19B
             ddlCategoria.DataSource = categoriaNegocio.ListarCategorias();
             ddlCategoria.DataTextField = "nombre";
             ddlCategoria.DataValueField = "IdCategoria";
-            ddlCategoria.DataBind();    
+            ddlCategoria.DataBind();
 
         }
 
@@ -46,11 +46,11 @@ namespace tp_TCP_equipo_19B
 
         protected void AgregarPro(object sender, EventArgs e)
         {
-            
-           Productos productoNuevo = new Productos();
+
+            Productos productoNuevo = new Productos();
             productoNuevo.Nombre = inpNombrePro.Text;
             productoNuevo.Descripcion = inpDescripcion.Text;
-            productoNuevo.Id_categoria =  int.Parse(ddlCategoria.SelectedValue);
+            productoNuevo.Id_categoria = int.Parse(ddlCategoria.SelectedValue);
             productoNuevo.Id_marca = int.Parse(ddlMarca.SelectedValue);
             productoNuevo.PorsentajeDescuento = 0;
             productoNuevo.Precio = decimal.Parse(inpPrecio.Text);

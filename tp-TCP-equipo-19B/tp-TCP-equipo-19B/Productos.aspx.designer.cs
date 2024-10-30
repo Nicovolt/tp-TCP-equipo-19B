@@ -11,7 +11,7 @@ namespace tp_TCP_equipo_19B
 {
 
 
-    public partial class ProductoPage
+    public partial class Formulario_web1
     {
 
         /// <summary>
