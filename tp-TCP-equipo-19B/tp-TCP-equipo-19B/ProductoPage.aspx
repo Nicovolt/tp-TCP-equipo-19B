@@ -1,6 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ProductoPage.aspx.cs" Inherits="tp_TCP_equipo_19B.ProductoPage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="ProductoPage.aspx.cs" Inherits="tp_TCP_equipo_19B.ProductoPage" %>
 
-
+<asp:Content runat="server" ContentPlaceHolderID="MainContent">
     <style>
         .contenedor {
             width: 100%;
@@ -9,11 +9,9 @@
             justify-content: center;
             position: relative;
         }
-
-            .contenedor > hi {
-                align-content: center;
-            }
-
+        .contenedor > hi {
+            align-content: center;
+        }
         .form-contenedor {
             width: 100%;
             max-width: 450px;
@@ -23,56 +21,47 @@
             padding: 50px 60px 70px;
         }
     </style>
+
     <div>
-
-        <section class="contenedor">
-            <div class="form-contenedor">
-                <%if (Request.QueryString["id"] != null)
-                    {%>
-                <h1>Modificar articulo</h1>
-               <% }else{%>
-                    <h1>Nuevo articulo</h1>
-               <% }%> 
-                <div class="mb-3">
-                    <label for="formGroupExampleInput" class="form-label">Nombre Producto</label>
-                    <asp:TextBox runat="server" type="text" class="form-control" id="inpNombreArticulo" placeholder="Nombre del producto"/>
+        <form runat="server"> <!-- Etiqueta form con runat="server" -->
+            <section class="contenedor">
+                <div class="form-contenedor">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Nombre Producto</label>
+                        <asp:TextBox runat="server" type="text" class="form-control" id="inpNombrePro" placeholder="Nombre del producto"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">Descripcion</label>
+                        <asp:TextBox runat="server" type="text" class="form-control" id="inpDescripcion" placeholder="Descripcion del producto"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ddlCategoria" class="form-label">Categoria</label>
+                        <asp:DropDownList runat="server" ID="ddlCategoria" CssClass="form-select">
+                            <asp:ListItem Text="Seleccione la Categoria" Value="" />
+                        </asp:DropDownList>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ddlMarca" class="form-label">Marca</label>
+                        <asp:DropDownList runat="server" ID="ddlMarca" CssClass="form-select">
+                            <asp:ListItem Text="Seleccione la Marca" Value="" />
+                        </asp:DropDownList>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">Precio</label>
+                        <asp:TextBox runat="server" type="text" class="form-control" id="inpPrecio" placeholder="Precio del producto"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Stock</label>
+                        <asp:TextBox runat="server" type="text" class="form-control" id="inpStock" placeholder="Cantidad de producto"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Imagen</label>
+                        <asp:TextBox runat="server" type="text" class="form-control" ID="inpImagen" placeholder="Url de la imagen" />
+                    </div>
+                    <asp:Button Text="Agregar" runat="server" OnClick="AgregarPro" />
+                    <asp:Label runat="server" ID="lblError" CssClass="text-danger" />
                 </div>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput2" class="form-label">Descripcion</label>
-                    <asp:TextBox runat="server" type="text" class="form-control" id="inpDescripcion" placeholder="Descripcion del producto"/>
-                </div>
-                <div class="mb-3">
-                    <label for="ddlCategoria" class="form-label">Categoria</label>
-                    <asp:DropDownList runat="server" ID="ddlCategoria" CssClass="form-select">
-                        <asp:ListItem Text="Seleccione la Categoria" Value="" />
-                    </asp:DropDownList>
-                </div>
-                <div class="mb-3">
-                    <label for="ddlMarca" class="form-label">Marca</label>
-                    <asp:DropDownList runat="server" ID="ddlMarca" CssClass="form-select">
-                        <asp:ListItem Text="Seleccione la Marca" Value="" />
-                    </asp:DropDownList>
-                </div>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput2" class="form-label">Precio</label>
-                    <asp:TextBox runat="server" type="text" class="form-control" id="inpPrecio" placeholder="Precio del producto"/>
-                </div>
-                <div class="mb-3">
-                    <label for="formGroupExampleInput" class="form-label">Stock</label>
-                    <asp:TextBox runat="server" type="text" class="form-control" id="inpStock" placeholder="Cantidad de producto"/>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="formGroupExampleInput" class="form-label">Imagen</label>
-                    <asp:TextBox runat="server" type="text" class="form-control" ID="inpImagen" placeholder="Url de la imagen" />
-                </div>
-                <div>
-                   <asp:button text="Agregar" CssClass="btn btn-outline-light" runat="server" onclick=/>
-                </div>
-                <asp:Label runat="server" ID="lblError" CssClass="text-danger" />
-            </div>
-        </section>
-
+            </section>
+        </form>
     </div>
 </asp:Content>
-

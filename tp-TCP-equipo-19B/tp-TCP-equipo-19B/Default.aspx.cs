@@ -26,5 +26,7 @@ namespace tp_TCP_equipo_19B
             repProductosSorteo.DataSource = productos; // Asigna la fuente de datos
             repProductosSorteo.DataBind(); // Realiza el enlace de datos
         }
+
+        
     }
 }

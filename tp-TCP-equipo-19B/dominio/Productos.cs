@@ -1,6 +1,11 @@
-﻿using dominio;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace dominio
+{
 public class Productos
 {
     public int Id_producto { get; set; }
@@ -12,3 +17,9 @@ public class Productos
     public int Id_categoria { get; set; }
     public List<Imagen> ListaImagenes { get; set; }
 }
+
+
+
+
+}
+

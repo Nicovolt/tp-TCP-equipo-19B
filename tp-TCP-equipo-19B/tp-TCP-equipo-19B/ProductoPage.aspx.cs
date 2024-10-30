@@ -1,4 +1,5 @@
-﻿using negocio;
+﻿using dominio;
+using negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,13 @@ namespace tp_TCP_equipo_19B
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                CarcarCategoria();
+                CarcarMarca();  
+            }
+           
+        
         }
 
 
@@ -22,7 +29,7 @@ namespace tp_TCP_equipo_19B
             CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
             ddlCategoria.DataSource = categoriaNegocio.ListarCategorias();
             ddlCategoria.DataTextField = "nombre";
-            ddlCategoria.DataValueField = "id_categoria";
+            ddlCategoria.DataValueField = "IdCategoria";
             ddlCategoria.DataBind();    
 
         }
@@ -32,9 +39,25 @@ namespace tp_TCP_equipo_19B
             MarcaNegocio MarcaNegocio = new MarcaNegocio();
             ddlMarca.DataSource = MarcaNegocio.ListarMarcas();
             ddlMarca.DataTextField = "nombre";
-            ddlMarca.DataValueField = "id_marca";
+            ddlMarca.DataValueField = "IdMarca";
             ddlMarca.DataBind();
 
+        }
+
+        protected void AgregarPro(object sender, EventArgs e)
+        {
+            
+           Productos productoNuevo = new Productos();
+            productoNuevo.Nombre = inpNombrePro.Text;
+            productoNuevo.Descripcion = inpDescripcion.Text;
+            productoNuevo.Id_categoria =  int.Parse(ddlCategoria.SelectedValue);
+            productoNuevo.Id_marca = int.Parse(ddlMarca.SelectedValue);
+            productoNuevo.PorsentajeDescuento = 0;
+            productoNuevo.Precio = decimal.Parse(inpPrecio.Text);
+            productoNuevo.ListaImagenes = new List<Imagen>
+                {
+                    new Imagen { ImagenUrl = inpImagen.Text }
+                };
         }
     }
 }
