@@ -86,6 +86,52 @@ namespace negocio
             }
         }
 
+
+
+        public Productos buscarPorID(int Id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT id_producto, nombre, descripcion, precio, porcentaje_descuento, id_marca, id_categoria FROM Producto where id_producto = @ID");
+                datos.setearParametro("@ID", Id);
+                datos.ejecutarLectura();
+
+                Productos producto = null;
+                ImagenNegocio imagenNegocio = new ImagenNegocio();
+                while (datos.Lector.Read())
+                {
+                    if (producto == null)
+                    {
+                        producto = new Productos();
+                        producto.Id_producto = (int)datos.Lector["id_producto"];
+                        producto.Nombre = (string)datos.Lector["nombre"];
+                        producto.Descripcion = (string)datos.Lector["descripcion"];
+                        producto.Id_categoria = (int)datos.Lector["id_categoria"];
+                        producto.Id_marca = (int)datos.Lector["id_marca"];
+                        producto.Precio = (decimal)datos.Lector["precio"];
+
+                        producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
+                    }
+
+                }
+
+                return producto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
+
+
         public void Eliminar(string producto)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -106,14 +152,20 @@ namespace negocio
             }
         }
 
-        public void Modificar(string Nombre, string NewNombre)   /// aun falta completar
+        public void Modificar(Productos pro)   /// aun falta completar
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("UPDATE Producto SET nombre = @NewNombre WHERE nombre =  @Nombre ");
-                datos.setearParametro("@NewNombre", NewNombre);
-                datos.setearParametro("@Nombre", Nombre);
+                datos.setearConsulta("UPDATE Producto SET nombre = @NewNombre,  descripcion = @NewDes, precio = @NewPre,stock = @NewStock, id_marca = @NewMarc, id_categoria = @NewCat WHERE id_producto =  @id ");
+                datos.setearParametro("@NewNombre", pro.Nombre);
+                datos.setearParametro("@NewDes", pro.Descripcion);
+                datos.setearParametro("@NewPre", pro.Precio);
+                datos.setearParametro("@NewMarc", pro.Id_marca);
+                datos.setearParametro("@NewCat", pro.Id_categoria);
+                datos.setearParametro("@NewStock", pro.stock);
+                datos.setearParametro("@id", pro.Id_producto);
+
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

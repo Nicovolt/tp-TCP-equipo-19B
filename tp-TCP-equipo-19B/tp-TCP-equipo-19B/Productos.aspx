@@ -59,9 +59,14 @@
                       <asp:TextBox runat="server" type="text" class="form-control" ID="inpImagen" placeholder="Url de la imagen" />
                   </div>
                   <asp:Button Text="Agregar" runat="server" OnClick="AgregarPro" />
+                  <asp:Button text="Modificar" runat="server" OnClick="ModificarPro"/>
                   <asp:Label runat="server" ID="lblError" CssClass="text-danger" />
                   <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
               </div>
           </section>
   </div>
+
+
+
+
 </asp:Content>

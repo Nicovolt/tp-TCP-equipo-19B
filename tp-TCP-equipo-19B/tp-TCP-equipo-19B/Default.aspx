@@ -79,4 +79,24 @@
         </asp:Repeater>
     </div>
 </div>
+
+
+    <asp:Repeater runat="server" ID="repProductos"   OnItemCommand="repeaterProducto_ItemCommand">
+        <ItemTemplate>
+
+               <tr>
+<td><%# Eval("Id_producto") %></td>
+<td><%# Eval("Nombre") %></td>
+<td><%# Eval("Descripcion") %></td>
+<td><%# Eval("Precio") %></td>
+<td><%# Eval("Id_marca") %></td>
+<td><%# Eval("Id_categoria") %></td>
+<td><%# Eval("stock") %></td>
+     
+<td>
+    <asp:Button ID="btnModificar" runat="server" Text="Modificar" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idModificar" CssClass="btn btn-primary" /></td>
+    </tr>
+        </ItemTemplate>
+    </asp:Repeater>
+
 </asp:Content>
