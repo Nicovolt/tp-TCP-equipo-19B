@@ -27,6 +27,16 @@ BEGIN
     EXEC sp_executesql @query;
 END
 
+-- Eliminar restricciones de clave foránea de Usuario
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'Usuario' AND CONSTRAINT_TYPE = 'FOREIGN KEY')
+BEGIN
+    DECLARE @sqlquery NVARCHAR(MAX) = '';
+    SELECT @sqlquery += 'ALTER TABLE Usuario DROP CONSTRAINT ' + QUOTENAME(CONSTRAINT_NAME) + '; '
+    FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+    WHERE TABLE_NAME = 'Usuario' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
+    EXEC sp_executesql @sqlquery;
+END
+
 -- Eliminar tabla Producto primero debido a las restricciones de clave foránea
 IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Producto')
 BEGIN
@@ -101,7 +111,7 @@ BEGIN
 END
 CREATE TABLE Usuario(
     id_usuario INT IDENTITY(1,1) PRIMARY KEY,
-    nombre_usuario VARCHAR(90) NOT NULL UNIQUE,
+    id_cliente INT FOREIGN KEY REFERENCES Cliente(id_cliente),
     contrasena VARBINARY(64) NOT NULL
 );
 
@@ -127,15 +137,15 @@ BEGIN
 END
 EXEC('
 CREATE PROCEDURE sp_InsertarUsuario
-    @nombre_usuario NVARCHAR(90),
+    @idCliente int,
     @contrasena NVARCHAR(4000)
 AS
 BEGIN
     DECLARE @contrasenaEncriptada VARBINARY(64);
     EXEC sp_EncriptarContrasena @contrasena, @contrasenaEncriptada OUTPUT;
 
-    INSERT INTO Usuario (nombre_usuario, contrasena)
-    VALUES (@nombre_usuario, @contrasenaEncriptada);
+    INSERT INTO Usuario (id_cliente, contrasena)
+    VALUES (@idCliente, @contrasenaEncriptada);
 END
 ');
 
@@ -146,7 +156,7 @@ BEGIN
 END
 EXEC('
 CREATE PROCEDURE sp_VerificarLogin
-    @nombre_usuario NVARCHAR(90),
+    @id_cliente INT,    -- Eliminé el paréntesis extra aquí
     @contrasena NVARCHAR(4000),
     @loginExitoso BIT OUTPUT
 AS
@@ -157,7 +167,7 @@ BEGIN
     IF EXISTS (
         SELECT 1
         FROM Usuario
-        WHERE nombre_usuario = @nombre_usuario
+        WHERE id_cliente = @id_cliente
         AND contrasena = @contrasenaEncriptada
     )
     BEGIN
@@ -294,6 +304,20 @@ BEGIN
     WHERE 
    		i.IdProducto = @IdProducto 
    		AND activo = 1;
+END
+GO
+
+-- Procedimiento almacenado sp_ListarProductos
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ListarProductos')
+BEGIN
+    DROP PROCEDURE sp_ListarProductos;
+END
+GO
+CREATE PROCEDURE sp_ListarProductos
+AS
+BEGIN
+    SELECT * 
+    FROM Producto;
 END
 GO
 
