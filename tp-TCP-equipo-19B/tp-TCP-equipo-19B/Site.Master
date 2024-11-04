@@ -317,16 +317,16 @@
                         <li id="adminMenu" runat="server"><a href="#">Administrar</a>
                             <ul class="sudmenu">
                                 <li><a href="productos.aspx">Nuevo Producto</a></li>
-                                <li><a href="">Nueva Categoria</a></li>
-                                <li><a href="">Nueva Marca</a></li>
-                                <li><a href="">Modificar Categoria</a></li>
-                                <li><a href="">Modificar Marca</a></li>
-                                <li><a href="">Modificar Articulo</a></li>
+                                <li><a href="#">Nueva Categoria</a></li>
+                                <li><a href="#">Nueva Marca</a></li>
+                                <li><a href="#">Modificar Categoria</a></li>
+                                <li><a href="#">Modificar Marca</a></li>
+                                <li><a href="#">Modificar Articulo</a></li>
 
                             </ul>
                         </li>
                         <li class="cart">
-                            <a href="" runat="server"><i class="fa-solid fa-cart-shopping icono-cart" runat="server"></i></a>
+                            <a href="#" runat="server"><i class="fa-solid fa-cart-shopping icono-cart" runat="server"></i></a>
                             <asp:Label ID="Label1" runat="server" CssClass="cart-label"></asp:Label>
                         </li>
                     </ul>
