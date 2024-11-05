@@ -78,14 +78,14 @@ namespace negocio
             }
         }
 
-        public void Modificar(string Nombre, string NewNombre)
+        public void Modificar(Marca id, string NewNombre)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("UPDATE Marca SET nombre = @NewNombre WHERE nombre =  @Nombre ");
+                datos.setearConsulta("UPDATE Marca SET nombre = @NewNombre WHERE id_marca =  @id ");
                 datos.setearParametro("@NewNombre", NewNombre);
-                datos.setearParametro("@Nombre", Nombre);
+                datos.setearParametro("@id", id.IdMarca);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
