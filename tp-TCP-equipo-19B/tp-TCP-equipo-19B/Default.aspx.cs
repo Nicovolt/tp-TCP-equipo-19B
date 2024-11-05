@@ -31,8 +31,8 @@ namespace tp_TCP_equipo_19B
         {
             ProductoNegocio productoNegocio = new ProductoNegocio();
             List<Productos> productos = productoNegocio.listar(); // Llama al método listar
-            repProductosSorteo.DataSource = productos; // Asigna la fuente de datos
-            repProductosSorteo.DataBind(); // Realiza el enlace de datos
+            repProductos.DataSource = productos; // Asigna la fuente de datos
+            repProductos.DataBind(); // Realiza el enlace de datos
         }
 
 
@@ -43,7 +43,35 @@ namespace tp_TCP_equipo_19B
                 string ProductoID = e.CommandArgument.ToString();
                 Response.Redirect($"Productos.aspx?id={ProductoID}");
             }
+            if (e.CommandName == "idBorrar")
+            {
+                string ProductoID = e.CommandArgument.ToString();
+                EliminarProducto(ProductoID);
+                CargarProductos();
+             
+            }
         }
 
+       
+        private void EliminarProducto(string productoId)
+        {
+            AccesoDatos accesoDatos = new AccesoDatos();
+           
+                try
+                {
+                    accesoDatos.setearConsulta("DELETE FROM producto WHERE Id_producto = @Id_producto");
+                    accesoDatos.setearParametro("@Id_producto", productoId);
+
+                    accesoDatos.ejecutarAccion();
+                }
+                catch (Exception ex)
+                {
+      
+                }
+                finally
+                {
+                    accesoDatos.cerrarConexion(); 
+                }
+        }
     }
 }

@@ -79,7 +79,10 @@ namespace negocio
                 lector.Close();
             conexion.Close();
         }
+       
+
     }
+
 
 }
 
