@@ -29,8 +29,15 @@
 
 
         <asp:Button text="Modificar" runat="server" onclick="Modificar"/>
+        <asp:Button Text="eliminar" runat="server" onclick="Eliminar"/>
         <asp:Label runat="server" ID="lblError" CssClass="text-danger" />
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+
+
+
+ 
+
     </div>
+
 </section>
 </asp:Content>

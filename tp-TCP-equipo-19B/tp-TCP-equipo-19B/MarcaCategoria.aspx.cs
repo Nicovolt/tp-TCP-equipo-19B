@@ -71,5 +71,32 @@ namespace tp_TCP_equipo_19B
             ddlMarcape.DataBind();
             ddlMarcape.Items.Insert(0, new ListItem("Seleccione la Marca", "")); // Para que al momento de cargar aparezca este texto.
         }
+
+        protected void Eliminar(object sender, EventArgs e)
+        {
+            MarcaNegocio marcaNegocio = new MarcaNegocio();
+            try
+            {
+                if (string.IsNullOrEmpty(ddlMarcape.SelectedValue))
+                {
+                    // Mostrar mensaje de error - debes seleccionar una marca
+                    return;
+                }
+
+               
+
+
+              
+                int id = int.Parse(ddlMarcape.SelectedValue);
+                string Nueva = inpNombreMarcaNueva.Text;
+
+
+                marcaNegocio.Eliminar(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("error al eliminar la marca", ex);
+            }
+        }
     }
 }

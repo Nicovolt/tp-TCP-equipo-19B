@@ -58,13 +58,13 @@ namespace negocio
             }
         }
 
-        public void Eliminar(string Marca)
+        public void Eliminar(int id)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("delete from Marca where nombre = @Marca ");
-                datos.setearParametro("@Marca", Marca);
+                datos.setearConsulta("delete from Marca where id_marca = @Marca ");
+                datos.setearParametro("@Marca", id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
