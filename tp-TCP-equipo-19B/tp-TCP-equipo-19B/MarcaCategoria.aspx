@@ -10,23 +10,22 @@
             <label for="formGroupExampleInput" class="form-label">Nombre Marca</label>
             <asp:TextBox runat="server" type="text" class="form-control" id="inpNombreMar" placeholder="Nombre de marca"/>
         </div>
-     
-       
-        <asp:Button Text="Agregar" runat="server" onclick="Agregar"/>  
-        
 
 
-        <div class="mb-3">
-    <label for="ddlMarcape" class="form-label">Marca</label>
-    <asp:DropDownList runat="server" ID="ddlMarcape" CssClass="form-select">
-        <asp:ListItem Text="Seleccione la Marca" Value="" />
-    </asp:DropDownList>
-       </div>
+        <asp:Button Text="Agregar" runat="server" OnClick="Agregar" />
+
+
 
         <div class="mb-3">
-    <label for="formGroupExampleInput" class="form-label">Nuevo Nombre Marca</label>
-    <asp:TextBox runat="server" type="text" class="form-control" id="inpNombreMarcaNueva" placeholder="Nombre de marca"/>
-</div>
+            <label for="ddlMarcape" class="form-label">Marca</label>
+            <asp:DropDownList runat="server" ID="ddlMarcape" CssClass="form-select">
+            </asp:DropDownList>
+        </div>
+
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Nuevo Nombre Marca</label>
+            <asp:TextBox runat="server" type="text" class="form-control" ID="inpNombreMarcaNueva" placeholder="Nombre de marca" />
+        </div>
 
 
         <asp:Button text="Modificar" runat="server" onclick="Modificar"/>

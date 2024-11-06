@@ -13,7 +13,10 @@ namespace tp_TCP_equipo_19B
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            CarcarMarca();
+            if (!IsPostBack)
+            {
+                CarcarMarca();
+            }
         }
 
         protected void Agregar(object sender, EventArgs e)
@@ -31,14 +34,32 @@ namespace tp_TCP_equipo_19B
         protected void Modificar(object sender, EventArgs e)
         {
             MarcaNegocio marcaNegocio = new MarcaNegocio();
-            
-            Marca marca = new Marca();
-            marca.IdMarca = int.Parse(ddlMarcape.SelectedValue);
-            string Nueva = inpNombreMarcaNueva.Text;
+            try
+            {
+                if (string.IsNullOrEmpty(ddlMarcape.SelectedValue))
+                {
+                    // Mostrar mensaje de error - debes seleccionar una marca
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(inpNombreMarcaNueva.Text))
+                {
+                    // Mostrar mensaje de error - debes ingresar un nuevo nombre
+                    return;
+                }
 
 
-            marcaNegocio.Modificar(marca, Nueva);
+                Marca marca = new Marca();
+                marca.IdMarca = int.Parse(ddlMarcape.SelectedValue);
+                string Nueva = inpNombreMarcaNueva.Text;
 
+
+                marcaNegocio.Modificar(marca, Nueva);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("error al modificar la marca", ex);
+            }
         }
 
         private void CarcarMarca()
@@ -48,7 +69,7 @@ namespace tp_TCP_equipo_19B
             ddlMarcape.DataTextField = "nombre";
             ddlMarcape.DataValueField = "IdMarca";
             ddlMarcape.DataBind();
-
+            ddlMarcape.Items.Insert(0, new ListItem("Seleccione la Marca", "")); // Para que al momento de cargar aparezca este texto.
         }
     }
 }
