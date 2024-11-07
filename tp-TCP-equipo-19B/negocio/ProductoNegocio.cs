@@ -16,11 +16,10 @@ namespace negocio
         {
             List<Productos> lista = new List<Productos>();
             AccesoDatos datos = new AccesoDatos();
-            ImagenNegocio imagenNegocio = new ImagenNegocio(); // Instanciamos la clase que contiene la función para listar imágenes
+            ImagenNegocio imagenNegocio = new ImagenNegocio(); 
 
             try
             {
-                // Cambiamos a la consulta correcta
                 datos.setearConsulta("SELECT id_producto, nombre, descripcion, precio, porcentaje_descuento, id_marca, id_categoria FROM Producto");
                 datos.ejecutarLectura();
 
@@ -35,10 +34,8 @@ namespace negocio
                     aux.Id_marca = datos.Lector["id_marca"] != DBNull.Value ? (int)datos.Lector["id_marca"] : 0;
                     aux.Id_categoria = datos.Lector["id_categoria"] != DBNull.Value ? (int)datos.Lector["id_categoria"] : 0;
 
-                    // Asignar las imágenes utilizando la función `listaImagenesPorArticulo`
                     aux.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(aux.Id_producto);
 
-                    // Añadimos el producto con las imágenes a la lista
                     lista.Add(aux);
                 }
 
@@ -64,21 +61,29 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                // Elimina la referencia a porcentaje_descuento en la consulta
-                datos.setearConsulta("insert into Producto(nombre, descripcion, precio, id_marca, id_categoria,stock) values(@nombre, @Descripcion, @Precio, @Id_marca, @Id_categoria,@stock)");
+                datos.setearConsulta("INSERT INTO Producto(nombre, descripcion, precio, id_marca, id_categoria, stock) " +
+                                     "VALUES(@nombre, @Descripcion, @Precio, @Id_marca, @Id_categoria, @stock); " +
+                                     "SELECT SCOPE_IDENTITY();");  
 
                 datos.setearParametro("@nombre", producto.Nombre);
                 datos.setearParametro("@Descripcion", producto.Descripcion);
                 datos.setearParametro("@Precio", producto.Precio);
                 datos.setearParametro("@Id_marca", producto.Id_marca);
                 datos.setearParametro("@Id_categoria", producto.Id_categoria);
-                datos.setearParametro("@stock",producto.stock);
+                datos.setearParametro("@stock", producto.stock);
 
-                datos.ejecutarAccion(); // Ejecuta la consulta sin el campo eliminado
+                datos.ejecutarLectura();
+                int idProducto = 0;
+                if (datos.Lector.Read())
+                {
+                    idProducto = Convert.ToInt32(datos.Lector[0]);
+                }
+
+                AgregarImagenes(idProducto, producto.ListaImagenes);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error en Agregar producto: " + ex.Message);
+                throw new Exception("Error al agregar el producto y sus imágenes: " + ex.Message);
             }
             finally
             {
@@ -86,6 +91,30 @@ namespace negocio
             }
         }
 
+        public void AgregarImagenes(int idProducto, List<Imagen> imagenes)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // poner imagenes asociadas al producto
+                foreach (var imagen in imagenes)
+                {
+                    datos.setearConsulta("INSERT INTO Imagen(idProducto, ImagenUrl) VALUES(@idProducto, @ImagenUrl)");
+                    datos.setearParametro("@idProducto", idProducto); 
+                    datos.setearParametro("@ImagenUrl", imagen.ImagenUrl);  
+                    datos.ejecutarAccion(); 
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar las imágenes: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
 
         public Productos buscarPorID(int Id)
@@ -152,7 +181,7 @@ namespace negocio
             }
         }
 
-        public void Modificar(Productos pro)   /// aun falta completar
+        public void Modificar(Productos pro)  
         {
             AccesoDatos datos = new AccesoDatos();
             try
