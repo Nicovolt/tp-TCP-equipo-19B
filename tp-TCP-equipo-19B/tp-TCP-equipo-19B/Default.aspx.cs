@@ -66,9 +66,9 @@ namespace tp_TCP_equipo_19B
                 }
                 catch (Exception ex)
                 {
-      
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Error al eliminar el producto: " + ex.Message + "');", true);
                 }
-                finally
+            finally
                 {
                     accesoDatos.cerrarConexion(); 
                 }
