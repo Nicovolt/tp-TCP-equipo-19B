@@ -319,10 +319,9 @@
                         <li id="adminMenu" runat="server"><a href="#">Administrar</a>
                             <ul class="sudmenu">
                                 <li><a href="productos.aspx">Nuevo Producto</a></li>
-                                <li><a href="">Nueva Categoria</a></li>
-                                <li><a href="">Nueva Marca</a></li>
-                                <li><a href="">Modificar Categoria</a></li>
-                                <li><a href="">Modificar Marca</a></li>
+                                <li><a href="Categoria.aspx">Categoria</a></li>
+                                <li><a href="MarcaCategoria.aspx">Marca</a></li>
+
 
                             </ul>
                         </li>

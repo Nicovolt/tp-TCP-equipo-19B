@@ -119,6 +119,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="favicon.ico" />
+    <Content Include="Categoria.aspx" />
     <Content Include="MarcaCategoria.aspx">
       <BrowseToURL>~/MarcaCategoria.aspx</BrowseToURL>
     </Content>
@@ -216,6 +217,13 @@
     </Compile>
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Categoria.aspx.cs">
+      <DependentUpon>Categoria.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Categoria.aspx.designer.cs">
+      <DependentUpon>Categoria.aspx</DependentUpon>
     </Compile>
     <Compile Include="MarcaCategoria.aspx.cs">
       <DependentUpon>MarcaCategoria.aspx</DependentUpon>
