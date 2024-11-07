@@ -38,6 +38,9 @@ namespace tp_TCP_equipo_19B
 
             categoria.Agregar(nueva);
 
+            inpCat.Text = "";
+            CargarCategoria();
+
         }
 
         protected void Modificar(object sender, EventArgs e)
@@ -55,6 +58,7 @@ namespace tp_TCP_equipo_19B
                 string nueva = inpNombreCategoriaNueva.Text;
 
                 categorianegocio.Modificar(cat, nueva);
+                CargarCategoria();
 
             }
             catch (Exception ex)
@@ -77,6 +81,7 @@ namespace tp_TCP_equipo_19B
 
                 int id = int.Parse(ddlCategoria.SelectedValue);
                 categoriaNegocio.Eliminar(id);
+                CargarCategoria();
 
 
             }

@@ -29,6 +29,9 @@ namespace tp_TCP_equipo_19B
           
 
             marcaNegocio.Agregar(nueva);
+
+            inpNombreMar.Text = "";
+            CarcarMarca();
         }
 
         protected void Modificar(object sender, EventArgs e)
@@ -55,6 +58,8 @@ namespace tp_TCP_equipo_19B
 
 
                 marcaNegocio.Modificar(marca, Nueva);
+                inpNombreMarcaNueva.Text = "";
+                CarcarMarca();
             }
             catch (Exception ex)
             {
@@ -92,6 +97,8 @@ namespace tp_TCP_equipo_19B
 
 
                 marcaNegocio.Eliminar(id);
+                inpNombreMarcaNueva.Text = "";
+                CarcarMarca();
             }
             catch (Exception ex)
             {

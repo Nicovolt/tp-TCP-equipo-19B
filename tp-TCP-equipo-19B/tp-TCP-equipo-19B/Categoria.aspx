@@ -91,48 +91,59 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
 
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+
     <section class="contenedor">
-        <div class="card-custom">
-            <div class="card-header-custom">
-                <h4>Agregar Nueva Categoría</h4>
-            </div>
-            <div class="card-body">
-                <div class="form-contenedor">
-                    <div class="mb-3">
-                        <label for="formGroupExampleInput" class="form-label">Nombre Categoria</label>
-                        <asp:TextBox runat="server" type="text" class="form-control" id="inpCat" placeholder="Nombre de categoria" />
+        <asp:UpdatePanel ID="UpdatePanelCategorias" runat="server">
+            <ContentTemplate>
+
+                <div class="card-custom">
+                    <div class="card-header-custom">
+                        <h4>Agregar Nueva Categoría</h4>
                     </div>
+                    <div class="card-body">
+                        <div class="form-contenedor">
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput" class="form-label">Nombre Categoria</label>
+                                <asp:TextBox runat="server" type="text" class="form-control" id="inpCat" placeholder="Nombre de categoria" />
+                            </div>
 
-                    <asp:Button Text="Agregar" runat="server" Onclick="Agregar" CssClass="btn-custom btn-success-custom" />
+                            <asp:Button Text="Agregar" runat="server" OnClick="Agregar" CssClass="btn-custom btn-success-custom" />
 
-                    <asp:Label runat="server" ID="lblError" CssClass="label-error" />
-                    <asp:Label ID="lblMensajeError" runat="server" CssClass="label-error" Visible="false"></asp:Label>
+                            <asp:Label runat="server" ID="lblError" CssClass="label-error" />
+                            <asp:Label ID="lblMensajeError" runat="server" CssClass="label-error" Visible="false"></asp:Label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="card-custom">
-            <div class="card-header-custom">
-                <h4>Modificar o Eliminar Categoría</h4>
-            </div>
-            <div class="card-body">
-                <div class="form-contenedor">
-                    <div class="mb-3">
-                        <label for="ddlCategoria" class="form-label">Categoria</label>
-                        <asp:DropDownList runat="server" ID="ddlCategoria" CssClass="form-control">
-                        </asp:DropDownList>
+                <div class="card-custom">
+                    <div class="card-header-custom">
+                        <h4>Modificar o Eliminar Categoría</h4>
                     </div>
+                    <div class="card-body">
+                        <div class="form-contenedor">
+                            <div class="mb-3">
+                                <label for="ddlCategoria" class="form-label">Categoria</label>
+                                <asp:DropDownList runat="server" ID="ddlCategoria" CssClass="form-control">
+                                </asp:DropDownList>
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="formGroupExampleInput" class="form-label">Nuevo Nombre Categoria</label>
-                        <asp:TextBox runat="server" type="text" class="form-control" ID="inpNombreCategoriaNueva" placeholder="Nuevo nombre de categoria" />
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput" class="form-label">Nuevo Nombre Categoria</label>
+                                <asp:TextBox runat="server" type="text" class="form-control" ID="inpNombreCategoriaNueva" placeholder="Nuevo nombre de categoria" />
+                            </div>
+
+                            <asp:Button Text="Modificar" runat="server" OnClick="Modificar" CssClass="btn-custom btn-warning-custom" 
+                                OnClientClick="return confirm('¿Estás seguro de que deseas modificar esta categoría?');" />
+                            <asp:Button Text="Eliminar" runat="server" OnClick="Eliminar" CssClass="btn-custom btn-danger-custom" 
+                                OnClientClick="return confirm('¿Estás seguro de que deseas eliminar esta categoría?');" />
+                        </div>
                     </div>
-
-                    <asp:Button Text="Modificar" runat="server" Onclick="Modificar" CssClass="btn-custom btn-warning-custom" />
-                    <asp:Button Text="Eliminar" runat="server" Onclick="Eliminar" CssClass="btn-custom btn-danger-custom" />
                 </div>
-            </div>
-        </div>
+
+            </ContentTemplate>
+        </asp:UpdatePanel>
+
     </section>
 
 </asp:Content>

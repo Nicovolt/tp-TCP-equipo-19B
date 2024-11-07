@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MarcaCategoria.aspx.cs" Inherits="tp_TCP_equipo_19B.Formulario_web11" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
     <style>
         .card-custom {
             background-color: #333;
@@ -91,48 +92,61 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
 
-<section class="contenedor">
-    <div class="card-custom">
-        <div class="card-header-custom">
-            <h4>Agregar Nueva Marca</h4>
-        </div>
-        <div class="card-body">
-            <div class="form-contenedor">
-                <div class="mb-3">
-                    <label for="formGroupExampleInput" class="form-label">Nombre Marca</label>
-                    <asp:TextBox runat="server" type="text" class="form-control" id="inpNombreMar" placeholder="Nombre de marca"/>
+    <section class="contenedor">
+        <asp:ScriptManager ID="ScriptManager2" runat="server"></asp:ScriptManager>
+
+        <asp:UpdatePanel ID="UpdatePanelAgregar" runat="server">
+            <ContentTemplate>
+                <div class="card-custom">
+                    <div class="card-header-custom">
+                        <h4>Agregar Nueva Marca</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-contenedor">
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput" class="form-label">Nombre Marca</label>
+                                <asp:TextBox runat="server" type="text" class="form-control" id="inpNombreMar" placeholder="Nombre de marca"/>
+                            </div>
+
+                            <asp:Button Text="Agregar" runat="server" OnClick="Agregar" CssClass="btn-custom btn-success-custom" />
+                            <asp:Label runat="server" ID="lblError" CssClass="label-error" />
+                            <asp:Label ID="lblMensajeError" runat="server" CssClass="label-error" Visible="false"></asp:Label>
+                        </div>
+                    </div>
                 </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
 
-                <asp:Button Text="Agregar" runat="server" OnClick="Agregar" CssClass="btn-custom btn-success-custom" />
 
-                <asp:Label runat="server" ID="lblError" CssClass="label-error" />
-                <asp:Label ID="lblMensajeError" runat="server" CssClass="label-error" Visible="false"></asp:Label>
-            </div>
-        </div>
-    </div>
+        <asp:UpdatePanel ID="UpdatePanelModificarEliminar" runat="server">
+            <ContentTemplate>
+                <div class="card-custom">
+                    <div class="card-header-custom">
+                        <h4>Modificar o Eliminar Marca</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-contenedor">
+                            <div class="mb-3">
+                                <label for="ddlMarcape" class="form-label">Marca</label>
+                                <asp:DropDownList runat="server" ID="ddlMarcape" CssClass="form-control">
+                                </asp:DropDownList>
+                            </div>
 
-    <div class="card-custom">
-        <div class="card-header-custom">
-            <h4>Modificar o Eliminar Marca</h4>
-        </div>
-        <div class="card-body">
-            <div class="form-contenedor">
-                <div class="mb-3">
-                    <label for="ddlMarcape" class="form-label">Marca</label>
-                    <asp:DropDownList runat="server" ID="ddlMarcape" CssClass="form-control">
-                    </asp:DropDownList>
+                            <div class="mb-3">
+                                <label for="formGroupExampleInput" class="form-label">Nuevo Nombre Marca</label>
+                                <asp:TextBox runat="server" type="text" class="form-control" ID="inpNombreMarcaNueva" placeholder="Nuevo nombre de marca" />
+                            </div>
+
+                            <asp:Button Text="Modificar" runat="server" OnClick="Modificar" CssClass="btn-custom btn-warning-custom" 
+                                OnClientClick="return confirm('¿Estás seguro de que deseas modificar esta marca?');" />
+                            <asp:Button Text="Eliminar" runat="server" OnClick="Eliminar" CssClass="btn-custom btn-danger-custom" 
+                                OnClientClick="return confirm('¿Estás seguro de que deseas eliminar esta marca?');" />
+                        </div>
+                    </div>
                 </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
 
-                <div class="mb-3">
-                    <label for="formGroupExampleInput" class="form-label">Nuevo Nombre Marca</label>
-                    <asp:TextBox runat="server" type="text" class="form-control" ID="inpNombreMarcaNueva" placeholder="Nuevo nombre de marca" />
-                </div>
-
-                <asp:Button Text="Modificar" runat="server" OnClick="Modificar" CssClass="btn-custom btn-warning-custom" />
-                <asp:Button Text="Eliminar" runat="server" OnClick="Eliminar" CssClass="btn-custom btn-danger-custom" />
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
 </asp:Content>
