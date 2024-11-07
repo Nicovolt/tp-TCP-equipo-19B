@@ -78,6 +78,7 @@
             text-align: center;
             display: block;
             margin-top: 10px;
+            margin-bottom: 10px;
         }
 
         .label-success {
@@ -111,6 +112,7 @@
                             <asp:Button Text="Agregar" runat="server" OnClick="Agregar" CssClass="btn-custom btn-success-custom" />
                             <asp:Label runat="server" ID="lblError" CssClass="label-error" />
                             <asp:Label ID="lblMensajeError" runat="server" CssClass="label-error" Visible="false"></asp:Label>
+
                         </div>
                     </div>
                 </div>
@@ -136,11 +138,15 @@
                                 <label for="formGroupExampleInput" class="form-label">Nuevo Nombre Marca</label>
                                 <asp:TextBox runat="server" type="text" class="form-control" ID="inpNombreMarcaNueva" placeholder="Nuevo nombre de marca" />
                             </div>
+                            
 
+                            <asp:Label ID="lblMensaje" runat="server" ForeColor="Red" CssClass="label-error" />
                             <asp:Button Text="Modificar" runat="server" OnClick="Modificar" CssClass="btn-custom btn-warning-custom" 
                                 OnClientClick="return confirm('¿Estás seguro de que deseas modificar esta marca?');" />
                             <asp:Button Text="Eliminar" runat="server" OnClick="Eliminar" CssClass="btn-custom btn-danger-custom" 
                                 OnClientClick="return confirm('¿Estás seguro de que deseas eliminar esta marca?');" />
+
+
                         </div>
                     </div>
                 </div>

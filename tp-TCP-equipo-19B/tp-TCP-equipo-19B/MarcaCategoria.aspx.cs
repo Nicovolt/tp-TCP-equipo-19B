@@ -2,6 +2,7 @@
 using negocio;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -84,25 +85,29 @@ namespace tp_TCP_equipo_19B
             {
                 if (string.IsNullOrEmpty(ddlMarcape.SelectedValue))
                 {
-                    // Mostrar mensaje de error - debes seleccionar una marca
                     return;
                 }
 
-               
-
-
-              
                 int id = int.Parse(ddlMarcape.SelectedValue);
-                string Nueva = inpNombreMarcaNueva.Text;
+
 
 
                 marcaNegocio.Eliminar(id);
                 inpNombreMarcaNueva.Text = "";
                 CarcarMarca();
             }
+            catch (SqlException ex)
+            {
+                if (ex.Message.Contains("REFERENCE constraint"))
+                {
+                    // Muestra un mensaje al usuario
+                    lblMensaje.Text = "Hay productos con esta marca. Primero elimina los productos asociados.";
+                    lblMensaje.Visible = true;
+                }
+            }
             catch (Exception ex)
             {
-                throw new Exception("error al eliminar la marca", ex);
+                lblMensaje.Text = "Error al eliminar la marca: " + ex.Message;
             }
         }
     }

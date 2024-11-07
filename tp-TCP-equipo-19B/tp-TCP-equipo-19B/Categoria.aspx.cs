@@ -87,7 +87,6 @@ namespace tp_TCP_equipo_19B
             }
             catch (SqlException ex)
             {
-                // Verifica si la excepción es debido a la restricción de clave externa
                 if (ex.Message.Contains("REFERENCE constraint"))
                 {
                     // Muestra un mensaje al usuario
