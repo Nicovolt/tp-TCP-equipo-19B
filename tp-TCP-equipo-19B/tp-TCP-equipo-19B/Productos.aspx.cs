@@ -103,6 +103,7 @@ namespace tp_TCP_equipo_19B
             try
             {
                 negocio.Agregar(productoNuevo);
+
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Producto agregado exitosamente!');", true);
                 Response.Redirect("default.aspx");
             }

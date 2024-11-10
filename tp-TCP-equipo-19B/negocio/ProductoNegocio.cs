@@ -123,7 +123,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT id_producto, nombre, descripcion, precio, porcentaje_descuento, id_marca, id_categoria FROM Producto where id_producto = @ID");
+                datos.setearConsulta("SELECT id_producto, nombre, descripcion, precio, porcentaje_descuento, id_marca, id_categoria,stock FROM Producto where id_producto = @ID");
                 datos.setearParametro("@ID", Id);
                 datos.ejecutarLectura();
 
@@ -140,6 +140,7 @@ namespace negocio
                         producto.Id_categoria = (int)datos.Lector["id_categoria"];
                         producto.Id_marca = (int)datos.Lector["id_marca"];
                         producto.Precio = (decimal)datos.Lector["precio"];
+                        producto.stock = (int) datos.Lector["stock"];
 
                         producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
                     }
@@ -161,12 +162,12 @@ namespace negocio
 
 
 
-        public void Eliminar(string producto)
+        public void Eliminar(int producto)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("delete from Producto where nombre = @producto ");
+                datos.setearConsulta("delete from Imagen where IdProducto=@producto;\r\ndelete from Producto where id_producto = @producto ");
                 datos.setearParametro("@producto", producto);
                 datos.ejecutarAccion();
             }

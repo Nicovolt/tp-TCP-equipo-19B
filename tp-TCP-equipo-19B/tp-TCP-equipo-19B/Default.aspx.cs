@@ -45,33 +45,15 @@ namespace tp_TCP_equipo_19B
             }
             if (e.CommandName == "idBorrar")
             {
-                string ProductoID = e.CommandArgument.ToString();
-                EliminarProducto(ProductoID);
+                ProductoNegocio proNeg = new ProductoNegocio();
+                int ProductoID = int.Parse(e.CommandArgument.ToString());
+                proNeg.Eliminar(ProductoID);
                 CargarProductos();
              
             }
         }
 
        
-        private void EliminarProducto(string productoId)
-        {
-            AccesoDatos accesoDatos = new AccesoDatos();
-           
-                try
-                {
-                    accesoDatos.setearConsulta("DELETE FROM producto WHERE Id_producto = @Id_producto");
-                    accesoDatos.setearParametro("@Id_producto", productoId);
-
-                    accesoDatos.ejecutarAccion();
-                }
-                catch (Exception ex)
-                {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Error al eliminar el producto: " + ex.Message + "');", true);
-                }
-            finally
-                {
-                    accesoDatos.cerrarConexion(); 
-                }
-        }
+       
     }
 }
