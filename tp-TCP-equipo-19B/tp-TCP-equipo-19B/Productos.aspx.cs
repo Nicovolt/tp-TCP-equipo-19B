@@ -85,23 +85,37 @@ namespace tp_TCP_equipo_19B
 
         protected void AgregarPro(object sender, EventArgs e)
         {
+            try
+            {
 
-            Productos productoNuevo = new Productos();
+               
+                if (!decimal.TryParse(inpPrecio.Text, out decimal precio) || precio <= 0)
+                {
+                    lblError.Text = "El precio debe ser un número mayor a 0.";
+                    return;
+                }
+
+                if (!int.TryParse(inpStock.Text, out int stock) || stock <= 0)
+                {
+                    lblError.Text = "El stock debe ser un número mayor a 0.";
+                    return;
+                }
+
+
+                Productos productoNuevo = new Productos();
             productoNuevo.Nombre = inpNombrePro.Text;
             productoNuevo.Descripcion = inpDescripcion.Text;
             productoNuevo.Id_categoria = int.Parse(ddlCategoria.SelectedValue);
             productoNuevo.Id_marca = int.Parse(ddlMarca.SelectedValue);
             productoNuevo.PorsentajeDescuento = 0;
-            productoNuevo.Precio = decimal.Parse(inpPrecio.Text);
-            productoNuevo.stock = int.Parse(inpStock.Text);
+                productoNuevo.Precio = precio;
+                productoNuevo.stock = stock;
             productoNuevo.ListaImagenes = new List<Imagen>
                 {
                     new Imagen { ImagenUrl = inpImagen.Text }
                 };
 
             ProductoNegocio negocio = new ProductoNegocio();    
-            try
-            {
                 negocio.Agregar(productoNuevo);
 
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Producto agregado exitosamente!');", true);
@@ -123,14 +137,27 @@ namespace tp_TCP_equipo_19B
 
             try
             {
+                if (!decimal.TryParse(inpPrecio.Text, out decimal precio) || precio <= 0)
+                {
+                    lblError.Text = "El precio debe ser un número mayor a 0.";
+                    return;
+                }
+
+                // Validar que el stock sea un número válido y mayor a 0
+                if (!int.TryParse(inpStock.Text, out int stock) || stock <= 0)
+                {
+                    lblError.Text = "El stock debe ser un número mayor a 0.";
+                    return;
+                }
+
                 producto.Id_producto = int.Parse(Request.QueryString["id"]);
                 producto.Nombre = inpNombrePro.Text;
                 producto.Descripcion = inpDescripcion.Text;
                 producto.Id_categoria = int.Parse(ddlCategoria.SelectedValue);
                 producto.Id_marca = int.Parse(ddlMarca.SelectedValue);
                 producto.PorsentajeDescuento = 0;
-                producto.Precio = decimal.Parse(inpPrecio.Text);
-                producto.stock = int.Parse(inpStock.Text);
+                producto.Precio = precio;
+                producto.stock  = stock;
                 //producto.ListaImagenes = new List<Imagen>
                 //{
                 //    new Imagen { ImagenUrl = inpImagen.Text }
