@@ -77,6 +77,18 @@
 
     <div class="container">
         <h3>PRODUCTOS</h3>
+
+        <div class="row mb-4">
+        <div class="col-md-4">
+            <asp:DropDownList ID="ddlCategorias" runat="server" AutoPostBack="true" onselectedindexchanged="ddlCategorias_SelectedIndexChanged" CssClass="form-control">
+                <asp:ListItem Text="Todas las categorías" Value="0"></asp:ListItem>
+            </asp:DropDownList>
+            <asp:DropDownList ID="ddlMarcas" runat="server" AutoPostBack="true" onselectedindexchanged="ddlMarcas_SelectedIndexChanged" CssClass="form-control">
+    <asp:ListItem Text="Todas las marcas" Value="0"></asp:ListItem>
+</asp:DropDownList>
+        </div>
+    </div>
+
         <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
             <ContentTemplate>
                 <div class="row row-cols-1 row-cols-md-3 g-4">

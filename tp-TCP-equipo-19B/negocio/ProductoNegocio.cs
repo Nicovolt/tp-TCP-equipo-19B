@@ -1,6 +1,7 @@
 ﻿using dominio;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace negocio
                     aux.Id_producto = (int)datos.Lector["id_producto"];
                     aux.Nombre = (string)datos.Lector["nombre"];
                     aux.Descripcion = (string)datos.Lector["descripcion"];
-                    aux.Precio = (decimal)datos.Lector["precio"];  // Convertir explícitamente a double
+                    aux.Precio = (decimal)datos.Lector["precio"];  
                     aux.PorsentajeDescuento = datos.Lector["porcentaje_descuento"] != DBNull.Value ? (int)(byte)datos.Lector["porcentaje_descuento"] : 0; // Manejo de tinyint
                     aux.Id_marca = datos.Lector["id_marca"] != DBNull.Value ? (int)datos.Lector["id_marca"] : 0;
                     aux.Id_categoria = datos.Lector["id_categoria"] != DBNull.Value ? (int)datos.Lector["id_categoria"] : 0;
@@ -51,9 +52,57 @@ namespace negocio
             }
         }
 
+        public List<Productos> listarPorCategoria(int categoriaID)
+        {
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+            AccesoDatos datos = new AccesoDatos();
+            {
+                datos.setearConsulta("select * from Producto where id_categoria = @Id_categoria");
+                datos.setearParametro("@id_categoria", categoriaID);
+                datos.ejecutarLectura();
 
+                List<Productos> productos = new List<Productos>();
+                while (datos.Lector.Read())
+                {
+                    Productos producto = new Productos();
+                    
+                    producto.Id_producto = (int)datos.Lector["id_producto"];
+                    producto.Nombre = datos.Lector["nombre"].ToString();
+                    producto.Descripcion = datos.Lector["descripcion"].ToString();
+                    producto.Precio = (decimal)datos.Lector["precio"];
+                    producto.Id_marca = (int)datos.Lector["id_categoria"];
+                    producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
+                    productos.Add(producto);
+                }
+                return productos;
+            }
+        }
 
+        public List<Productos> listarPorMarca(int marcaID)
+        {
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+            AccesoDatos datos = new AccesoDatos();
+            {
+                datos.setearConsulta("select * from Producto where id_marca = @id_marca");
+                datos.setearParametro("@id_marca", marcaID);
+                datos.ejecutarLectura();
 
+                List<Productos> productos = new List<Productos>();
+                while (datos.Lector.Read())
+                {
+                    Productos producto = new Productos();
+
+                    producto.Id_producto = (int)datos.Lector["id_producto"];
+                    producto.Nombre = datos.Lector["nombre"].ToString();
+                    producto.Descripcion = datos.Lector["descripcion"].ToString();
+                    producto.Precio = (decimal)datos.Lector["precio"];
+                    producto.Id_categoria = (int)datos.Lector["id_marca"];
+                    producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
+                    productos.Add(producto);
+                }
+                return productos;
+            }
+        }
 
 
         public void Agregar(Productos producto)
