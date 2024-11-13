@@ -96,8 +96,9 @@
                         <ItemTemplate>
                             <div class="col">
                                 <div class="card">
-                                    <asp:Button ID="btnBorrar" runat="server" Text="X" CssClass="btn-borrar" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idBorrar" OnClientClick="return confirmDelete();"  />
-                                    <asp:Button ID="btnModificar" runat="server" Text="Modificar" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idModificar" CssClass="btn-modificar" />
+                                    
+                                    <asp:Button ID="btnBorrar" runat="server" Text="X" CssClass="btn-borrar" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idBorrar" OnClientClick="return confirmDelete();"  Visible='<%# ((dominio.Cliente)Session["usuario"] != null && ((dominio.Cliente)Session["usuario"]).rol == true) %>'/>
+                                    <asp:Button ID="btnModificar" runat="server" Text="Modificar" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idModificar" CssClass="btn-modificar" Visible='<%# ((dominio.Cliente)Session["usuario"] != null && ((dominio.Cliente)Session["usuario"]).rol == true) %>'/>
 
                                     <div id='carouselArticulo<%# Eval("Id_producto") %>' class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
@@ -131,6 +132,10 @@
             </ContentTemplate>
         </asp:UpdatePanel> 
     </div>
+
+
+
+
 
     <script type="text/javascript">
         function confirmDelete() {
