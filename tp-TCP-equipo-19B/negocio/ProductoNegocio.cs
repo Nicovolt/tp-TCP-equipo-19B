@@ -1,6 +1,7 @@
 ﻿using dominio;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +17,10 @@ namespace negocio
         {
             List<Productos> lista = new List<Productos>();
             AccesoDatos datos = new AccesoDatos();
-            ImagenNegocio imagenNegocio = new ImagenNegocio(); // Instanciamos la clase que contiene la función para listar imágenes
+            ImagenNegocio imagenNegocio = new ImagenNegocio(); 
 
             try
             {
-                // Cambiamos a la consulta correcta
                 datos.setearConsulta("SELECT id_producto, nombre, descripcion, precio, porcentaje_descuento, id_marca, id_categoria FROM Producto");
                 datos.ejecutarLectura();
 
@@ -30,15 +30,13 @@ namespace negocio
                     aux.Id_producto = (int)datos.Lector["id_producto"];
                     aux.Nombre = (string)datos.Lector["nombre"];
                     aux.Descripcion = (string)datos.Lector["descripcion"];
-                    aux.Precio = (decimal)datos.Lector["precio"];  // Convertir explícitamente a double
+                    aux.Precio = (decimal)datos.Lector["precio"];  
                     aux.PorsentajeDescuento = datos.Lector["porcentaje_descuento"] != DBNull.Value ? (int)(byte)datos.Lector["porcentaje_descuento"] : 0; // Manejo de tinyint
                     aux.Id_marca = datos.Lector["id_marca"] != DBNull.Value ? (int)datos.Lector["id_marca"] : 0;
                     aux.Id_categoria = datos.Lector["id_categoria"] != DBNull.Value ? (int)datos.Lector["id_categoria"] : 0;
 
-                    // Asignar las imágenes utilizando la función `listaImagenesPorArticulo`
                     aux.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(aux.Id_producto);
 
-                    // Añadimos el producto con las imágenes a la lista
                     lista.Add(aux);
                 }
 
@@ -54,9 +52,57 @@ namespace negocio
             }
         }
 
+        public List<Productos> listarPorCategoria(int categoriaID)
+        {
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+            AccesoDatos datos = new AccesoDatos();
+            {
+                datos.setearConsulta("select * from Producto where id_categoria = @Id_categoria");
+                datos.setearParametro("@id_categoria", categoriaID);
+                datos.ejecutarLectura();
 
+                List<Productos> productos = new List<Productos>();
+                while (datos.Lector.Read())
+                {
+                    Productos producto = new Productos();
+                    
+                    producto.Id_producto = (int)datos.Lector["id_producto"];
+                    producto.Nombre = datos.Lector["nombre"].ToString();
+                    producto.Descripcion = datos.Lector["descripcion"].ToString();
+                    producto.Precio = (decimal)datos.Lector["precio"];
+                    producto.Id_marca = (int)datos.Lector["id_categoria"];
+                    producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
+                    productos.Add(producto);
+                }
+                return productos;
+            }
+        }
 
+        public List<Productos> listarPorMarca(int marcaID)
+        {
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+            AccesoDatos datos = new AccesoDatos();
+            {
+                datos.setearConsulta("select * from Producto where id_marca = @id_marca");
+                datos.setearParametro("@id_marca", marcaID);
+                datos.ejecutarLectura();
 
+                List<Productos> productos = new List<Productos>();
+                while (datos.Lector.Read())
+                {
+                    Productos producto = new Productos();
+
+                    producto.Id_producto = (int)datos.Lector["id_producto"];
+                    producto.Nombre = datos.Lector["nombre"].ToString();
+                    producto.Descripcion = datos.Lector["descripcion"].ToString();
+                    producto.Precio = (decimal)datos.Lector["precio"];
+                    producto.Id_categoria = (int)datos.Lector["id_marca"];
+                    producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
+                    productos.Add(producto);
+                }
+                return productos;
+            }
+        }
 
 
         public void Agregar(Productos producto)
@@ -64,21 +110,54 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                // Elimina la referencia a porcentaje_descuento en la consulta
-                datos.setearConsulta("insert into Producto(nombre, descripcion, precio, id_marca, id_categoria,stock) values(@nombre, @Descripcion, @Precio, @Id_marca, @Id_categoria,@stock)");
+                datos.setearConsulta("INSERT INTO Producto(nombre, descripcion, precio, id_marca, id_categoria, stock) " +
+                                     "VALUES(@nombre, @Descripcion, @Precio, @Id_marca, @Id_categoria, @stock); " +
+                                     "SELECT SCOPE_IDENTITY();");  
 
                 datos.setearParametro("@nombre", producto.Nombre);
                 datos.setearParametro("@Descripcion", producto.Descripcion);
                 datos.setearParametro("@Precio", producto.Precio);
                 datos.setearParametro("@Id_marca", producto.Id_marca);
                 datos.setearParametro("@Id_categoria", producto.Id_categoria);
-                datos.setearParametro("@stock",producto.stock);
+                datos.setearParametro("@stock", producto.stock);
 
-                datos.ejecutarAccion(); // Ejecuta la consulta sin el campo eliminado
+                datos.ejecutarLectura();
+                int idProducto = 0;
+                if (datos.Lector.Read())
+                {
+                    idProducto = Convert.ToInt32(datos.Lector[0]);
+                }
+
+                AgregarImagenes(idProducto, producto.ListaImagenes);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error en Agregar producto: " + ex.Message);
+                throw new Exception("Error al agregar el producto y sus imágenes: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void AgregarImagenes(int idProducto, List<Imagen> imagenes)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // poner imagenes asociadas al producto
+                foreach (var imagen in imagenes)
+                {
+                    datos.setearConsulta("INSERT INTO Imagen(idProducto, ImagenUrl) VALUES(@idProducto, @ImagenUrl)");
+                    datos.setearParametro("@idProducto", idProducto); 
+                    datos.setearParametro("@ImagenUrl", imagen.ImagenUrl);  
+                    datos.ejecutarAccion(); 
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar las imágenes: " + ex.Message);
             }
             finally
             {
@@ -87,14 +166,13 @@ namespace negocio
         }
 
 
-
         public Productos buscarPorID(int Id)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("SELECT id_producto, nombre, descripcion, precio, porcentaje_descuento, id_marca, id_categoria FROM Producto where id_producto = @ID");
+                datos.setearConsulta("SELECT id_producto, nombre, descripcion, precio, porcentaje_descuento, id_marca, id_categoria,stock FROM Producto where id_producto = @ID");
                 datos.setearParametro("@ID", Id);
                 datos.ejecutarLectura();
 
@@ -111,6 +189,7 @@ namespace negocio
                         producto.Id_categoria = (int)datos.Lector["id_categoria"];
                         producto.Id_marca = (int)datos.Lector["id_marca"];
                         producto.Precio = (decimal)datos.Lector["precio"];
+                        producto.stock = (int) datos.Lector["stock"];
 
                         producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
                     }
@@ -132,12 +211,12 @@ namespace negocio
 
 
 
-        public void Eliminar(string producto)
+        public void Eliminar(int producto)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("delete from Producto where nombre = @producto ");
+                datos.setearConsulta("delete from Imagen where IdProducto=@producto;\r\ndelete from Producto where id_producto = @producto ");
                 datos.setearParametro("@producto", producto);
                 datos.ejecutarAccion();
             }
@@ -152,7 +231,7 @@ namespace negocio
             }
         }
 
-        public void Modificar(Productos pro)   /// aun falta completar
+        public void Modificar(Productos pro)  
         {
             AccesoDatos datos = new AccesoDatos();
             try

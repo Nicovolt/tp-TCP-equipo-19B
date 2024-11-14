@@ -18,9 +18,9 @@ namespace tp_TCP_equipo_19B
         {
             if (!IsPostBack)
             {
-                CargarProductos(); // Método para cargar los productos
-
-
+                CargarProductos(); 
+                CarcarCategoria();
+                CarcarMarca();
                 ListProductos = ProductoNegocio.listar();
                 repProductos.DataSource = ListProductos;
                 repProductos.DataBind();
@@ -30,9 +30,9 @@ namespace tp_TCP_equipo_19B
         private void CargarProductos()
         {
             ProductoNegocio productoNegocio = new ProductoNegocio();
-            List<Productos> productos = productoNegocio.listar(); // Llama al método listar
-            repProductosSorteo.DataSource = productos; // Asigna la fuente de datos
-            repProductosSorteo.DataBind(); // Realiza el enlace de datos
+            List<Productos> productos = productoNegocio.listar(); 
+            repProductos.DataSource = productos; 
+            repProductos.DataBind(); 
         }
 
 
@@ -43,7 +43,87 @@ namespace tp_TCP_equipo_19B
                 string ProductoID = e.CommandArgument.ToString();
                 Response.Redirect($"Productos.aspx?id={ProductoID}");
             }
+            if (e.CommandName == "idBorrar")
+            {
+                ProductoNegocio proNeg = new ProductoNegocio();
+                int ProductoID = int.Parse(e.CommandArgument.ToString());
+                proNeg.Eliminar(ProductoID);
+                CargarProductos();
+             
+            }
         }
 
+        private void CarcarCategoria()
+        {
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+            ddlCategorias.DataSource = categoriaNegocio.ListarCategorias();
+            ddlCategorias.DataTextField = "nombre";
+            ddlCategorias.DataValueField = "IdCategoria";
+            ddlCategorias.DataBind();
+
+        }
+
+        private void CarcarMarca()
+        {
+            MarcaNegocio MarcaNegocio = new MarcaNegocio();
+            ddlMarcas.DataSource = MarcaNegocio.ListarMarcas();
+            ddlMarcas.DataTextField = "nombre";
+            ddlMarcas.DataValueField = "IdMarca";
+            ddlMarcas.DataBind();
+
+        }
+
+        protected void ddlCategorias_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int categoriaID = int.Parse(ddlCategorias.SelectedValue);
+            CargarProductosCategoria(categoriaID);
+        }
+
+
+        private void CargarProductosCategoria(int categoriaID)
+        {
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+            List<Productos> productos;
+
+            if (categoriaID == 0)
+            {
+               
+                productos = productoNegocio.listar();
+            }
+            else
+            {
+               
+                productos = productoNegocio.listarPorCategoria(categoriaID);
+            }
+
+            repProductos.DataSource = productos;
+            repProductos.DataBind();
+        }
+
+        protected void ddlMarcas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int marcaID = int.Parse(ddlMarcas.SelectedValue);
+            CargarProductosMarca(marcaID);
+        }
+
+        private void CargarProductosMarca(int marcaID)
+        {
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+            List<Productos> productos;
+
+            if (marcaID == 0)
+            {
+
+                productos = productoNegocio.listar();
+            }
+            else
+            {
+
+                productos = productoNegocio.listarPorMarca(marcaID);
+            }
+
+            repProductos.DataSource = productos;
+            repProductos.DataBind();
+        }
     }
 }

@@ -95,17 +95,17 @@ namespace negocio
             }
         }
 
-        public void actualizarImagen(int id, int idProducto, string urlImagen, bool activo)
+        public void actualizarImagen(Imagen img)
         {
             AccesoDatos data = new AccesoDatos();
 
             try
             {
                 data.setearProcedimiento("sp_ActualizarImagen");
-                data.setearParametro("@Id", id);
-                data.setearParametro("@IdProducto", idProducto);
-                data.setearParametro("@UrlImagen", urlImagen);
-                data.setearParametro("@activo", activo ? 1 : 0);
+                data.setearParametro("@Id", img.Id);
+                data.setearParametro("@IdProducto", img.IdProducto);
+                data.setearParametro("@UrlImagen", img.ImagenUrl);
+                data.setearParametro("@activo", img.Activo);
                 data.ejecutarAccion();
             }
             catch (Exception ex)

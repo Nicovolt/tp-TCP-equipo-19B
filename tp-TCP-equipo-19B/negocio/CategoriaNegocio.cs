@@ -59,13 +59,13 @@ namespace negocio
             }
         }
 
-        public void Eliminar(string Categoria)
+        public void Eliminar(int id)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("delete from Categoria where nombre = @Categoria ");
-                datos.setearParametro("@Categoria", Categoria);
+                datos.setearConsulta("delete from Categoria where id_categoria = @id ");
+                datos.setearParametro("@id", id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -80,14 +80,14 @@ namespace negocio
         }
 
 
-        public void Modificar(string Nombre, string NewNombre)
+        public void Modificar(Categoria id, string NewNombre)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("UPDATE Categoria SET nombre = @NewNombre WHERE nombre =  @Nombre ");
+                datos.setearConsulta("UPDATE Categoria SET nombre = @NewNombre WHERE id_categoria =  @id ");
                 datos.setearParametro("@NewNombre", NewNombre);
-                datos.setearParametro("@Nombre", Nombre);
+                datos.setearParametro("@id", id.IdCategoria);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

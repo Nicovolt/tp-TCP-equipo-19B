@@ -55,8 +55,11 @@
                       <asp:TextBox runat="server" type="text" class="form-control" id="inpStock" placeholder="Cantidad de producto"/>
                   </div>
                   <div class="mb-3">
-                      <label for="formGroupExampleInput" class="form-label">Imagen</label>
-                      <asp:TextBox runat="server" type="text" class="form-control" ID="inpImagen" placeholder="Url de la imagen" />
+                      <label class="form-label">Imágenes del Producto</label>
+                      <asp:Panel ID="pnlImagenes" runat="server">
+                      </asp:Panel>
+                      <!-- TextBox original para nueva imagen -->
+                      <asp:TextBox runat="server" type="text" class="form-control mt-2" ID="inpImagen" placeholder="Url de imagen" />
                   </div>
                   <asp:Button Text="Agregar" runat="server" OnClick="AgregarPro" />
                   <asp:Button text="Modificar" runat="server" OnClick="ModificarPro"/>
