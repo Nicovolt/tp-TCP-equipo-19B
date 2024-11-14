@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -79,8 +80,21 @@ namespace negocio
                 lector.Close();
             conexion.Close();
         }
-       
 
+        public void setearParametroSalida(string nombre, SqlDbType tipo)
+        {
+            SqlParameter parametro = new SqlParameter();
+            parametro.ParameterName = nombre;
+            parametro.SqlDbType = tipo;
+            parametro.Direction = ParameterDirection.Output;
+            comando.Parameters.Add(parametro);
+        }
+
+        // Método para obtener el valor del parámetro de salida
+        public object obtenerParametroSalida(string nombre)
+        {
+            return comando.Parameters[nombre].Value;
+        }
     }
 
 

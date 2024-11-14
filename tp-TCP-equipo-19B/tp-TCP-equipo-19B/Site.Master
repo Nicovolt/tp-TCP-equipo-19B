@@ -28,109 +28,112 @@
         flex: 1;
     }
 
-  .navegacion {
+    .navegacion {
     width: 100%;
     margin: 0 auto; /* Para centrar horizontalmente */
     background: black;
     color: white;
     box-shadow: 0 0 6px 0 rgb(0, 0, 0);
     text-align: center; /* Para centrar los elementos internos */
-}
-
-.menu {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin-top: 10px; /* Espacio entre el header y los elementos del menú */
-}
-
-.menu > li {
-    position: relative;
-    margin-right: 20px; /* Espacio entre los elementos del menú */
-}
-
-.menu > li > a {
-    text-decoration: none;
-    color: white;
-    padding: 15px 20px;
-    display: block;
-    transition: all 0.3s;
-}
-
-.menu > li > a:hover {
-    background: white;
-    color: black;
-}
-
-.sudmenu {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    visibility: hidden;
-    opacity: 0;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    z-index: 1000;
-    transition: opacity 0.3s, visibility 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Agregar sombra para el submenú */
-    border-radius: 4px; /* Opcional: bordes redondeados */
-
-}
-.sudmenu a {
-    padding: 10px; /* Espaciado dentro de los enlaces */
-    text-decoration: none; /* Sin subrayado */
-    color: black; /* Color del texto */
-    display: block; /* Para que el área de clic sea más grande */
-}
-
-
-
-.sudmenu li {
-    width: 100%;
-}
-
-.sudmenu li a {
-    display: block;
-    padding: 15px;
-    color: black;
-    text-decoration: none;
-}
-
-.menu li:hover .sudmenu {
-    visibility: visible;
-    opacity: 1;
-}
-
-    .footer {
-    
-    height: 70px;
-    width: 100%;
-    position: relative;
-    color: white;
-    background: black;
-    text-align: center;
-    font-size: 16px;
-    line-height: 70px;
-    margin-top: 0; /* Elimina cualquier margen superior */
     }
 
-     .top {
-    height: 70px;
-    width: 100%;
-    position: relative;
-    color: black;
-    background: black;
-    text-align: center;
-    font-size: 16px;
-    line-height: 70px;
-    margin-top: 0; /* Elimina cualquier margen superior */
-}
+    .menu {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        margin-top: 10px; /* Espacio entre el header y los elementos del menú */
+    }
+
+    .menu > li {
+        position: relative;
+        margin-right: 20px; /* Espacio entre los elementos del menú */
+    }
+
+    .menu > li > a {
+        text-decoration: none;
+        color: white;
+        padding: 15px 20px;
+        display: block;
+        transition: all 0.3s;
+    }
+
+    .menu > li > a:hover {
+        background: white;
+        color: black;
+    }
+
+    .sudmenu {
+        position: absolute;
+        left: 0;
+        top: 100%;
+        visibility: hidden;
+        opacity: 0;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        z-index: 1000;
+        transition: opacity 0.3s, visibility 0.3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Agregar sombra para el submenú */
+        border-radius: 4px; /* Opcional: bordes redondeados */
+
+    }
+    .sudmenu a {
+        padding: 10px; /* Espaciado dentro de los enlaces */
+        text-decoration: none; /* Sin subrayado */
+        color: black; /* Color del texto */
+        display: block; /* Para que el área de clic sea más grande */
+    }
+
+
+
+    .sudmenu li {
+        width: 100%;
+    }
+
+    .sudmenu li a {
+        display: block;
+        padding: 15px;
+        color: black;
+        text-decoration: none;
+    }
+
+    .menu li:hover .sudmenu {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .footer {
+        height: 70px;
+        width: 100%;
+        position: relative;
+        color: white;
+        background: black;
+        text-align: center;
+        font-size: 16px;
+        line-height: 70px;
+        margin-top: 0; /* Elimina cualquier margen superior */
+    }
+
+    .top {
+        height: 70px;
+        width: 100%;
+        position: relative;
+        color: black;
+        background: black;
+        text-align: center;
+        font-size: 16px;
+        line-height: 70px;
+        margin-top: 0; /* Elimina cualquier margen superior */
+    }
 
 
 
     .icono-cart {
+        font-size: 20px;
+        margin-right: 5px;
+    }
+    .icono-login{
         font-size: 20px;
         margin-right: 5px;
     }
@@ -140,108 +143,142 @@
         align-items: center;
     }
 
-        .menu li.cart a {
-            display: inline-flex;
-            align-items: center;
-            color: white;
-            text-decoration: none;
-        }
+    .menu li.cart a {
+        display: inline-flex;
+        align-items: center;
+        color: white;
+        text-decoration: none;
+    }
 
-            .menu li.cart a:hover {
-                background: white;
-                transition: all .3s;
-            }
+    .menu li.cart a:hover {
+        background: white;
+        transition: all .3s;
+    }
 
-        .menu li.cart .cart-label {
-            color: white;
-        }
-        .menu li.cart a:hover .icono-cart {
-            color: black; /* Cambia el color del ícono a negro */
-        }
+    .menu li.cart .cart-label {
+        color: white;
+    }
+    .menu li.cart a:hover .icono-cart {
+        color: black; /* Cambia el color del ícono a negro */
+    }
 
-           li a {
-            text-decoration: none;
-            color: black; /* Color por defecto */
-            padding: 10px;
-            display: block;
-        }
+    .navegacion .menu .cuenta {
+        position: relative;
+    }
 
-        /* Estilo cuando el mouse está sobre el enlace */
-        li a:hover {
-            color: lightblue; /* Color de texto al pasar el mouse */
-        }
-        .center {
-            text-align: center; /* Centra el contenido horizontalmente */
-            margin: 0 auto; /* Centra el div en el centro de la página */
-            width: 50%; /* Ancho del div */
-            padding: 20px; /* Espaciado interno */
-        }
-   .search-bar {
-       width: 200px;
-       border: 1px solid #ccc;
-       border-radius: 20px;
-       overflow: hidden;
+    .navegacion .menu .cuenta > a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .navegacion .menu .cuenta i {
+        font-size: 1.2em;
+    }
+
+    .navegacion .menu .cuenta .sudmenu {
+        min-width: 180px;
+        right: 0;
+        left: auto;
+    }
+
+    .navegacion .menu .cuenta .sudmenu li a,
+    .navegacion .menu .cuenta .sudmenu li asp:LinkButton {
+        padding: 10px 15px;
+        display: block;
+        width: 100%;
+        text-align: left;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .navegacion .menu .cuenta .sudmenu li:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    li a {
+        text-decoration: none;
+        color: black; /* Color por defecto */
+        padding: 10px;
+        display: block;
+    }
+
+    /* Estilo cuando el mouse está sobre el enlace */
+    li a:hover {
+        color: lightblue; /* Color de texto al pasar el mouse */
+    }
+    .center {
+        text-align: center; /* Centra el contenido horizontalmente */
+        margin: 0 auto; /* Centra el div en el centro de la página */
+        width: 50%; /* Ancho del div */
+        padding: 20px; /* Espaciado interno */
+    }
+    .search-bar {
+        width: 200px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        overflow: hidden;
         margin-top: 20px;
         text-align: center; /* Centra el contenedor horizontalmente */
-   }
+    }
 
-   .search-input {
-       flex: 1; /* Expande el campo de entrada para ocupar el espacio disponible */
-       width: calc(100% - 50px); /* Ajusta el ancho del campo de entrada */
-       border: none;
-       outline: none;
-       padding: 10px;
-       font-size: 16px;
-   }
+    .search-input {
+        flex: 1; /* Expande el campo de entrada para ocupar el espacio disponible */
+        width: calc(100% - 50px); /* Ajusta el ancho del campo de entrada */
+        border: none;
+        outline: none;
+        padding: 10px;
+        font-size: 16px;
+    }
 
-   .search-button {
-       background-color: #000000;
-       color: white;
-       border: none;
-       padding: 10px 14.5px;
-       border-radius: 0 20px 20px 0;
-       cursor: pointer;
-   }
+    .search-button {
+        background-color: #000000;
+        color: white;
+        border: none;
+        padding: 10px 14.5px;
+        border-radius: 0 20px 20px 0;
+        cursor: pointer;
+    }
 
-   /* Estilos para el ícono de lupa */
-   .search-icon {
-       font-size: 20px;
-   }
-   .search-container {
-    text-align: center; /* Centra el contenedor horizontalmente */
-    margin-top: 50px; /* Espacio superior entre la imagen y el contenedor de búsqueda */
-    margin-bottom: 50px;
-    width: 80%; /* Ancho del contenedor de búsqueda como un porcentaje del contenedor padre */
-    max-width: 500px; /* Ancho máximo del contenedor de búsqueda para limitar su tamaño */
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    overflow: hidden;
-    margin: 0 auto; /* Centra el contenedor horizontalmente */
-}
+    /* Estilos para el ícono de lupa */
+    .search-icon {
+        font-size: 20px;
+    }
+    .search-container {
+        text-align: center; /* Centra el contenedor horizontalmente */
+        margin-top: 50px; /* Espacio superior entre la imagen y el contenedor de búsqueda */
+        margin-bottom: 50px;
+        width: 80%; /* Ancho del contenedor de búsqueda como un porcentaje del contenedor padre */
+        max-width: 500px; /* Ancho máximo del contenedor de búsqueda para limitar su tamaño */
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 0 auto; /* Centra el contenedor horizontalmente */
+    }
 
-      body, html {
-            margin-top: 0;
-            padding: 0;
-            width: 100%;
-        }
-        .carousel {
-            width: 100%;
-        }
-        .carousel-inner {
-            width: 100%;
-        }
-        .carousel-inner img {
-            width: 100%;
-            height: 300px;
+    body, html {
+        margin-top: 0;
+        padding: 0;
+        width: 100%;
+    }
+    .carousel {
+        width: 100%;
+    }
+    .carousel-inner {
+        width: 100%;
+    }
+    .carousel-inner img {
+        width: 100%;
+        height: 300px;
             
-        }
-         .carousel-item {
-            max-height: 410px; /* Altura máxima para todas las imágenes */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            object-fit: contain;
-        }
+    }
+    .carousel-item {
+        max-height: 410px; /* Altura máxima para todas las imágenes */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        object-fit: contain;
+    }
 
 </style>
 <html>
@@ -304,33 +341,50 @@
                          </asp:LinkButton>
                    </div>
 
-                <nav class="navegacion">
-                    <ul class="menu">
-                        <li><a href="Default.aspx">Inicio</a></li>
-                        <li><a href="#">Productos</a>
-                            <ul class="sudmenu">
-                                <li><a href="Productos.aspx?nombre=Placasdevideo">Placas de video</a></li>
-                                <li><a href="Productos.aspx?nombre=Gabinetes">Gabinetes</a></li>
-                                <li><a href="Productos.aspx?nombre=Perifericos">Perifericos</a></li>
-                                <li><a href="Productos.aspx?nombre=Monitores">Monitores</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Informacion</a></li>
-                        <li id="adminMenu" runat="server"><a href="#">Administrar</a>
-                            <ul class="sudmenu">
-                                <li><a href="productos.aspx">Nuevo Producto</a></li>
-                                <li><a href="Categoria.aspx">Categoria</a></li>
-                                <li><a href="MarcaCategoria.aspx">Marca</a></li>
-
-
-                            </ul>
-                        </li>
-                        <li class="cart">
-                            <a href="" runat="server"><i class="fa-solid fa-cart-shopping icono-cart" runat="server"></i></a>
-                            <asp:Label ID="Label1" runat="server" CssClass="cart-label"></asp:Label>
-                        </li>
-                    </ul>
-                </nav>
+<nav class="navegacion">
+    <ul class="menu">
+        <li><a href="Default.aspx">Inicio</a></li>
+        <li><a href="#">Productos</a>
+            <ul class="sudmenu">
+                <li><a href="Productos.aspx?nombre=Placasdevideo">Placas de video</a></li>
+                <li><a href="Productos.aspx?nombre=Gabinetes">Gabinetes</a></li>
+                <li><a href="Productos.aspx?nombre=Perifericos">Perifericos</a></li>
+                <li><a href="Productos.aspx?nombre=Monitores">Monitores</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Informacion</a></li>
+        <li id="adminMenu" runat="server"><a href="#">Administrar</a>
+            <ul class="sudmenu">
+                <li><a href="productos.aspx">Nuevo Producto</a></li>
+                <li><a href="Categoria.aspx">Categorias</a></li>
+                <li><a href="MarcaCategoria.aspx">Marcas</a></li>
+            </ul>
+        </li>
+        <li class="cart">
+            <a href="#" runat="server"><i class="fa-solid fa-cart-shopping icono-cart" runat="server"></i></a>
+            <asp:Label ID="Label1" runat="server" CssClass="cart-label"></asp:Label>
+        </li>
+        <li class="cuenta" id="liCuenta" runat="server">
+            <a href="#"><i class="fa-solid fa-user"></i> 
+                <asp:Label ID="lblUsuario" runat="server" Text="Mi Cuenta"></asp:Label>
+            </a>
+            <ul class="sudmenu">
+                <li id="liLogin" runat="server" visible="true">
+                    <a href="Login.aspx">Iniciar Sesión</a>
+                </li>
+                <li id="liPerfil" runat="server" visible="false">
+                    <a href="Cuenta.aspx">Mi Perfil</a>
+                </li>
+                <li id="liPedidos" runat="server" visible="false">
+                    <a href="Pedidos.aspx">Mis Pedidos</a>
+                </li>
+                <li id="liCerrarSesion" runat="server" visible="false">
+                    <asp:LinkButton ID="btnCerrarSesion" runat="server" OnClick="btnCerrarSesion_Click">Cerrar Sesión</asp:LinkButton>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
                  
                 
             </header>
@@ -354,6 +408,4 @@
              document.getElementById('<%= btnSearch.ClientID %>').click();
          }
      }
-
-
  </script>
