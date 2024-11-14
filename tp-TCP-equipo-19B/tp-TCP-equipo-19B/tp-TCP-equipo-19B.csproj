@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Carrito.aspx" />
+    <Content Include="Categoria.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -119,10 +120,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="favicon.ico" />
-    <Content Include="Categoria.aspx" />
-    <Content Include="MarcaCategoria.aspx">
-      <BrowseToURL>~/MarcaCategoria.aspx</BrowseToURL>
-    </Content>
+    <Content Include="MarcaCategoria.aspx" />
     <Content Include="Productos.aspx" />
     <Content Include="Global.asax" />
     <Content Include="JPG\compragamer_d42a617a8c.png" />
@@ -198,6 +196,13 @@
     <Compile Include="Carrito.aspx.designer.cs">
       <DependentUpon>Carrito.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Categoria.aspx.cs">
+      <DependentUpon>Categoria.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Categoria.aspx.designer.cs">
+      <DependentUpon>Categoria.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Cuenta.aspx.cs">
       <DependentUpon>Cuenta.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -218,13 +223,6 @@
     </Compile>
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Categoria.aspx.cs">
-      <DependentUpon>Categoria.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Categoria.aspx.designer.cs">
-      <DependentUpon>Categoria.aspx</DependentUpon>
     </Compile>
     <Compile Include="MarcaCategoria.aspx.cs">
       <DependentUpon>MarcaCategoria.aspx</DependentUpon>

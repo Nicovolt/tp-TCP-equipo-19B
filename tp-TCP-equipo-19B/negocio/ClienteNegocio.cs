@@ -86,7 +86,7 @@ namespace negocio
 
                 if (datos.Lector.Read())
                 {
-                    cliente.IdCliente = (int)datos.Lector["id_cliente"];
+                    cliente.Id_cliente = (int)datos.Lector["id_cliente"];
                     cliente.Nombre = (string)datos.Lector["Nombre"];
                     cliente.Apellido = (string)datos.Lector["Apellido"];
                 }
