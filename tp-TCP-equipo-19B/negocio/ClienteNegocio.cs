@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -69,6 +70,36 @@ namespace negocio
             finally
             {
                 data.cerrarConexion();
+            }
+        }
+
+        public Cliente ObtenerClientePorId(int idCliente)
+        {
+            Cliente cliente = new Cliente();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT id_cliente, Nombre, Apellido FROM Cliente WHERE id_cliente = @Id");
+                datos.setearParametro("@Id", idCliente);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    cliente.IdCliente = (int)datos.Lector["id_cliente"];
+                    cliente.Nombre = (string)datos.Lector["Nombre"];
+                    cliente.Apellido = (string)datos.Lector["Apellido"];
+                }
+
+                return cliente;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
         }
     }
