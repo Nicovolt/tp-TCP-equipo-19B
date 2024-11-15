@@ -120,6 +120,9 @@
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="favicon.ico" />
+    <Content Include="VerDetalle.aspx">
+      <BrowseToURL>~/VerDetalle.aspx</BrowseToURL>
+    </Content>
     <Content Include="MarcaCategoria.aspx" />
     <Content Include="Productos.aspx" />
     <Content Include="Global.asax" />
@@ -223,6 +226,13 @@
     </Compile>
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VerDetalle.aspx.cs">
+      <DependentUpon>VerDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VerDetalle.aspx.designer.cs">
+      <DependentUpon>VerDetalle.aspx</DependentUpon>
     </Compile>
     <Compile Include="MarcaCategoria.aspx.cs">
       <DependentUpon>MarcaCategoria.aspx</DependentUpon>

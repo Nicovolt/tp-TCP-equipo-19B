@@ -58,6 +58,7 @@ namespace negocio
             }
         }
 
+
         public void Eliminar(int id)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -99,6 +100,42 @@ namespace negocio
             }
         }
 
+        public Marca BuscarPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT id_marca, nombre FROM Marca where id_marca = @ID");
+                datos.setearParametro("@ID", id);
+                datos.ejecutarLectura();
+
+                Marca marca = null;
+
+                while (datos.Lector.Read())
+                {
+                    if (marca == null)
+                    {
+
+                        marca = new Marca();
+                        marca.IdMarca = (int)datos.Lector["id_marca"];
+                        marca.Nombre = (string)datos.Lector["nombre"];
+                    }
+
+                }
+
+
+                return marca;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

@@ -100,6 +100,9 @@
                                     <asp:Button ID="btnBorrar" runat="server" Text="X" CssClass="btn-borrar" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idBorrar" OnClientClick="return confirmDelete();"  Visible='<%# ((dominio.Cliente)Session["usuario"] != null && ((dominio.Cliente)Session["usuario"]).rol == true) %>'/>
                                     <asp:Button ID="btnModificar" runat="server" Text="Modificar" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idModificar" CssClass="btn-modificar" Visible='<%# ((dominio.Cliente)Session["usuario"] != null && ((dominio.Cliente)Session["usuario"]).rol == true) %>'/>
 
+                                    <asp:Button ID="btnDetalle" runat="server" CommandName="VerDetalle" CommandArgument='<%# Eval("Id_producto") %>' Text="Ver detalle" CssClass="btn btn-primary" />
+                                    <asp:Button ID="btnCarrito" runat="server" CommandName="AgregarAlCarrito" CommandArgument='<%# Eval("Id_producto") %>' Text="Agregar al carrito" CssClass="btn btn-success" />
+
                                     <div id='carouselArticulo<%# Eval("Id_producto") %>' class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
                                             <asp:Repeater ID="repImagenes" runat="server" DataSource='<%# Eval("ListaImagenes") %>'>

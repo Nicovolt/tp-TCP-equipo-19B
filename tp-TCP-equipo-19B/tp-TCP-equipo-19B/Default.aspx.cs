@@ -51,6 +51,11 @@ namespace tp_TCP_equipo_19B
                 CargarProductos();
              
             }
+            if (e.CommandName == "VerDetalle")
+            {
+                string ProductoID = e.CommandArgument.ToString();
+                Response.Redirect($"VerDetalle.aspx?id={ProductoID}");
+            }
         }
 
         private void CarcarCategoria()
