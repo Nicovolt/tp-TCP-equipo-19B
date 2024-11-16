@@ -46,7 +46,7 @@ namespace tp_TCP_equipo_19B
 
                 if (user.IdUsuario != 0)
                 {
-                    GuardarSesion(user.IdCliente, user.Mail);
+                    GuardarSesion(user.IdCliente, user.Mail, user.Admin);
                     Response.Redirect("Default.aspx");
                 }
                 else
@@ -134,17 +134,18 @@ namespace tp_TCP_equipo_19B
                 "window.scrollTo(0, 0);", true);
         }
 
-        public void GuardarSesion(int id_cliente, string mail)
+        public void GuardarSesion(int id_cliente, string mail, bool admin)
         {
             // Crear objeto con información básica del usuario
             var sesionUsuario = new
             {
                 IdCliente = id_cliente,
                 Mail = mail,
-                FechaLogin = DateTime.Now
+                FechaLogin = DateTime.Now,
+                EsAdmin = admin,
             };
 
-            Session.Add("user",sesionUsuario);
+            Session.Add("usuario",sesionUsuario);
         }
 
         private bool validarCamposTxt(TextBox textBox)
@@ -156,7 +157,7 @@ namespace tp_TCP_equipo_19B
 
         private bool VerificarSesion()
         {
-            return Session["user"] != null;
+            return Session["usuario"] != null;
         }
     }
 }

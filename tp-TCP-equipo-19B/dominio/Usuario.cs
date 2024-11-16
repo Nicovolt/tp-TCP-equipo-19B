@@ -12,5 +12,6 @@ namespace dominio
         public int IdCliente { get; set; }
         public string Mail { get; set; }
         public byte[] Contrasena { get; set; }
+        public bool Admin { get; set; }
     }
 }

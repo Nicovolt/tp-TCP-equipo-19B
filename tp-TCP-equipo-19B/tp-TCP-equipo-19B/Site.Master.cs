@@ -35,10 +35,10 @@ namespace tp_TCP_equipo_19B
 
         private void ActualizarEstadoSesion()
         {
-            if (Session["user"] != null)
+            if (Session["usuario"] != null)
             {
                 // Obtener datos de la sesión
-                dynamic usuario = Session["user"];
+                dynamic usuario = Session["usuario"];
 
                 // Obtener el cliente de la base de datos para tener nombre y apellido
                 ClienteNegocio clienteNegocio = new ClienteNegocio();
@@ -54,14 +54,14 @@ namespace tp_TCP_equipo_19B
                 liCerrarSesion.Visible = true;
 
 
-                //if (usuario.EsAdmin)
-                //{
-                //    adminMenu.Visible = true;
-                //}
-                //else
-                //{
-                //    adminMenu.Visible = false;
-                //}
+                if (usuario.EsAdmin)
+                {
+                    adminMenu.Visible = true;
+                }
+                else
+                {
+                    adminMenu.Visible = false;
+                }
             }
             else
             {

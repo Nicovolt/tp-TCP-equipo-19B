@@ -78,7 +78,7 @@ namespace negocio
             Usuario aux = new Usuario();
             try
             {
-                data.setearConsulta("select u.id_usuario, u.id_cliente, c.email, u.contrasena from Usuario u left join Cliente c on c.id_cliente = u.id_cliente where c.id_cliente = @id_cliente@;");
+                data.setearConsulta("select u.id_usuario, u.id_cliente, c.email, u.contrasena, u.admin from Usuario u left join Cliente c on c.id_cliente = u.id_cliente where c.id_cliente = @id_cliente@;");
                 data.setearParametro("@id_cliente@",id_cliente);
                 data.ejecutarLectura();
 
@@ -88,6 +88,7 @@ namespace negocio
                     aux.IdCliente = (int)data.Lector["id_cliente"];
                     aux.Mail = (string)data.Lector["email"];
                     aux.Contrasena = (byte[])data.Lector["contrasena"];
+                    aux.Admin = (bool)data.Lector["admin"];
                 }
 
                 return aux;

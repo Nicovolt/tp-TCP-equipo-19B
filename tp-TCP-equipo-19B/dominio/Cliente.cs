@@ -14,7 +14,5 @@ namespace dominio
         public string Apellido { get; set; }
         public string Mail { get; set; }
         public string Telefono { get; set; } 
-
-        public bool rol { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace tp_TCP_equipo_19B
 {
-    public partial class _Default : Page
+    public partial class _Default : System.Web.UI.Page
     {
 
         public List<Productos> ListProductos = new List<Productos>();

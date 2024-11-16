@@ -48,16 +48,18 @@ namespace negocio
                     return 0;
                 }
 
-                data.setearConsulta("INSERT Cliente (nombre,apellido,email,telefono,admin) VALUES (@nombre,@apellido,@email,@telefono,0);");
+                data.setearConsulta("INSERT Cliente (nombre,apellido,email,telefono) VALUES (@nombre,@apellido,@email,@telefono);");
                 data.setearParametro("@nombre",nombre);
                 data.setearParametro("@apellido",apellido);
                 data.setearParametro("@email",email);
                 data.setearParametro("@telefono",telefono);
                 data.ejecutarAccion();
 
-                if (getIdClienteByMail(email) != 0)
+                int id_generado = getIdClienteByMail(email);
+
+                if (id_generado != 0)
                 {
-                    return getIdClienteByMail(email);
+                    return id_generado;
                 }
 
                 return 0;
