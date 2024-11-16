@@ -53,8 +53,7 @@ CREATE TABLE Cliente (
     nombre VARCHAR(90) NOT NULL,
     apellido VARCHAR(90) NOT NULL,
     email VARCHAR(250) NOT NULL UNIQUE,
-    telefono VARCHAR(20),
-    admin tinyint not null default 0
+    telefono VARCHAR(20)
 );
 
 -- Eliminar y crear tabla Marca
@@ -112,7 +111,8 @@ END
 CREATE TABLE Usuario(
     id_usuario INT IDENTITY(1,1) PRIMARY KEY,
     id_cliente INT FOREIGN KEY REFERENCES Cliente(id_cliente),
-    contrasena VARBINARY(64) NOT NULL
+    contrasena VARBINARY(64) NOT NULL,
+    admin bit not null default 0
 );
 
 -- Procedimiento almacenado sp_EncriptarContrasena
@@ -350,11 +350,11 @@ INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Marca (nombre) VALUES
 	 (N'Antec');
 
 -- Clientes
-INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Cliente (nombre,apellido,email,telefono,admin) VALUES
-	 (N'Lucio',N'Garcia',N'luciog@gmail.com',N'1166112254',1),
-	 (N'elba',N'lazo',N'elba@gmail.com',N'2626266559',0),
-	 (N'Nicolas',N'Perez',N'nicop@hotmail.com',N'1548785968',1),
-	 (N'Luka',N'Gallo',N'luka@yahoo.com',N'1458795841',1);
+INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Cliente (nombre,apellido,email,telefono) VALUES
+	 (N'Lucio',N'Garcia',N'luciog@gmail.com',N'1166112254'),
+	 (N'elba',N'lazo',N'elba@gmail.com',N'2626266559'),
+	 (N'Nicolas',N'Perez',N'nicop@hotmail.com',N'1548785968'),
+	 (N'Luka',N'Gallo',N'luka@yahoo.com',N'1458795841');
 	
 -- Producto
 INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Producto (nombre,descripcion,precio,id_marca,id_categoria,porcentaje_descuento,stock) VALUES
@@ -386,3 +386,10 @@ INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,activo) VALUES
 	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41331_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_0d8d4ec7-grn.jpg',1),
 	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41333_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_ed981310-grn.jpg',0),
 	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41334_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_d93bcd40-grn.jpg',0);
+
+-- Usuarios
+INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Usuario (id_cliente,contrasena,admin) VALUES
+ (1,0xBFE28E20AA89715A67BDBC4BB5DBE45D878D05E21ADFBEBBC91E437446F015EA,1),
+ (2,0xCC842563132899AC0068C315748E77030C8DE04B1AEB4B1BF19F313F5AB0E3E7,0),
+ (3,0x22B69DE3D8798A782DB25A601EEAFF0E9C0433A90830C06B6201CC726A61F057,1),
+ (4,0x347E23E66EDBCC4163682EDF410031121E7EF19557E018A7E7FC16C9407E8F5A,1);
