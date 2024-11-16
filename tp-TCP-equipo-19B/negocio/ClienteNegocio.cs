@@ -48,7 +48,7 @@ namespace negocio
                     return 0;
                 }
 
-                data.setearConsulta("INSERT Cliente (nombre,apellido,email,telefono,admin) VALUES (@nombre,@apellido,@email,@telefono,1);");
+                data.setearConsulta("INSERT Cliente (nombre,apellido,email,telefono,admin) VALUES (@nombre,@apellido,@email,@telefono,0);");
                 data.setearParametro("@nombre",nombre);
                 data.setearParametro("@apellido",apellido);
                 data.setearParametro("@email",email);
