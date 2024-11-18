@@ -42,34 +42,7 @@
                 height: 300px;
             }
         }
-        /* Estilos para el botón de borrar */
-        .btn-borrar {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #ff4d4d;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 10;
-        }
-        .btn-borrar:hover {
-            background-color: #ff1a1a;
-        }
-        /* Estilos para el botón de modificar */
-        .btn-modificar {
-            position: absolute;
-            bottom: 10px;
-            right: 10px; /* Cambiado de left a right para moverlo a la esquina inferior derecha */
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+     
         .btn-modificar:hover {
             background-color: #0056b3;
         }
@@ -97,9 +70,7 @@
                             <div class="col">
                                 <div class="card">
                                     
-                                    <asp:Button ID="btnBorrar" runat="server" Text="X" CssClass="btn-borrar" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idBorrar" OnClientClick="return confirmDelete();"/>
-                                    <asp:Button ID="btnModificar" runat="server" Text="Modificar" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idModificar" CssClass="btn-modificar"/>
-
+                                   
                                     <asp:Button ID="btnDetalle" runat="server" CommandName="VerDetalle" CommandArgument='<%# Eval("Id_producto") %>' Text="Ver detalle" CssClass="btn btn-primary" />
                                     <asp:Button ID="btnCarrito" runat="server" CommandName="AgregarAlCarrito" CommandArgument='<%# Eval("Id_producto") %>' Text="Agregar al carrito" CssClass="btn btn-success" />
 

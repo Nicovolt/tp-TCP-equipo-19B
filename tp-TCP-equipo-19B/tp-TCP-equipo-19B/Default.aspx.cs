@@ -24,6 +24,9 @@ namespace tp_TCP_equipo_19B
                 ListProductos = ProductoNegocio.listar();
                 repProductos.DataSource = ListProductos;
                 repProductos.DataBind();
+                
+
+
             }
         }
 
@@ -129,6 +132,35 @@ namespace tp_TCP_equipo_19B
 
             repProductos.DataSource = productos;
             repProductos.DataBind();
+        }
+
+        protected void repProductos_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Button btnBorrar = (Button)e.Item.FindControl("btnBorrar");
+                Button btnModificar = (Button)e.Item.FindControl("btnModificar");
+                Button btnDetalle = (Button)e.Item.FindControl("btnDetalle");
+                Button btnCarrito = (Button)e.Item.FindControl("btnCarrito");
+                dynamic User = Session["usuario"];
+                if (User != null || User.EsAdmin==false)
+                {
+
+                    btnBorrar.Visible = false;
+                    btnModificar.Visible = false;
+                    btnDetalle.Visible = false;
+                    btnCarrito.Visible = false;
+
+                }
+                else 
+                {
+                    btnBorrar.Visible = false;
+                    btnModificar.Visible = false;
+                    btnDetalle.Visible = false;
+                    btnCarrito.Visible = false;
+
+                }
+            }
         }
     }
 }

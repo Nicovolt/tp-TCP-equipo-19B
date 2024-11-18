@@ -3,10 +3,38 @@
 </asp:Content>
 
 
-
-
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
+<style>
+   /* Estilos para el botón de borrar */
+   .btn-borrar {
+       position: absolute;
+       top: 10px;
+       left: 10px;
+       background-color: #ff4d4d;
+       color: white;
+       border: none;
+       padding: 5px 10px;
+       border-radius: 5px;
+       cursor: pointer;
+       z-index: 10;
+   }
+   .btn-borrar:hover {
+       background-color: #ff1a1a;
+   }
+   /* Estilos para el botón de modificar */
+   .btn-modificar {
+       position: absolute;
+       bottom: 10px;
+       right: 10px; /* Cambiado de left a right para moverlo a la esquina inferior derecha */
+       background-color: #007bff;
+       color: white;
+       border: none;
+       padding: 5px 10px;
+       border-radius: 5px;
+       cursor: pointer;
+   }
+
+    </style>
 
 
 
@@ -32,6 +60,9 @@
                  <div>
                      <asp:HiddenField ID="hfProductoID" runat="server" />
                      <asp:Button ID="btnCarrito" runat="server" OnClick="btnCarrito_Click" Text="Agregar al carrito" CssClass="btn btn-success" />
+                     <asp:Button ID="btnBorrar" runat="server" Text="X" CssClass="btn-borrar"  CommandName="idBorrar" OnClick="btnBorrar_Click"  OnClientClick="return confirmDelete();"/>
+                     <asp:Button ID="btnModificar" runat="server" Text="Modificar"  CommandName="idModificar" OnClick="btnModificar_Click" CssClass="btn-modificar"/>
+
                  </div>
              </div>
          </div>
@@ -64,7 +95,11 @@
 
 
 
-
+     <script type="text/javascript">
+     function confirmDelete() {
+         return confirm('¿Estás seguro de que quieres eliminar este producto?');
+     }
+     </script>
 
 
 

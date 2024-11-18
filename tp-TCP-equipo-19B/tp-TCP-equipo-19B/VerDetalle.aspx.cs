@@ -86,5 +86,21 @@ namespace tp_TCP_equipo_19B
                 }
             }
         }
+
+        protected void btnBorrar_Click(object sender, EventArgs e)
+        {
+            ProductoNegocio proNeg = new ProductoNegocio();
+            int idProducto;
+            int.TryParse(Request.QueryString["id"], out idProducto);
+            proNeg.Eliminar(idProducto);
+            Response.Redirect("Default.aspx");
+        }
+
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            int idProducto;
+            int.TryParse(Request.QueryString["id"], out idProducto);
+            Response.Redirect($"Productos.aspx?id={idProducto}");
+        }
     }
 }

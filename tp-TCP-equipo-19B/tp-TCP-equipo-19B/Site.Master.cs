@@ -37,10 +37,10 @@ namespace tp_TCP_equipo_19B
         {
             if (Session["usuario"] != null)
             {
-                // Obtener datos de la sesión
+                
                 dynamic usuario = Session["usuario"];
 
-                // Obtener el cliente de la base de datos para tener nombre y apellido
+                
                 ClienteNegocio clienteNegocio = new ClienteNegocio();
                 Cliente cliente = clienteNegocio.ObtenerClientePorId(usuario.IdCliente);
 
