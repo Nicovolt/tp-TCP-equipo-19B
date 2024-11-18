@@ -25,13 +25,22 @@ namespace tp_TCP_equipo_19B
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (ObtenerElIdDelArticuloDesdeLaURL() != -1)
             {
-                string articuloID = Request.QueryString["id"];
-                if (!string.IsNullOrEmpty(articuloID))
+                
+                if (!IsPostBack)
                 {
-                    CargarDetalleArticulo(articuloID);
+                    actualizarVisualizacionBotones();
+                    string articuloID = Request.QueryString["id"];
+                    if (!string.IsNullOrEmpty(articuloID))
+                    {
+                        CargarDetalleArticulo(articuloID);
+                    }
                 }
+            }
+            else
+            {
+                Response.Redirect("Default.aspx");
             }
         }
 
@@ -101,6 +110,20 @@ namespace tp_TCP_equipo_19B
             int idProducto;
             int.TryParse(Request.QueryString["id"], out idProducto);
             Response.Redirect($"Productos.aspx?id={idProducto}");
+        }
+
+        protected void actualizarVisualizacionBotones()
+        {
+            bool mostrarBotones = false;
+
+            if (Session["usuario"] != null)
+            {
+                dynamic usuario = Session["usuario"];
+                mostrarBotones = usuario.EsAdmin;
+            }
+
+            btnBorrar.Visible = mostrarBotones;
+            btnModificar.Visible = mostrarBotones;
         }
     }
 }
