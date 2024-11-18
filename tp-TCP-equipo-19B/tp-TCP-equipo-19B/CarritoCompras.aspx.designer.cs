@@ -24,15 +24,6 @@ namespace tp_TCP_equipo_19B
         protected global::System.Web.UI.UpdatePanel updatePanelCarrito;
 
         /// <summary>
-        /// Control repeaterCarrito.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater repeaterCarrito;
-
-        /// <summary>
         /// Control lblPrecioTotal.
         /// </summary>
         /// <remarks>
@@ -49,6 +40,15 @@ namespace tp_TCP_equipo_19B
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnComprar;
+
+        /// <summary>
+        /// Control repeaterCarrito.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater repeaterCarrito;
 
         /// <summary>
         /// Control lblError.

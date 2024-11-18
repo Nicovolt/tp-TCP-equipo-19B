@@ -14,17 +14,25 @@
             text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
         }
 
-        .carrito-footer {
+        .carrito-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 20px;
             padding: 10px;
-            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;  
+            background-color: #f8f9fa; 
         }
 
-        .carrito-footer .total {
+        .carrito-header .total {
             font-size: 1.5rem;
             font-weight: bold;
+            margin-left: 20px;
+
+        }
+
+        .carrito-header .btn {
+            margin-right: 20px;
         }
 
         .error-message {
@@ -60,7 +68,12 @@
             height: auto;
             border-radius: 5px;
         }
-
+        .separador {
+            height: 1px;
+            background-color: #ddd; /* Color gris claro */
+            margin: 20px 0; /* Espaciado superior e inferior */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle un toque moderno */
+        }
         .producto-card h5 {
             font-size: 1.2rem;
             margin-top: 10px;
@@ -71,24 +84,74 @@
             color: #28a745;
             margin-top: 5px;
         }
+         .btn-modern {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            font-size: 16px;
+         }
+
+        .btn-modern:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .btn-danger-modern {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            font-size: 16px;
+        }
+
+        .btn-danger-modern:hover {
+            background-color: #c0392b;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .btn-modern, .btn-danger-modern {
+            margin: 0 5px;
+        }
+
+        #lblCantidad {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            padding: 0 10px;
+        }
+
 
     </style>
 
     <h1 class="titulo-catalogo">Carrito de compras</h1>
+    <div class="separador"></div>
 
     <asp:UpdatePanel ID="updatePanelCarrito" runat="server">
         <ContentTemplate>
             <div class="row">
-                <asp:Repeater ID="repeaterCarrito" runat="server">
+          <div class="carrito-header">
+            <div class="total">
+                Total: $<asp:Label ID="lblPrecioTotal" runat="server" Text="0"></asp:Label>
+            </div>
+            <asp:Button ID="btnComprar" OnClick="btnComprar_Click" runat="server" Text="Comprar" CssClass="btn btn-success" />
+        </div>
+  <asp:Repeater ID="repeaterCarrito" runat="server">
     <ItemTemplate>
-        <div class="col-md-4 col-sm-6 mb-4"> 
-            <div class="card">
+        <div class="row mb-4">
+            <div class="col-md-3">
                 <div id="carousel<%# Eval("Id_producto") %>" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <asp:Repeater ID="repImagenes" runat="server" DataSource='<%# Eval("ListaImagenes") %>'>
                             <ItemTemplate>
                                 <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
-                                    <img src='<%# Eval("ImagenUrl") %>' class="d-block w-100 card-img-top" alt="Imagen del artículo">
+                                    <img src='<%# Eval("ImagenUrl") %>' class="d-block w-100" alt="Imagen del artículo">
                                 </div>
                             </ItemTemplate>
                         </asp:Repeater>
@@ -102,33 +165,34 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title"><%# Eval("Nombre") %></h5>
-                    <p class="card-text">Precio: $<%# Eval("Precio") %></p>
-
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex">
-                            <asp:Button ID="btnDisminuirCantidad" CssClass="btn btn-info" runat="server" Text="-" OnClick="btnDisminuirCantidad_Click" CommandArgument='<%# Eval("Id_producto") %>' CommandName="disminuirCantidad" />
-                            <asp:Label ID="lblCantidad" runat="server" Text='<%# Eval("Cantidad") %>' class="mx-2"></asp:Label>
-                            <asp:Button ID="btnAumentarCantidad" CssClass="btn btn-info" runat="server" Text="+" OnClick="btnAumentarCantidad_Click" CommandArgument='<%# Eval("Id_producto") %>' CommandName="aumentarCantidad" />
-                        </div>
-                        <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger" Text="Quitar" OnClick="btnEliminar_Click" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idArticulo" />
-                    </div>
-                </div>
             </div>
+
+            <div class="col-md-6 d-flex flex-column justify-content-center">
+                <h5 class="mb-2"><%# Eval("Nombre") %></h5>
+                <p><%# Eval("Descripcion") %></p>
+                <p><strong>Precio:</strong> $<%# Eval("Precio") %></p>
+            </div>
+
+            <div class="col-md-3 d-flex align-items-center justify-content-between">
+                <div class="d-flex">
+                    <asp:Button ID="btnDisminuirCantidad" CssClass="btn btn-info" runat="server" Text="-" OnClick="btnDisminuirCantidad_Click" CommandArgument='<%# Eval("Id_producto") %>' CommandName="disminuirCantidad" />
+                    <asp:Label ID="lblCantidad" runat="server" Text='<%# Eval("Cantidad") %>' class="mx-2 d-flex align-items-center" style="font-size: 1.2rem;"></asp:Label>
+                    <asp:Button ID="btnAumentarCantidad" CssClass="btn btn-info" runat="server" Text="+" OnClick="btnAumentarCantidad_Click" CommandArgument='<%# Eval("Id_producto") %>' CommandName="aumentarCantidad" />
+                </div>
+                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger" Text="Eliminar" OnClick="btnEliminar_Click" CommandArgument='<%# Eval("Id_producto") %>' CommandName="idArticulo" />
+            </div>
+
         </div>
+
+        <div class="separador"></div>
     </ItemTemplate>
 </asp:Repeater>
 
+
+
             </div>
 
-            <div class="carrito-footer">
-                <div class="total">
-                    Total: $  
-                    <asp:Label ID="lblPrecioTotal" runat="server" Text="0"></asp:Label>
-                </div>
-                <asp:Button ID="btnComprar" OnClick="btnComprar_Click" runat="server" Text="Comprar" CssClass="btn btn-success" />
-            </div>
+           
 
             <asp:Label ID="lblError" runat="server" CssClass="error-message" Text="" Visible="false"></asp:Label>
         </ContentTemplate>
