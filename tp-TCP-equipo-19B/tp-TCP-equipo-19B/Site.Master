@@ -363,7 +363,7 @@
         </li>
         <li class="cart">
             <a href="#" runat="server"><i class="fa-solid fa-cart-shopping icono-cart" runat="server"></i></a>
-            <asp:Label ID="Label1" runat="server" CssClass="cart-label"></asp:Label>
+            <asp:Label ID="LabelCompras" runat="server" CssClass="cart-label"></asp:Label>
         </li>
         <li class="cuenta" id="liCuenta" runat="server">
             <a href="#"><i class="fa-solid fa-user"></i> 
