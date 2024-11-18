@@ -64,7 +64,6 @@
                   <asp:Button Text="Agregar" runat="server" OnClick="AgregarPro" />
                   <asp:Button text="Modificar" runat="server" OnClick="ModificarPro"/>
                   <asp:Label runat="server" ID="lblError" CssClass="text-danger" />
-                  <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
               </div>
           </section>
   </div>

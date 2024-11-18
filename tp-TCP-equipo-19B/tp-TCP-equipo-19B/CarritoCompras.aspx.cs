@@ -14,26 +14,25 @@ namespace tp_TCP_equipo_19B
         private ProductoNegocio ProductoNegocio = new ProductoNegocio();
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["CarritoCompras"] == null)
+
+            if (!IsPostBack)
             {
-                List<dominio.Productos> Newcarrito = new List<dominio.Productos>();
-                Session.Add("CarritoCompras", Newcarrito);
-                actualizarTotalCarrito();
-                if (!IsPostBack)
+                if (Session["CarritoCompras"] == null)
                 {
-                    CargarCarrito();
-                    if (Session["TotalCarrito"] != null)
-                    {
-                        lblPrecioTotal.Text = Session["TotalCarrito"].ToString();
-                    }
-                    else
-                    {
-                        actualizarTotalCarrito();
-                    }
+                    List<dominio.Productos> Newcarrito = new List<dominio.Productos>();
+                    Session.Add("CarritoCompras", Newcarrito);
+                }
+
+                CargarCarrito();
+                actualizarTotalCarrito();
+
+                if (Session["TotalCarrito"] != null)
+                {
+                    lblPrecioTotal.Text = Session["TotalCarrito"].ToString();
                 }
             }
         }
-        private void EliminarArticulo(dominio.Productos articulo)
+        private void EliminarArticulo(Productos articulo)
         {
             List<dominio.Productos> carrito = new List<dominio.Productos>();
             carrito = (List<dominio.Productos>)Session["CarritoCompras"];
@@ -121,14 +120,23 @@ namespace tp_TCP_equipo_19B
 
         protected void btnComprar_Click(object sender, EventArgs e)
         {
+            List<dominio.Productos> carrito = (List<dominio.Productos>)Session["CarritoCompras"];
+
+            if (carrito == null || carrito.Count == 0)
+            {
+                lblError.Text = "El carrito está vacío. Agrega productos antes de realizar una compra.";
+                lblError.Visible = true;
+                return;
+            }
+
             if (Session["usuario"] == null)
             {
                 Response.Redirect("Login.aspx");
             }
-            else 
+            else
             {
                 Session["CarritoCompras"] = null;
-                Response.Redirect("Compra.aspx");         
+                Response.Redirect("Compra.aspx");
             }
         }
 

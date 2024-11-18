@@ -59,6 +59,51 @@ namespace tp_TCP_equipo_19B
                 string ProductoID = e.CommandArgument.ToString();
                 Response.Redirect($"VerDetalle.aspx?id={ProductoID}");
             }
+
+            if (e.CommandName == "AgregarAlCarrito")
+            {
+                if(Session["CarritoCompras"] == null)
+                {
+                    Session["CarritoCompras"] = new List<Productos>();
+                }
+
+                int id = Convert.ToInt32(e.CommandArgument.ToString());
+
+                Productos producto = ProductoNegocio.buscarPorID(id);
+                producto.Cantidad = 1;
+
+                if (producto != null)
+                {
+                    List<Productos> carrito = Session["CarritoCompras"] as List<Productos>;
+
+                    Productos productoExistente = carrito.FirstOrDefault(p => p.Id_producto == id);
+
+                    if (productoExistente != null)
+                    {
+                        productoExistente.Cantidad++;
+                    }
+                    else
+                    {
+                        producto.Cantidad = 1;
+                        carrito.Add(producto);
+                    }
+                    
+                    Session["CarritoCompras"] = carrito;
+
+                    List<Productos> carritoActual = (List<Productos>)Session["CarritoCompras"];
+                    int cantArticulos = carritoActual.Count;
+
+                    // Main masterPage = (Main)this.Master;
+                    // masterPage.ActualizarContadorCarrito(cantArticulos);
+
+                    // Redirigir a la página del carrito de compras o mostrar un mensaje de éxito
+                    //Response.Redirect("CarritoCompras.aspx");
+
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Producto agregado al carrito exitosamente!');", true);
+                }
+
+            }
+
         }
 
         private void CarcarCategoria()
@@ -162,5 +207,8 @@ namespace tp_TCP_equipo_19B
                 }
             }
         }
+       
+
+
     }
 }
