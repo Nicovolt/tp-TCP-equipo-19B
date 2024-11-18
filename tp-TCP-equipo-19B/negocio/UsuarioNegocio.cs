@@ -99,5 +99,62 @@ namespace negocio
                 throw new Exception("Error al obtener el usuario", ex);
             }
         }
+
+        public List<UsuarioDetalle> listarUsuariosDetalle()
+        {
+            List<UsuarioDetalle> list = new List<UsuarioDetalle>();
+            AccesoDatos data = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT u.id_usuario, u.id_cliente, CONCAT(c.apellido,' ', c.nombre) as nombre_completo, c.email, u.admin FROM Usuario u LEFT JOIN Cliente c ON C.id_cliente = U.id_cliente;";
+
+                data.setearConsulta(query);
+                data.ejecutarLectura();
+
+                while (data.Lector.Read())
+                {
+                    UsuarioDetalle aux = new UsuarioDetalle();
+                    aux.IdUsuario = (int)data.Lector["id_usuario"];
+                    aux.IdCliente = (int)data.Lector["id_cliente"];
+                    aux.NombreCompleto = (string)data.Lector["nombre_completo"];
+                    aux.Mail = (string)data.Lector["email"];
+                    aux.Admin = (bool)data.Lector["admin"];
+
+                    list.Add(aux);
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar usuarios", ex);
+            }
+            finally
+            {
+                data.cerrarConexion();
+            }
+        }
+
+        public void ActualizarEstadoAdmin(int idUsuario, bool esAdmin)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string consulta = "UPDATE Usuario SET admin = @admin WHERE id_usuario = @id";
+                datos.setearConsulta(consulta);
+                datos.setearParametro("@admin", esAdmin ? 1 : 0);
+                datos.setearParametro("@id", idUsuario);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar estado de administrador", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace tp_TCP_equipo_19B
 
                 if (user.IdUsuario != 0)
                 {
-                    GuardarSesion(user.IdCliente, user.Mail, user.Admin);
+                    GuardarSesion(user.IdUsuario, user.IdCliente, user.Mail, user.Admin);
                     Response.Redirect("Default.aspx");
                 }
                 else
@@ -134,11 +134,12 @@ namespace tp_TCP_equipo_19B
                 "window.scrollTo(0, 0);", true);
         }
 
-        public void GuardarSesion(int id_cliente, string mail, bool admin)
+        public void GuardarSesion(int id_usuario, int id_cliente, string mail, bool admin)
         {
             // Crear objeto con información básica del usuario
             var sesionUsuario = new
             {
+                IdUsuario = id_usuario,
                 IdCliente = id_cliente,
                 Mail = mail,
                 FechaLogin = DateTime.Now,
