@@ -93,12 +93,11 @@ namespace tp_TCP_equipo_19B
                     List<Productos> carritoActual = (List<Productos>)Session["CarritoCompras"];
                     int cantArticulos = carritoActual.Count;
 
-                    // Main masterPage = (Main)this.Master;
-                    // masterPage.ActualizarContadorCarrito(cantArticulos);
+                    SiteMaster masterPage = (SiteMaster)this.Master;
+                    masterPage.ActualizarContadorCarrito(cantArticulos);
 
-                    // Redirigir a la página del carrito de compras o mostrar un mensaje de éxito
-                    //Response.Redirect("CarritoCompras.aspx");
 
+    
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Producto agregado al carrito exitosamente!');", true);
                 }
 

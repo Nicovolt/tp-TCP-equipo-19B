@@ -366,8 +366,13 @@
             </ul>
         </li>
         <li class="cart">
-            <a href="CarritoCompras.aspx" runat="server"><i class="fa-solid fa-cart-shopping icono-cart" runat="server"></i></a>
-            <asp:Label ID="LabelCompras" runat="server" CssClass="cart-label"></asp:Label>
+            <asp:UpdatePanel ID="UpdatePanelCarrito" runat="server">
+                <ContentTemplate>
+                    <a href="CarritoCompras.aspx" runat="server"><i class="fa-solid fa-cart-shopping icono-cart" runat="server"></i></a>
+                    <asp:Label ID="LabelCompras" runat="server" CssClass="cart-label"></asp:Label>
+
+                </ContentTemplate>
+            </asp:UpdatePanel>
         </li>
         <li class="cuenta" id="liCuenta" runat="server">
             <a href="#"><i class="fa-solid fa-user"></i> 
