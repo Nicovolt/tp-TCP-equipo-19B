@@ -120,7 +120,7 @@ namespace negocio
 
 
             mail = new MailMessage();
-            mail.From = new MailAddress("noresponder@equipoH.com");
+            mail.From = new MailAddress("noresponder@equipoH.com");       
             mail.To.Add(destino);
             mail.Subject = asunto;
             mail.Body = cuerpo;
