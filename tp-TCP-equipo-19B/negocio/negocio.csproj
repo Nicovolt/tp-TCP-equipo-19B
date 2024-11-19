@@ -43,9 +43,13 @@
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
     <Compile Include="CategoriaNegocio.cs" />
+    <Compile Include="ClienteDomicilioEnvioNegocio.cs" />
     <Compile Include="ClienteNegocio.cs" />
+    <Compile Include="EnvioNegocio.cs" />
     <Compile Include="ImagenNegocio.cs" />
     <Compile Include="MarcaNegocio.cs" />
+    <Compile Include="PresupuestoDetalleNegocio.cs" />
+    <Compile Include="PresupuestoNegocio.cs" />
     <Compile Include="ProductoNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicioEmail.cs" />

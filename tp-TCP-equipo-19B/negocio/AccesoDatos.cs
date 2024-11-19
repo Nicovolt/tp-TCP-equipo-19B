@@ -90,7 +90,7 @@ namespace negocio
             comando.Parameters.Add(parametro);
         }
 
-        // Método para obtener el valor del parámetro de salida
+        // Metodo para obtener el valor del parametro de salida del sp
         public object obtenerParametroSalida(string nombre)
         {
             return comando.Parameters[nombre].Value;

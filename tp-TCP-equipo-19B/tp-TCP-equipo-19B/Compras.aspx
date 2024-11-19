@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Formulario web1.aspx.cs" Inherits="tp_TCP_equipo_19B.Formulario_web1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Compras.aspx.cs" Inherits="tp_TCP_equipo_19B.Formulario_web1" %>
 
 <asp:Content ID="ContentHead" ContentPlaceHolderID="head" runat="server">
 </asp:Content>

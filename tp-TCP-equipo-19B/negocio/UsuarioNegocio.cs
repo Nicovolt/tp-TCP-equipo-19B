@@ -156,5 +156,53 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public bool ValidarPassword(int idCliente, string password)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            {
+                try
+                {
+                    datos.setearProcedimiento("sp_VerificarLogin");
+                    datos.setearParametro("@id_cliente", idCliente);
+                    datos.setearParametro("@contrasena", password);
+                    datos.setearParametro("@loginExitoso", SqlDbType.Bit);
+
+                    datos.ejecutarAccion();
+
+                    bool loginExitoso = Convert.ToBoolean(datos.obtenerParametroSalida("@loginExitoso"));
+
+                    return loginExitoso;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al validar la contrasena", ex);
+                }
+                finally
+                {
+                    datos.cerrarConexion();
+                }
+            }
+        }
+
+        public void CambiarPassword(int idCliente, string nuevaPassword)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE Usuario SET contrasena = HASHBYTES('SHA2_256', @password) WHERE id_cliente = @idCliente");
+                datos.setearParametro("@idCliente", idCliente);
+                datos.setearParametro("@password", nuevaPassword);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cambiar la contraseña", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

@@ -65,6 +65,12 @@ namespace tp_TCP_equipo_19B
                 lblErrorTelefono.Text = "El teléfono debe contener solo números.";
                 isValid = false;
             }
+
+            /*
+             Aca va toda la logica de negocio de presupuesto. 
+             */
+
+
             if (isValid)
             {
                 negocio.ServicioEmail servicioEmail = new negocio.ServicioEmail();
