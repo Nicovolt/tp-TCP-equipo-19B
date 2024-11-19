@@ -5,10 +5,11 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using dominio;
 
 namespace negocio
 {
-    internal class ServicioEmail
+    public class ServicioEmail
     {
         private SmtpClient server;
         private MailMessage mail;
@@ -86,7 +87,7 @@ namespace negocio
                  </div>
                  <div class='invoice-details'>
                      <p>Estimado/a <strong>{nombre} {apellido}</strong>,</p>
-                     <p>Gracias por tu compra en GrupoH.</p>
+                     <p>Gracias por tu compra en Equpo19B.</p>
                      <h2>Detalle de la compra:</h2>
                      <table>
                          <tr>
@@ -94,7 +95,7 @@ namespace negocio
                              <td>{nombre} {apellido}</td>
                          </tr>
                          <tr>
-                             <td><strong>Teléfono:</strong></td>
+                             <td><strong>Te enviaremos seguimiento al numero:</strong></td>
                              <td>{telefono}</td>
                          </tr>
                          <tr>

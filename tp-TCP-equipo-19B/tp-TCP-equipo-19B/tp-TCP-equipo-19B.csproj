@@ -120,6 +120,7 @@
     <Content Include="Error.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="CarritoCompras.aspx" />
+    <Content Include="Formulario web1.aspx" />
     <Content Include="VerDetalle.aspx">
       <BrowseToURL>~/VerDetalle.aspx</BrowseToURL>
     </Content>
@@ -227,6 +228,13 @@
     </Compile>
     <Compile Include="CarritoCompras.aspx.designer.cs">
       <DependentUpon>CarritoCompras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formulario web1.aspx.cs">
+      <DependentUpon>Formulario web1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formulario web1.aspx.designer.cs">
+      <DependentUpon>Formulario web1.aspx</DependentUpon>
     </Compile>
     <Compile Include="VerDetalle.aspx.cs">
       <DependentUpon>VerDetalle.aspx</DependentUpon>
