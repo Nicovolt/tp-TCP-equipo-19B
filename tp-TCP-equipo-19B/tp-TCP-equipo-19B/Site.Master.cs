@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using dominio;
+using System.Reflection.Emit;
 
 namespace tp_TCP_equipo_19B
 {
@@ -15,8 +16,17 @@ namespace tp_TCP_equipo_19B
         {
             if (!IsPostBack)
             {
+                List<dominio.Productos> carritoActual = (List<dominio.Productos>)Session["CarritoCompras"];
+                int cantArticulos = carritoActual != null ? carritoActual.Count : 0;
+
                 ActualizarEstadoSesion();
+                ActualizarContadorCarrito(cantArticulos);
             }
+        }
+
+        public void ActualizarContadorCarrito(int contador)
+        {
+            LabelCompras.Text = contador.ToString();
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)

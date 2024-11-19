@@ -17,6 +17,7 @@ namespace dominio
         public int Id_categoria { get; set; }
         public int stock { get; set; }
         public List<Imagen> ListaImagenes { get; set; }
+        public int Cantidad { get; set; }
     }
 }
 

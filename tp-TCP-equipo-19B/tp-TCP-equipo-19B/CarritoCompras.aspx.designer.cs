@@ -11,43 +11,52 @@ namespace tp_TCP_equipo_19B
 {
 
 
-    public partial class _Default
+    public partial class Formulario_web14
     {
 
         /// <summary>
-        /// Control ddlCategorias.
+        /// Control updatePanelCarrito.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCategorias;
+        protected global::System.Web.UI.UpdatePanel updatePanelCarrito;
 
         /// <summary>
-        /// Control ddlMarcas.
+        /// Control lblPrecioTotal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlMarcas;
+        protected global::System.Web.UI.WebControls.Label lblPrecioTotal;
 
         /// <summary>
-        /// Control UpdatePanel1.
+        /// Control btnComprar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        protected global::System.Web.UI.WebControls.Button btnComprar;
 
         /// <summary>
-        /// Control repProductos.
+        /// Control repeaterCarrito.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater repProductos;
+        protected global::System.Web.UI.WebControls.Repeater repeaterCarrito;
+
+        /// <summary>
+        /// Control lblError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
     }
 }
