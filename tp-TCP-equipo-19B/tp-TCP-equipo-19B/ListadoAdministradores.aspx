@@ -64,12 +64,12 @@
                         </Columns>
                     </asp:GridView>
                 </div>
-
                 <!-- Panel de Mensajes -->
                 <asp:Panel ID="pnlMensaje" runat="server" Visible="false" CssClass="alert alert-dismissible fade show mt-3">
                     <asp:Label ID="lblMensaje" runat="server" />
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </asp:Panel>
+
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>
