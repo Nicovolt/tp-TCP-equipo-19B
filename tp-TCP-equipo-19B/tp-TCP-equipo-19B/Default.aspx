@@ -116,45 +116,35 @@
     color: #888;
 }
 
-/* Efecto al pasar el mouse */
+
 .modern-dropdown:hover {
-    border-color: #4CAF50; /* Borde verde */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Más sombra */
+    border-color: #2196F3; /* Borde verde */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); 
     background: #f1f1f1; /* Fondo más claro */
 }
 
 /* Efecto al enfocar (focus) */
 .modern-dropdown:focus {
     outline: none;
-    border-color: #2196F3; /* Borde azul */
-    box-shadow: 0 0 8px rgba(33, 150, 243, 0.5); /* Brillo azul */
+    border-color: #2196F3; 
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.5); 
 }
 
 /* Etiqueta de Categorías */
 #ddlCategoriasLabel {
     font-size: 18px;
-    color: #FFA500; /* Naranja */
+    color: #333; 
     font-weight: bold;
 }
 
 /* Etiqueta de Marcas */
 #ddlMarcasLabel {
     font-size: 18px;
-    color: #6A5ACD; /* Azul violeta */
+    color: #333; 
     font-weight: bold;
 }
 
-/* Responsivo: Ajustes para dispositivos pequeños */
-@media (max-width: 768px) {
-    .modern-dropdown {
-        font-size: 14px;
-        padding: 8px;
-    }
 
-    #ddlCategoriasLabel, #ddlMarcasLabel {
-        font-size: 16px;
-    }
-}
 
 
         
