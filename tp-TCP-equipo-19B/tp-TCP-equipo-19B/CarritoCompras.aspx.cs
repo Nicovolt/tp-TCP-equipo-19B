@@ -42,9 +42,15 @@ namespace tp_TCP_equipo_19B
                 if (carrito[i].Id_producto == articulo.Id_producto)
                 {
                     carrito.RemoveAt(i);
-                    return;
+                    
                 }
             }
+
+            List<Productos> carritoActual = (List<Productos>)Session["CarritoCompras"];
+            int cantArticulos = carritoActual.Count;
+
+            SiteMaster masterPage = (SiteMaster)this.Master;
+            masterPage.ActualizarContadorCarrito(cantArticulos);
         }
 
         private void CargarCarrito()
