@@ -371,21 +371,31 @@ INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Producto (nombre,descripcion,precio,id_marca
 
 -- Imagenes
 INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,activo) VALUES
-	 (10,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_38277_Fuente_Antec_550W_80_Plus_Bronze_CSK550_67f87193-grn.jpg',0),
-	 (9,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_16749_Procesador_AMD_RYZEN_5_3600_4.2GHz_Turbo_AM4_Wraith_Stealth_Cooler_f8ab4915-grn.jpg',0),
-	 (8,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_29474_Memoria_Team_DDR5_32GB__2x16GB__6400MHz_T-Force_Delta_RGB_Black_CL40_Intel_XMP_3.0_884828e7-grn.jpg',0),
-	 (8,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_29475_Memoria_Team_DDR5_32GB__2x16GB__6400MHz_T-Force_Delta_RGB_Black_CL40_Intel_XMP_3.0_3e9ff9b6-grn.jpg',0),
-	 (5,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_33401_Placa_de_Video_XFX_Radeon_RX_6650_XT_8GB_GDDR6_Speedster_SWFT_210_589f396b-grn.jpg',0),
+	 (10,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_38277_Fuente_Antec_550W_80_Plus_Bronze_CSK550_67f87193-grn.jpg',1),
+	 (9,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_16749_Procesador_AMD_RYZEN_5_3600_4.2GHz_Turbo_AM4_Wraith_Stealth_Cooler_f8ab4915-grn.jpg',1),
+	 (8,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_29474_Memoria_Team_DDR5_32GB__2x16GB__6400MHz_T-Force_Delta_RGB_Black_CL40_Intel_XMP_3.0_884828e7-grn.jpg',1),
+	 (8,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_29475_Memoria_Team_DDR5_32GB__2x16GB__6400MHz_T-Force_Delta_RGB_Black_CL40_Intel_XMP_3.0_3e9ff9b6-grn.jpg',1),
+	 (5,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_33401_Placa_de_Video_XFX_Radeon_RX_6650_XT_8GB_GDDR6_Speedster_SWFT_210_589f396b-grn.jpg',1),
 	 (5,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_33402_Placa_de_Video_XFX_Radeon_RX_6650_XT_8GB_GDDR6_Speedster_SWFT_210_59981144-grn.jpg',1),
-	 (5,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_33403_Placa_de_Video_XFX_Radeon_RX_6650_XT_8GB_GDDR6_Speedster_SWFT_210_de9bc156-grn.jpg',0),
-	 (6,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41549_Monitor_Gamer_Curvo_ViewSonic_VX3218C-2K_32__1500R_QHD_1440p_165Hz_VA_1ms_MPRT_FreeSync_Premium_e66d7f5f-grn.jpg',0),
-	 (6,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41551_Monitor_Gamer_Curvo_ViewSonic_VX3218C-2K_32__1500R_QHD_1440p_165Hz_VA_1ms_MPRT_FreeSync_Premium_76a0d126-grn.jpg',0),
-	 (6,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41550_Monitor_Gamer_Curvo_ViewSonic_VX3218C-2K_32__1500R_QHD_1440p_165Hz_VA_1ms_MPRT_FreeSync_Premium_e7f78e55-grn.jpg',0);
+	 (5,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_33403_Placa_de_Video_XFX_Radeon_RX_6650_XT_8GB_GDDR6_Speedster_SWFT_210_de9bc156-grn.jpg',1),
+	 (6,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41549_Monitor_Gamer_Curvo_ViewSonic_VX3218C-2K_32__1500R_QHD_1440p_165Hz_VA_1ms_MPRT_FreeSync_Premium_e66d7f5f-grn.jpg',1),
+	 (6,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41551_Monitor_Gamer_Curvo_ViewSonic_VX3218C-2K_32__1500R_QHD_1440p_165Hz_VA_1ms_MPRT_FreeSync_Premium_76a0d126-grn.jpg',1),
+	 (6,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41550_Monitor_Gamer_Curvo_ViewSonic_VX3218C-2K_32__1500R_QHD_1440p_165Hz_VA_1ms_MPRT_FreeSync_Premium_e7f78e55-grn.jpg',1);
 INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,activo) VALUES
-	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41330_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_b55acf2f-grn.jpg',0),
+	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41330_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_b55acf2f-grn.jpg',1),
 	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41331_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_0d8d4ec7-grn.jpg',1),
-	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41333_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_ed981310-grn.jpg',0),
-	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41334_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_d93bcd40-grn.jpg',0);
+	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41333_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_ed981310-grn.jpg',1),
+	 (4,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_41334_Placa_de_Video_Zotac_GeForce_RTX_4060_Ti_16GB_GDDR6_AMP_d93bcd40-grn.jpg',1),
+	 (1,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_42536_Teclado_Mecanico_ASUS_ROG_Strix_M602_Falchion_Ace_RGB_Switch_Red__db773696-grn.jpg',1),
+	 (1,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_42537_Teclado_Mecanico_ASUS_ROG_Strix_M602_Falchion_Ace_RGB_Switch_Red__08ddd666-grn.jpg',1),
+	 (1,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_42538_Teclado_Mecanico_ASUS_ROG_Strix_M602_Falchion_Ace_RGB_Switch_Red__d986ca57-grn.jpg',1),
+	 (2,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_34677_Teclado_Gaming_Retroiluminado_Wesdar_MK10_0ac28ff2-grn.jpg',1),
+	 (2,N'https://imagenes.compragamer.com/productos/compragamer_Imganen_general_34678_Teclado_Gaming_Retroiluminado_Wesdar_MK10_edd2ef82-grn.jpg',1),
+	 (7,N'https://lezamapc.com.ar/50123-large_default/auricular-razer-blackshark-v2-pro-wireless-playstation-licensed-white.jpg',1),
+	 (7,N'https://http2.mlstatic.com/D_NQ_NP_628847-MLU71479173112_092023-O.webp',1),
+	 (3,N'https://redragon.es/content/uploads/2021/04/DITI.png',1);
+
+
 
 -- Usuarios
 INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Usuario (id_cliente,contrasena,admin) VALUES
