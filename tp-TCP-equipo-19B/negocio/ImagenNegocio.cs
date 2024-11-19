@@ -200,7 +200,25 @@ namespace negocio
             }
         }
 
-
+        public void eliminarImagenesProducto(int idProducto)
+        {
+            AccesoDatos data = new AccesoDatos();
+            try
+            {
+                string query = "DELETE FROM Imagen WHERE IdProducto = @id_producto;";
+                data.setearConsulta(query);
+                data.setearParametro("@id_producto", idProducto);
+                data.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar las imágenes del articulo" + idProducto, ex);
+            }
+            finally
+            {
+                data.cerrarConexion();
+            }
+        }
 
 
     }

@@ -31,7 +31,7 @@ namespace negocio
                     aux.Nombre = (string)datos.Lector["nombre"];
                     aux.Descripcion = (string)datos.Lector["descripcion"];
                     aux.Precio = (decimal)datos.Lector["precio"];  
-                    aux.PorsentajeDescuento = datos.Lector["porcentaje_descuento"] != DBNull.Value ? (int)(byte)datos.Lector["porcentaje_descuento"] : 0; // Manejo de tinyint
+                    aux.PorcentajeDescuento = datos.Lector["porcentaje_descuento"] != DBNull.Value ? (int)(byte)datos.Lector["porcentaje_descuento"] : 0; // Manejo de tinyint
                     aux.Id_marca = datos.Lector["id_marca"] != DBNull.Value ? (int)datos.Lector["id_marca"] : 0;
                     aux.Id_categoria = datos.Lector["id_categoria"] != DBNull.Value ? (int)datos.Lector["id_categoria"] : 0;
 
@@ -142,26 +142,28 @@ namespace negocio
 
         public void AgregarImagenes(int idProducto, List<Imagen> imagenes)
         {
-            AccesoDatos datos = new AccesoDatos();
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+            imagenNegocio.eliminarImagenesProducto(idProducto);
 
-            try
+            foreach (var imagen in imagenes)
             {
-                // poner imagenes asociadas al producto
-                foreach (var imagen in imagenes)
+                AccesoDatos datos = new AccesoDatos();
+                try
                 {
+
                     datos.setearConsulta("INSERT INTO Imagen(idProducto, ImagenUrl) VALUES(@idProducto, @ImagenUrl)");
-                    datos.setearParametro("@idProducto", idProducto); 
-                    datos.setearParametro("@ImagenUrl", imagen.ImagenUrl);  
-                    datos.ejecutarAccion(); 
+                    datos.setearParametro("@idProducto", idProducto);
+                    datos.setearParametro("@ImagenUrl", imagen.ImagenUrl);
+                    datos.ejecutarAccion();
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al agregar las imágenes: " + ex.Message);
-            }
-            finally
-            {
-                datos.cerrarConexion();
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error al agregar la imagen {imagen.ImagenUrl}: {ex.Message}");
+                }
+                finally
+                {
+                    datos.cerrarConexion();
+                }
             }
         }
 
@@ -246,6 +248,8 @@ namespace negocio
                 datos.setearParametro("@id", pro.Id_producto);
 
                 datos.ejecutarAccion();
+
+                AgregarImagenes(pro.Id_producto, pro.ListaImagenes);
             }
             catch (Exception ex)
             {

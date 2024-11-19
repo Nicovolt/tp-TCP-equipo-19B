@@ -9,204 +9,245 @@ using System.Web.UI.WebControls;
 
 namespace tp_TCP_equipo_19B
 {
-    public partial class Formulario_web1 : System.Web.UI.Page
+    public partial class GestionProducto : System.Web.UI.Page
     {
-
+        private List<string> ImagenesTemporales
+        {
+            get
+            {
+                if (ViewState["ImagenesTemporales"] == null)
+                    ViewState["ImagenesTemporales"] = new List<string>();
+                return (List<string>)ViewState["ImagenesTemporales"];
+            }
+            set
+            {
+                ViewState["ImagenesTemporales"] = value;
+            }
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                CarcarCategoria();
-                CarcarMarca();
-            }
-
-            if (Request.QueryString["id"] != null && !IsPostBack)
-            {
-                int id = int.Parse(Request.QueryString["id"]);
-                ProductoNegocio ProductoNegocio = new ProductoNegocio();
-                Productos Productos = ProductoNegocio.buscarPorID(id);
-                inpNombrePro.Text = Productos.Nombre;
-                inpDescripcion.Text = Productos.Descripcion;
-                ddlCategoria.SelectedValue = Productos.Id_categoria.ToString();
-                ddlMarca.SelectedValue = Productos.Id_marca.ToString();
-                inpPrecio.Text = Productos.Precio.ToString();
-                inpStock.Text = Productos.stock.ToString();
-
-                ImagenNegocio imagenNegocio = new ImagenNegocio();
-                List<Imagen> listadoImagenes = imagenNegocio.listaImagenesPorArticulo(id);
-
-                foreach (Imagen img in listadoImagenes)
+                if (!EsUsuarioAdmin())
                 {
-                    Panel imgContainer = new Panel();
-                    imgContainer.CssClass = "d-flex gap-2 mb-2";
+                    Response.Redirect("Default.aspx");
+                    return;
+                }
+                CargarCombos();
+                int idProducto = ObtenerIdProducto();
 
-                    TextBox txtImagen = new TextBox();
-                    txtImagen.ID = "txtImagen_" + img.Id;
-                    txtImagen.CssClass = "form-control";
-                    txtImagen.Text = img.ImagenUrl;
-
-                    CheckBox chkEliminar = new CheckBox();
-                    chkEliminar.ID = "chkEliminar_" + img.Id;
-                    chkEliminar.CssClass = "form-check-input ms-2";
-                    chkEliminar.Text = "";
-
-                    imgContainer.Controls.Add(txtImagen);
-                    imgContainer.Controls.Add(chkEliminar);
-
-                    pnlImagenes.Controls.Add(imgContainer);
+                if (idProducto != -1)
+                {
+                    CargarProducto(idProducto);
+                    ltlTitulo.Text = "Modificar Producto";
+                    btnGuardar.Text = "Actualizar";
+                }
+                else
+                {
+                    ltlTitulo.Text = "Nuevo Producto";
+                    btnGuardar.Text = "Agregar";
                 }
             }
 
-
+            MostrarImagenes();
         }
 
-
-
-        private void CarcarCategoria()
-        {
-            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
-            ddlCategoria.DataSource = categoriaNegocio.ListarCategorias();
-            ddlCategoria.DataTextField = "nombre";
-            ddlCategoria.DataValueField = "IdCategoria";
-            ddlCategoria.DataBind();
-
-        }
-
-        private void CarcarMarca()
-        {
-            MarcaNegocio MarcaNegocio = new MarcaNegocio();
-            ddlMarca.DataSource = MarcaNegocio.ListarMarcas();
-            ddlMarca.DataTextField = "nombre";
-            ddlMarca.DataValueField = "IdMarca";
-            ddlMarca.DataBind();
-
-        }
-
-        protected void AgregarPro(object sender, EventArgs e)
+        private void CargarCombos()
         {
             try
             {
+                // Cargar Categorías
+                CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+                ddlCategoria.DataSource = categoriaNegocio.ListarCategorias();
+                ddlCategoria.DataTextField = "Nombre";
+                ddlCategoria.DataValueField = "IdCategoria";
+                ddlCategoria.DataBind();
+                ddlCategoria.Items.Insert(0, new ListItem("Seleccione una categoría", ""));
 
-               
-                if (!decimal.TryParse(inpPrecio.Text, out decimal precio) || precio <= 0)
+                // Cargar Marcas
+                MarcaNegocio marcaNegocio = new MarcaNegocio();
+                ddlMarca.DataSource = marcaNegocio.ListarMarcas();
+                ddlMarca.DataTextField = "Nombre";
+                ddlMarca.DataValueField = "IdMarca";
+                ddlMarca.DataBind();
+                ddlMarca.Items.Insert(0, new ListItem("Seleccione una marca", ""));
+            }
+            catch (Exception ex)
+            {
+                MostrarError("Error al cargar los combos: " + ex.Message);
+            }
+        }
+
+        private void CargarProducto(int idProducto)
+        {
+            try
+            {
+                ProductoNegocio negocio = new ProductoNegocio();
+                Productos producto = negocio.buscarPorID(idProducto);
+
+                if (producto != null)
                 {
-                    lblError.Text = "El precio debe ser un número mayor a 0.";
-                    return;
+                    txtNombre.Text = producto.Nombre;
+                    txtDescripcion.Text = producto.Descripcion;
+                    ddlCategoria.SelectedValue = producto.Id_categoria.ToString();
+                    ddlMarca.SelectedValue = producto.Id_marca.ToString();
+                    txtPrecio.Text = producto.Precio.ToString("0.00");
+                    txtStock.Text = producto.stock.ToString();
+
+                    // Se cargan las imagenes al viewstate
+                    ImagenesTemporales = producto.ListaImagenes.Select(img => img.ImagenUrl).ToList();
                 }
+            }
+            catch (Exception ex)
+            {
+                MostrarError("Error al cargar el producto: " + ex.Message);
+            }
+        }
 
-                if (!int.TryParse(inpStock.Text, out int stock) || stock <= 0)
+        protected void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            string nuevaUrl = txtNuevaImagen.Text.Trim();
+            if (!string.IsNullOrEmpty(nuevaUrl))
+            {
+                ImagenesTemporales.Add(nuevaUrl);
+                txtNuevaImagen.Text = string.Empty;
+                MostrarImagenes();
+            }
+        }
+
+        private void MostrarImagenes()
+        {
+            pnlImagenes.Controls.Clear();
+
+            foreach (string url in ImagenesTemporales)
+            {
+                Panel imageItem = new Panel();
+                imageItem.CssClass = "image-item";
+
+                TextBox txtUrl = new TextBox();
+                txtUrl.CssClass = "form-control";
+                txtUrl.Text = url;
+                txtUrl.ReadOnly = true;
+
+                Button btnEliminar = new Button();
+                btnEliminar.CssClass = "btn btn-danger btn-remove";
+                btnEliminar.Text = "X";
+                btnEliminar.CommandArgument = url;
+                btnEliminar.Click += BtnEliminarImagen_Click;
+                btnEliminar.CausesValidation = false;
+
+                imageItem.Controls.Add(txtUrl);
+                imageItem.Controls.Add(btnEliminar);
+                pnlImagenes.Controls.Add(imageItem);
+            }
+        }
+
+        protected void BtnEliminarImagen_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string urlAEliminar = btn.CommandArgument;
+            ImagenesTemporales.Remove(urlAEliminar);
+            MostrarImagenes();
+        }
+
+        protected void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (!Page.IsValid)
+                return;
+
+            try
+            {
+                Productos producto = new Productos
                 {
-                    lblError.Text = "El stock debe ser un número mayor a 0.";
-                    return;
-                }
-
-
-                Productos productoNuevo = new Productos();
-            productoNuevo.Nombre = inpNombrePro.Text;
-            productoNuevo.Descripcion = inpDescripcion.Text;
-            productoNuevo.Id_categoria = int.Parse(ddlCategoria.SelectedValue);
-            productoNuevo.Id_marca = int.Parse(ddlMarca.SelectedValue);
-            productoNuevo.PorsentajeDescuento = 0;
-                productoNuevo.Precio = precio;
-                productoNuevo.stock = stock;
-            productoNuevo.ListaImagenes = new List<Imagen>
-                {
-                    new Imagen { ImagenUrl = inpImagen.Text }
+                    Nombre = txtNombre.Text,
+                    Descripcion = txtDescripcion.Text,
+                    Id_categoria = int.Parse(ddlCategoria.SelectedValue),
+                    Id_marca = int.Parse(ddlMarca.SelectedValue),
+                    Precio = decimal.Parse(txtPrecio.Text),
+                    stock = int.Parse(txtStock.Text),
+                    PorcentajeDescuento = 0
                 };
 
-            ProductoNegocio negocio = new ProductoNegocio();    
-                negocio.Agregar(productoNuevo);
+                // Convertir las URLs en objetos Imagen
+                producto.ListaImagenes = ImagenesTemporales
+                    .Select(url => new Imagen { ImagenUrl = url })
+                    .ToList();
 
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Producto agregado exitosamente!');", true);
-                Response.Redirect("default.aspx");
+                ProductoNegocio negocio = new ProductoNegocio();
+                int idProducto = ObtenerIdProducto();
+
+                if (idProducto != -1)
+                {
+                    producto.Id_producto = idProducto;
+                    negocio.Modificar(producto);
+                    MostrarExito("Producto modificado exitosamente");
+                }
+                else
+                {
+                    negocio.Agregar(producto);
+                    MostrarExito("Producto agregado exitosamente");
+                }
+
+                Response.Redirect("Default.aspx");
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Error al agregar el producto: " + ex.Message + "');", true);
+                MostrarError("Error al guardar el producto: " + ex.Message);
             }
-
         }
 
-        protected void ModificarPro(object sender, EventArgs e)
+        protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Productos producto = new Productos();
-            List<Imagen> imagenesModificadas = new List<Imagen>();
-            ImagenNegocio imagenNegocio = new ImagenNegocio();
-            ProductoNegocio negocio = new ProductoNegocio();
+            Response.Redirect("Default.aspx");
+        }
 
-            try
+        private int ObtenerIdProducto()
+        {
+            if (Request.QueryString["id"] != null)
             {
-                if (!decimal.TryParse(inpPrecio.Text, out decimal precio) || precio <= 0)
-                {
-                    lblError.Text = "El precio debe ser un número mayor a 0.";
-                    return;
-                }
-
-                // Validar que el stock sea un número válido y mayor a 0
-                if (!int.TryParse(inpStock.Text, out int stock) || stock <= 0)
-                {
-                    lblError.Text = "El stock debe ser un número mayor a 0.";
-                    return;
-                }
-
-                producto.Id_producto = int.Parse(Request.QueryString["id"]);
-                producto.Nombre = inpNombrePro.Text;
-                producto.Descripcion = inpDescripcion.Text;
-                producto.Id_categoria = int.Parse(ddlCategoria.SelectedValue);
-                producto.Id_marca = int.Parse(ddlMarca.SelectedValue);
-                producto.PorsentajeDescuento = 0;
-                producto.Precio = precio;
-                producto.stock  = stock;
-                //producto.ListaImagenes = new List<Imagen>
-                //{
-                //    new Imagen { ImagenUrl = inpImagen.Text }
-                //};
-
-                foreach (Control container in pnlImagenes.Controls)
-                {
-                    if (container is Panel imgContainer)
-                    {
-                        TextBox txtImagen = (TextBox)imgContainer.Controls[0];
-                        CheckBox chkEliminar = (CheckBox)imgContainer.Controls[1];
-
-                        int idImagen = int.Parse(txtImagen.ID.Split('_')[1]);
-
-                        if (chkEliminar.Checked)
-                        {
-                            imagenNegocio.eliminarImagen(idImagen);
-                        }
-                        else if (txtImagen.Text != "")
-                        {
-                            Imagen img = new Imagen
-                            {
-                                Id = idImagen,
-                                ImagenUrl = txtImagen.Text,
-                                IdProducto = producto.Id_producto
-                            };
-                            imagenNegocio.actualizarImagen(img);
-                        }
-                    }
-                }
-
-                if (!string.IsNullOrEmpty(inpImagen.Text))
-                {
-                    Imagen nuevaImg = new Imagen
-                    {
-                        IdProducto = producto.Id_producto,
-                        ImagenUrl = inpImagen.Text,
-                        Activo = true
-                    };
-                    imagenesModificadas.Add(nuevaImg);
-                }
-                negocio.Modificar(producto);
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Producto modificado exitosamente!');", true);
-                Response.Redirect("default.aspx");
+                return int.TryParse(Request.QueryString["id"], out int id) ? id : -1;
             }
-            catch (Exception ex)
+            return -1;
+        }
+
+        private void MostrarError(string mensaje)
+        {
+            mensaje = mensaje.Replace("'", "\\'");
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "error",
+                $"Swal.fire({{" +
+                $"  icon: 'error'," +
+                $"  title: 'Error'," +
+                $"  text: '{mensaje}'," +
+                $"  confirmButtonColor: '#3085d6'" +
+                $"}});", true);
+        }
+
+        private void MostrarExito(string mensaje)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "success",
+               $"Swal.fire({{" +
+               $"  icon: 'success'," +
+               $"  title: '¡Éxito!'," +
+               $"  text: '{mensaje}'," +
+               $"  confirmButtonColor: '#3085d6'" +
+               $"}}).then((result) => {{" +
+               $"  if (result.isConfirmed) {{" +
+               $"    window.location = 'Default.aspx';" +
+               $"  }}" +
+               $"}});", true);
+        }
+
+        private bool EsUsuarioAdmin()
+        {
+            if (Session["usuario"] == null) return false;
+            dynamic usuario = Session["usuario"];
+            if (usuario.EsAdmin)
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Error al modificar el producto: " + ex.Message + "');", true);
+                return true;
             }
+            return false;
         }
     }
 }
