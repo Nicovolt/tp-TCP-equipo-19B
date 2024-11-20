@@ -166,10 +166,11 @@ namespace negocio
                     datos.setearProcedimiento("sp_VerificarLogin");
                     datos.setearParametro("@id_cliente", idCliente);
                     datos.setearParametro("@contrasena", password);
-                    datos.setearParametro("@loginExitoso", SqlDbType.Bit);
+                    datos.setearParametroSalida("@loginExitoso", SqlDbType.Bit);
 
                     datos.ejecutarAccion();
 
+                    // Obtenemos el valor del parámetro de salida
                     bool loginExitoso = Convert.ToBoolean(datos.obtenerParametroSalida("@loginExitoso"));
 
                     return loginExitoso;

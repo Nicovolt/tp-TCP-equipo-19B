@@ -49,72 +49,72 @@ namespace negocio
         {
             string asunto = "Confirmacion de compra";
             string cuerpo = $@"
-         <html>
-         <head>
-             <style>
-                 body {{
-                     font-family: Arial, sans-serif;
-                     line-height: 1.6;
-                 }}
-                 .container {{
-                     max-width: 600px;
-                     margin: 20px auto;
-                     padding: 20px;
-                     border: 1px solid #ccc;
-                     border-radius: 5px;
-                     background-color: #f9f9f9;
-                 }}
-                 .header {{
-                     background-color: #007bff;
-                     color: #fff;
-                     text-align: center;
-                     padding: 10px;
-                     border-radius: 5px 5px 0 0;
-                 }}
-                 .invoice-details {{
-                     margin-top: 20px;
-                     padding: 10px;
-                     border: 1px solid #ddd;
-                     border-radius: 5px;
-                     background-color: #fff;
-                 }}
-             </style>
-         </head>
-         <body>
-             <div class='container'>
-                 <div class='header'>
-                     <h1>Confirmación de Compra</h1>
+             <html>
+             <head>
+                 <style>
+                     body {{
+                         font-family: Arial, sans-serif;
+                         line-height: 1.6;
+                     }}
+                     .container {{
+                         max-width: 600px;
+                         margin: 20px auto;
+                         padding: 20px;
+                         border: 1px solid #ccc;
+                         border-radius: 5px;
+                         background-color: #f9f9f9;
+                     }}
+                     .header {{
+                         background-color: #007bff;
+                         color: #fff;
+                         text-align: center;
+                         padding: 10px;
+                         border-radius: 5px 5px 0 0;
+                     }}
+                     .invoice-details {{
+                         margin-top: 20px;
+                         padding: 10px;
+                         border: 1px solid #ddd;
+                         border-radius: 5px;
+                         background-color: #fff;
+                     }}
+                 </style>
+             </head>
+             <body>
+                 <div class='container'>
+                     <div class='header'>
+                         <h1>Confirmación de Compra</h1>
+                     </div>
+                     <div class='invoice-details'>
+                         <p>Estimado/a <strong>{nombre} {apellido}</strong>,</p>
+                         <p>Gracias por tu compra en Equipo19B.</p>
+                         <h2>Detalle de la compra:</h2>
+                         <table>
+                             <tr>
+                                 <td><strong>Nombre:</strong></td>
+                                 <td>{nombre} {apellido}</td>
+                             </tr>
+                             <tr>
+                                 <td><strong>Te enviaremos seguimiento al numero:</strong></td>
+                                 <td>{telefono}</td>
+                             </tr>
+                             <tr>
+                                 <td><strong>Fecha:</strong></td>
+                                 <td>{DateTime.Now}</td>
+                             </tr>
+                         </table>
+                         <h3>Detalles del Producto:</h3>
+                         <ul>
+                             <li>------------------</li>
+                             <li>-------------------</li>
+                         </ul>
+                         <p>Gracias por tu compra. Si tienes alguna pregunta, no dudes en contactarnos.</p>
+                         <p>Saludos,<br/>Equipo19B</p>
+                     </div>
                  </div>
-                 <div class='invoice-details'>
-                     <p>Estimado/a <strong>{nombre} {apellido}</strong>,</p>
-                     <p>Gracias por tu compra en Equipo19B.</p>
-                     <h2>Detalle de la compra:</h2>
-                     <table>
-                         <tr>
-                             <td><strong>Nombre:</strong></td>
-                             <td>{nombre} {apellido}</td>
-                         </tr>
-                         <tr>
-                             <td><strong>Te enviaremos seguimiento al numero:</strong></td>
-                             <td>{telefono}</td>
-                         </tr>
-                         <tr>
-                             <td><strong>Fecha:</strong></td>
-                             <td>{DateTime.Now}</td>
-                         </tr>
-                     </table>
-                     <h3>Detalles del Producto:</h3>
-                     <ul>
-                         <li>------------------</li>
-                         <li>-------------------</li>
-                     </ul>
-                     <p>Gracias por tu compra. Si tienes alguna pregunta, no dudes en contactarnos.</p>
-                     <p>Saludos,<br/>Equipo19B</p>
-                 </div>
-             </div>
-         </body>
-         </html>
-    ";
+             </body>
+             </html>
+        ";
 
 
 
