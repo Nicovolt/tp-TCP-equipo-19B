@@ -66,33 +66,46 @@ namespace tp_TCP_equipo_19B
 
         protected void btnCarrito_Click(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (Session["CarritoCompras"] == null)
             {
-                if (Session["CarritoCompras"] == null)
-                {
-                    List<Productos> Newcarrito = new List<Productos>();
-                    Session["CarritoCompras"] = Newcarrito;
-                }
+                Session["CarritoCompras"] = new List<Productos>();
             }
-            int id = ObtenerElIdDelArticuloDesdeLaURL();
-            if (id > 0)
+
+            int id = 0;
+            int.TryParse(Request.QueryString["id"], out id);
+
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+
+            Productos producto = productoNegocio.buscarPorID(id);
+            producto.Cantidad = 1;
+
+            if (producto != null)
             {
-                ProductoNegocio negocio = new ProductoNegocio();
-                Productos producto = negocio.buscarPorID(id);
-                producto.stock = 1;
+                List<Productos> carrito = Session["CarritoCompras"] as List<Productos>;
 
-                if (producto != null)
+                Productos productoExistente = carrito.FirstOrDefault(p => p.Id_producto == id);
+
+                if (productoExistente != null)
                 {
-                    List<Productos> carrito = Session["CarritoCompras"] as List<Productos>;
-                    if (carrito == null)
-                    {
-                        carrito = new List<Productos>();
-                    }
-                    carrito.Add(producto);
-                    Session["CarritoCompras"] = carrito;
-
-                   
+                    productoExistente.Cantidad++;
                 }
+                else
+                {
+                    producto.Cantidad = 1;
+                    carrito.Add(producto);
+                }
+
+                Session["CarritoCompras"] = carrito;
+
+                List<Productos> carritoActual = (List<Productos>)Session["CarritoCompras"];
+                int cantArticulos = carritoActual.Count;
+
+                SiteMaster masterPage = (SiteMaster)this.Master;
+                masterPage.ActualizarContadorCarrito(cantArticulos);
+
+
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Producto agregado al carrito exitosamente!');", true);
             }
         }
 
