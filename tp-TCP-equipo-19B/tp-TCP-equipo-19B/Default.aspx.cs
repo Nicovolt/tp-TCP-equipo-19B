@@ -3,9 +3,12 @@ using negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+
 
 namespace tp_TCP_equipo_19B
 {
@@ -93,12 +96,13 @@ namespace tp_TCP_equipo_19B
                     List<Productos> carritoActual = (List<Productos>)Session["CarritoCompras"];
                     int cantArticulos = carritoActual.Count;
 
+
+                    Button btnCarrito = (Button)e.CommandSource;
+                    btnCarrito.Text = "Agregado ✓";
+
                     SiteMaster masterPage = (SiteMaster)this.Master;
                     masterPage.ActualizarContadorCarrito(cantArticulos);
 
-
-    
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('Producto agregado al carrito exitosamente!');", true);
                 }
 
             }

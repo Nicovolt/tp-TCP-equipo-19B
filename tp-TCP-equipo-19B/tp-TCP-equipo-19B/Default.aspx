@@ -23,9 +23,57 @@
     }
 
     .card-body {
-        display: flex;
-        flex-direction: column;
+    display: flex;
+    flex-direction: column;
     }
+
+    .add-to-cart-btn {
+        position: relative;
+        transition: background-color 0.3s ease;
+        overflow: hidden;
+    }
+
+    .add-to-cart-btn::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 14px;
+        color: transparent; /* Inicialmente transparente */
+        opacity: 0; /* No visible al inicio */
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    /* Estilo cuando el botón se hace clic */
+    .add-to-cart-btn.agregado::after {
+        content: "✓ Agregado!";
+        color: white; /* Color blanco para el texto */
+        opacity: 1; /* Hace el texto visible */
+        z-index: 10; /* Asegura que el texto esté por encima del contenido original */
+        animation: resetText 2s forwards; /* La animación durará 2 segundos */
+    }
+
+    /* Anima la transición de fondo y texto */
+    .add-to-cart-btn.agregado {
+        background-color: #218838; /* Verde más oscuro al agregar al carrito */
+    }
+
+    /* Animación para restaurar el texto original después de 2 segundos */
+    @keyframes resetText {
+        0% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0; /* Restaura el texto a invisible */
+        }
+    }
+
+
 
     .card-text {
         flex-grow: 1;
@@ -221,10 +269,14 @@
                                     <div class="card-body">
                                         <h5 class="card-title"><%# Eval("Nombre") %></h5>
                                         <p class="card-text"><%# Eval("Descripcion") %></p>
-                                        <p class="card-text"><strong>Precio: </strong>$<%# Eval("Precio") %></p> 
-                                         <asp:Button ID="btnCarrito" runat="server" CommandName="AgregarAlCarrito" CommandArgument='<%# Eval("Id_producto") %>' Text="Agregar al carrito" CssClass="btn btn-success" />
-                                         <asp:Button ID="btnDetalle" runat="server" CommandName="VerDetalle" CommandArgument='<%# Eval("Id_producto") %>' Text="Ver detalle" CssClass="btn btn-primary" />
+                                        <p class="card-text"><strong>Precio: </strong>$<%# Eval("Precio") %></p>
+                                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                                            <asp:Button ID="btnCarrito" runat="server" CommandName="AgregarAlCarrito" CommandArgument='<%# Eval("Id_producto") %>' Text="Agregar al carrito" CssClass="btn btn-success add-to-cart-btn" />
+                                            <asp:Button ID="btnDetalle" runat="server" CommandName="VerDetalle" CommandArgument='<%# Eval("Id_producto") %>' Text="Ver detalle" CssClass="btn btn-primary" />
+
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </ItemTemplate>
@@ -235,7 +287,7 @@
     </div>
 
 
-
+ 
 
 
     <script type="text/javascript">
