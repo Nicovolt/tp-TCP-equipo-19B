@@ -43,8 +43,15 @@
   <ItemGroup>
     <Compile Include="Categoria.cs" />
     <Compile Include="Cliente.cs" />
+    <Compile Include="ClienteDomicilioEnvio.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="EnvioTipo.cs" />
     <Compile Include="Imagen.cs" />
     <Compile Include="Marca.cs" />
+    <Compile Include="Presupuesto.cs" />
+    <Compile Include="PresupuestoDetalle.cs" />
+    <Compile Include="PresupuestoEstado.cs" />
+    <Compile Include="PresupuestoFormaPago.cs" />
     <Compile Include="Productos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Usuario.cs" />

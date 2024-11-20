@@ -126,7 +126,7 @@ namespace tp_TCP_equipo_19B
 
         protected void btnComprar_Click(object sender, EventArgs e)
         {
-            List<dominio.Productos> carrito = (List<dominio.Productos>)Session["CarritoCompras"];
+            List<Productos> carrito = (List<Productos>)Session["CarritoCompras"];
 
             if (carrito == null || carrito.Count == 0)
             {
@@ -141,8 +141,7 @@ namespace tp_TCP_equipo_19B
             }
             else
             {
-                Session["CarritoCompras"] = null;
-                Response.Redirect("Compra.aspx");
+                Response.Redirect("Compras.aspx");
             }
         }
 

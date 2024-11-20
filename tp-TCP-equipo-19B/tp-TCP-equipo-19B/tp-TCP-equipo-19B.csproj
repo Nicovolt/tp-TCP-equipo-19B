@@ -115,7 +115,6 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="Cuenta.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="favicon.ico" />
@@ -158,6 +157,7 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Login.aspx" />
     <Content Include="ListadoAdministradores.aspx" />
+    <Content Include="Cuenta.aspx" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -200,13 +200,6 @@
     </Compile>
     <Compile Include="Categoria.aspx.designer.cs">
       <DependentUpon>Categoria.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Cuenta.aspx.cs">
-      <DependentUpon>Cuenta.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Cuenta.aspx.designer.cs">
-      <DependentUpon>Cuenta.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -295,6 +288,13 @@
     </Compile>
     <Compile Include="ListadoAdministradores.aspx.designer.cs">
       <DependentUpon>ListadoAdministradores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Cuenta.aspx.cs">
+      <DependentUpon>Cuenta.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Cuenta.aspx.designer.cs">
+      <DependentUpon>Cuenta.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

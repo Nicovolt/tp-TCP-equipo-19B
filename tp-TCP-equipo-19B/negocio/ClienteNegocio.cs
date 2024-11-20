@@ -82,7 +82,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT id_cliente, Nombre, Apellido FROM Cliente WHERE id_cliente = @Id");
+                datos.setearConsulta("SELECT id_cliente, Nombre, Apellido, email, telefono FROM Cliente WHERE id_cliente = @Id");
                 datos.setearParametro("@Id", idCliente);
                 datos.ejecutarLectura();
 
@@ -91,6 +91,8 @@ namespace negocio
                     cliente.Id_cliente = (int)datos.Lector["id_cliente"];
                     cliente.Nombre = (string)datos.Lector["Nombre"];
                     cliente.Apellido = (string)datos.Lector["Apellido"];
+                    cliente.Mail = (string)datos.Lector["email"];
+                    cliente.Telefono = (string)datos.Lector["telefono"];
                 }
 
                 return cliente;
@@ -98,6 +100,29 @@ namespace negocio
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Modificar(Cliente cliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE Cliente SET nombre = @nombre, apellido = @apellido, email = @email, telefono = @telefono WHERE id_cliente = @id");
+                datos.setearParametro("@id", cliente.Id_cliente);
+                datos.setearParametro("@nombre", cliente.Nombre);
+                datos.setearParametro("@apellido", cliente.Apellido);
+                datos.setearParametro("@email", cliente.Mail);
+                datos.setearParametro("@telefono", cliente.Telefono);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar el cliente", ex);
             }
             finally
             {
