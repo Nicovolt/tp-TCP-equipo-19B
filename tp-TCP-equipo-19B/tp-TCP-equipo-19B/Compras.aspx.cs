@@ -215,11 +215,14 @@ namespace tp_TCP_equipo_19B
                 PresupuestoDetalleNegocio detalleNegocio = new PresupuestoDetalleNegocio();
                 detalleNegocio.AgregarDetallePresupuesto(presupuesto.Id, carrito, usuario.IdUsuario);
 
+                restarStock(carrito);
+
                 // Limpiar carrito y redirigir
                 Session["CarritoCompras"] = null;
 
                 EnviarMailConfirmacionCompra(usuario.IdCliente);
-                
+
+
                 Response.Redirect("Default.aspx");
             }
             catch (Exception ex)
@@ -228,6 +231,22 @@ namespace tp_TCP_equipo_19B
             }
         }
 
+        protected void restarStock(List<Productos> produ)
+        {
+            ProductoNegocio pro = new ProductoNegocio();
+            foreach (var producto in produ)
+            {
+
+                var productoActualizado = pro.buscarPorID(producto.Id_producto);
+                int sto, newsto;
+                sto = productoActualizado.stock;
+                newsto = producto.Cantidad;
+
+                productoActualizado.stock = sto - newsto;
+
+                pro.ModificarStock(productoActualizado);
+            }
+        }
         protected void btnVolver_Click(object sender, EventArgs e)
         {
             Response.Redirect("CarritoCompras.aspx");

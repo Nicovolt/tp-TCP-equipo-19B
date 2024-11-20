@@ -142,7 +142,7 @@ namespace tp_TCP_equipo_19B
             {
                 
                 var productoActualizado = pro.buscarPorID(producto.Id_producto);
-                if (productoActualizado == null || productoActualizado.stock <= producto.Cantidad)
+                if (productoActualizado == null || productoActualizado.stock < producto.Cantidad)
                 {
                     lblError.Text = $"El producto \"{producto.Nombre}\" no tiene suficiente stock. Stock disponible: {productoActualizado?.stock ?? 0}.";
                     lblError.Visible = true;
@@ -156,9 +156,13 @@ namespace tp_TCP_equipo_19B
             }
             else
             {
+               
+
                 Response.Redirect("Compras.aspx");
             }
         }
+
+        
 
     }
 }
