@@ -15,156 +15,102 @@ namespace tp_TCP_equipo_19B
     {
 
         /// <summary>
-        /// ddlPais control.
+        /// rptCarrito control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlPais;
+        protected global::System.Web.UI.WebControls.Repeater rptCarrito;
 
         /// <summary>
-        /// lblErrorPais control.
+        /// lblSubtotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorPais;
+        protected global::System.Web.UI.WebControls.Label lblSubtotal;
 
         /// <summary>
-        /// txtCodigoPostal control.
+        /// lblCostoEnvio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCodigoPostal;
+        protected global::System.Web.UI.WebControls.Label lblCostoEnvio;
 
         /// <summary>
-        /// lblErrorCodigoPostal control.
+        /// lblTotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorCodigoPostal;
+        protected global::System.Web.UI.WebControls.Label lblTotal;
 
         /// <summary>
-        /// DropDownList1 control.
+        /// rptDirecciones control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+        protected global::System.Web.UI.WebControls.Repeater rptDirecciones;
 
         /// <summary>
-        /// lblErrorPaisFacturacion control.
+        /// rptMetodosEnvio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorPaisFacturacion;
+        protected global::System.Web.UI.WebControls.Repeater rptMetodosEnvio;
 
         /// <summary>
-        /// txtNombre control.
+        /// rptFormasPago control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombre;
+        protected global::System.Web.UI.WebControls.Repeater rptFormasPago;
 
         /// <summary>
-        /// lblErrorNombre control.
+        /// btnVolver control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorNombre;
+        protected global::System.Web.UI.WebControls.Button btnVolver;
 
         /// <summary>
-        /// txtApellido control.
+        /// btnConfirmar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtApellido;
+        protected global::System.Web.UI.WebControls.Button btnConfirmar;
 
         /// <summary>
-        /// lblErrorApellido control.
+        /// pnlMensaje control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorApellido;
+        protected global::System.Web.UI.WebControls.Panel pnlMensaje;
 
         /// <summary>
-        /// txtTelefono control.
+        /// lblMensaje control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTelefono;
-
-        /// <summary>
-        /// lblErrorTelefono control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorTelefono;
-
-        /// <summary>
-        /// txtMail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMail;
-
-        /// <summary>
-        /// lblErrorMail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorMail;
-
-        /// <summary>
-        /// rbTransferencia control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbTransferencia;
-
-        /// <summary>
-        /// rbMercadoPago control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbMercadoPago;
-
-        /// <summary>
-        /// btnContinuar control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnContinuar;
+        protected global::System.Web.UI.WebControls.Label lblMensaje;
     }
 }

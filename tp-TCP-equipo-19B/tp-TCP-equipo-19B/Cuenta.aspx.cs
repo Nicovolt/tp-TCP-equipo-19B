@@ -189,13 +189,13 @@ namespace tp_TCP_equipo_19B
                     IdCliente = usuario.IdCliente,
                     Calle = txtCalle.Text.Trim(),
                     Altura = int.Parse(txtAltura.Text),
-                    EntreCalles = string.IsNullOrEmpty(txtEntreCalles.Text) ? null : txtEntreCalles.Text.Trim(),
+                    EntreCalles = txtEntreCalles.Text.Trim(),
                     Piso = string.IsNullOrEmpty(txtPiso.Text) ? null : (int?)int.Parse(txtPiso.Text),
-                    Departamento = string.IsNullOrEmpty(txtDepartamento.Text) ? null : txtDepartamento.Text.Trim(),
+                    Departamento = txtDepartamento.Text.Trim(),
                     Localidad = txtLocalidad.Text.Trim(),
                     Provincia = ddlProvincia.SelectedValue,
                     CodigoPostal = txtCP.Text.Trim(),
-                    Observaciones = string.IsNullOrEmpty(txtObservaciones.Text) ? null : txtObservaciones.Text.Trim(),
+                    Observaciones = txtObservaciones.Text.Trim(),
                     Activo = true
                 };
 

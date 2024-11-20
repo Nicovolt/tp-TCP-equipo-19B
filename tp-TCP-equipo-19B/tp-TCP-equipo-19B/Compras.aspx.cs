@@ -1,4 +1,6 @@
-﻿using System;
+﻿using dominio;
+using negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -12,79 +14,239 @@ namespace tp_TCP_equipo_19B
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                if (!ValidarSesion())
+                    Response.Redirect("Login.aspx");
+                if (!ValidarCarrito())
+                    Response.Redirect("CarritoCompras.aspx");
 
+                CargarCarrito();
+                CargarDirecciones();
+                CargarMetodosEnvio();
+                CargarFormasPago();
+                CalcularTotales();
+            }
         }
-        protected void btnEntregaContinuar_Click(object sender, EventArgs e)
+
+        private bool ValidarSesion()
         {
+            return Session["usuario"] != null;
+        }
 
-            // Inicializamos los Label de error como invisibles antes de comenzar la validación
-            lblErrorNombre.Visible = false;
-            lblErrorCodigoPostal.Visible = false;
-            lblErrorTelefono.Visible = false;
-            lblErrorApellido.Visible = false;
-            lblErrorMail.Visible = false;
+        private bool ValidarCarrito()
+        {
+            return Session["CarritoCompras"] != null;
+        }
 
+        private void CargarCarrito()
+        {
+            var carrito = Session["CarritoCompras"] as List<Productos>;
+            rptCarrito.DataSource = carrito;
+            rptCarrito.DataBind();
+        }
 
-            bool isValid = true; 
-            
-            if (string.IsNullOrEmpty(txtNombre.Text))
+        private void CargarDirecciones()
+        {
+            try
             {
-                lblErrorApellido.Visible = true;
-                isValid = false;
+                var usuario = (dynamic)Session["usuario"];
+                ClienteDomicilioEnvioNegocio negocio = new ClienteDomicilioEnvioNegocio();
+                var direcciones = negocio.ListarPorCliente(usuario.IdCliente);
+
+                rptDirecciones.DataSource = direcciones;
+                rptDirecciones.DataBind();
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error al cargar direcciones: " + ex.Message, "danger");
+            }
+        }
+
+        private int ObtenerDireccionSeleccionada()
+        {
+            foreach (RepeaterItem item in rptDirecciones.Items)
+            {
+                RadioButton rb = (RadioButton)item.FindControl("rbDireccion");
+                if (rb != null && rb.Checked)
+                {
+                    return int.Parse(rb.Attributes["Value"]);
+                }
+            }
+            throw new Exception("Debe seleccionar una dirección de envío");
+        }
+
+        private void CargarMetodosEnvio()
+        {
+            try
+            {
+                EnvioNegocio negocio = new EnvioNegocio();
+                var metodosEnvio = negocio.ListarActivos();
+                rptMetodosEnvio.DataSource = metodosEnvio;
+                rptMetodosEnvio.DataBind();
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error al cargar métodos de envío: " + ex.Message, "danger");
+            }
+        }
+
+        private void CargarFormasPago()
+        {
+            try
+            {
+                PresupuestoFormaPagoNegocio negocio = new PresupuestoFormaPagoNegocio();
+                var formasPago = negocio.ListarActivas();
+                rptFormasPago.DataSource = formasPago;
+                rptFormasPago.DataBind();
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error al cargar formas de pago: " + ex.Message, "danger");
+            }
+        }
+
+        private void CalcularTotales()
+        {
+            try
+            {
+                var carrito = Session["CarritoCompras"] as List<Productos>;
+                decimal subtotal = carrito.Sum(p => p.Precio * p.Cantidad);
+                decimal costoEnvio = ObtenerCostoEnvio();
+                decimal total = subtotal + costoEnvio;
+
+                lblSubtotal.Text = subtotal.ToString("N2");
+                lblCostoEnvio.Text = costoEnvio.ToString("N2");
+                lblTotal.Text = total.ToString("N2");
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error al calcular totales: " + ex.Message, "danger");
+            }
+        }
+
+        private decimal ObtenerCostoEnvio()
+        {
+            try
+            {
+                int idMetodoEnvio = ObtenerMetodoEnvioSeleccionado();
+                if (idMetodoEnvio > 0)
+                {
+                    EnvioNegocio negocio = new EnvioNegocio();
+                    return negocio.getCostoByIdEnvio(idMetodoEnvio);
+                }
+            }
+            catch { }
+            return 0;
+        }
+
+        protected void ddlDirecciones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CalcularTotales();
+        }
+
+        protected void rbEnvio_CheckedChanged(object sender, EventArgs e)
+        {
+            CalcularTotales();
+        }
+
+        private int ObtenerMetodoEnvioSeleccionado()
+        {
+            foreach (RepeaterItem item in rptMetodosEnvio.Items)
+            {
+                RadioButton rb = (RadioButton)item.FindControl("rbEnvio");
+                if (rb != null && rb.Checked)
+                    return int.Parse(rb.Attributes["Value"]);
+            }
+            return 0;
+        }
+
+        private int ObtenerFormaPagoSeleccionada()
+        {
+            foreach (RepeaterItem item in rptFormasPago.Items)
+            {
+                RadioButton rb = (RadioButton)item.FindControl("rbPago");
+                if (rb != null && rb.Checked)
+                    return int.Parse(rb.Attributes["Value"]);
+            }
+            throw new Exception("Debe seleccionar una forma de pago");
+        }
+
+        protected void btnConfirmar_Click(object sender, EventArgs e)
+        {
+            if (!Page.IsValid)
+            {
+                MostrarMensaje("Por favor complete todos los campos requeridos", "warning");
+                return;
             }
 
-            if (string.IsNullOrEmpty(txtMail.Text))
+            try
             {
-                lblErrorMail.Visible = true;
-                isValid = false;
 
-            }
-            
-            if (string.IsNullOrEmpty(txtNombre.Text))
-            {
-                lblErrorNombre.Visible = true;
-                isValid = false;
-            }
+                int metodoEnvio = ObtenerMetodoEnvioSeleccionado();
+                if (metodoEnvio == 0)
+                    throw new Exception("Debe seleccionar un método de envío");
 
-           
-            if (string.IsNullOrEmpty(txtCodigoPostal.Text))
-            {
-                lblErrorCodigoPostal.Visible = true;
-                isValid = false;
-            }
+                dynamic usuario = Session["usuario"];
+                int idFormaPago = ObtenerFormaPagoSeleccionada();
+                int idDomicilio = ObtenerDireccionSeleccionada();
+                var carrito = Session["CarritoCompras"] as List<Productos>;
 
-            
-            if (string.IsNullOrEmpty(txtTelefono.Text))
-            {
-                lblErrorTelefono.Visible = true;
-                isValid = false;
-            }
-            else if (!Regex.IsMatch(txtTelefono.Text, @"^\d+$")) 
-            {
-                lblErrorTelefono.Visible = true;
-                lblErrorTelefono.Text = "El teléfono debe contener solo números.";
-                isValid = false;
-            }
+                // Crear presupuesto
+                PresupuestoNegocio negocio = new PresupuestoNegocio();
+                var presupuesto = negocio.Crear(usuario.IdCliente, metodoEnvio, idFormaPago, idDomicilio, carrito);
 
-            /*
-             Aca va toda la logica de negocio de presupuesto. 
-             */
+                // Agregar detalles
+                PresupuestoDetalleNegocio detalleNegocio = new PresupuestoDetalleNegocio();
+                detalleNegocio.AgregarDetallePresupuesto(presupuesto.Id, carrito, usuario.IdUsuario);
 
+                // Limpiar carrito y redirigir
+                Session["CarritoCompras"] = null;
 
-            if (isValid)
-            {
-                negocio.ServicioEmail servicioEmail = new negocio.ServicioEmail();
-
-                string nombre = txtNombre.Text;
-                string apellido = txtApellido.Text;
-                string mailUsuario = txtMail.Text;
-                string telefono = txtTelefono.Text;
-
-                servicioEmail.ConfirmarCompra(mailUsuario, nombre, apellido, telefono);
-
+                EnviarMailConfirmacionCompra(usuario.IdCliente);
+                
                 Response.Redirect("Default.aspx");
             }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error al procesar la compra: " + ex.Message, "danger");
+            }
         }
 
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("CarritoCompras.aspx");
+        }
+
+        private void MostrarMensaje(string mensaje, string tipo)
+        {
+            pnlMensaje.CssClass = $"alert alert-{tipo} alert-dismissible fade show";
+            lblMensaje.Text = mensaje;
+            pnlMensaje.Visible = true;
+        }
+
+        public string GetDireccionCompleta(ClienteDomicilioEnvio dir)
+        {
+            return $"{dir.Calle} {dir.Altura}, {dir.Localidad}, {dir.Provincia} " +
+                   $"{(!string.IsNullOrEmpty(dir.Departamento) ? $"Depto: {dir.Departamento}" : "")} " +
+                   $"{(dir.Piso.HasValue ? $"Piso: {dir.Piso}" : "")}";
+        }
+
+        private void EnviarMailConfirmacionCompra(int idCliente)
+        {
+            ClienteNegocio clienteNegocio = new ClienteNegocio();
+            ServicioEmail servicioEmail = new ServicioEmail();
+
+            try
+            {
+                Cliente cliente = new Cliente();
+                cliente = clienteNegocio.ObtenerClientePorId(idCliente);
+                servicioEmail.ConfirmarCompra(cliente.Mail, cliente.Nombre, cliente.Apellido, cliente.Telefono);
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error al enviar correo del cliente: " + ex.Message, "danger");
+            }
+        }
     }
 }

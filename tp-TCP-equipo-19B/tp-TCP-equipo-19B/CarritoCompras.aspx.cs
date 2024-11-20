@@ -141,7 +141,6 @@ namespace tp_TCP_equipo_19B
             }
             else
             {
-                Session["CarritoCompras"] = null;
                 Response.Redirect("Compras.aspx");
             }
         }
