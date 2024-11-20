@@ -170,6 +170,19 @@
                         <asp:ListItem Text="Todas las marcas" Value="0"></asp:ListItem>
                     </asp:DropDownList>
                 </div>
+
+
+
+
+
+                <div class="dropdown-item">
+                    <asp:Label  id="ddlPrecioLabel" for="ddlPrecio"  text="Ordenar por" runat="server" />
+                    <asp:DropDownList runat="server" id="ddlPrecio" AutoPostBack="true" OnSelectedIndexChanged="ddlPrecio_SelectedIndexChanged" CssClass="modern-dropdown">
+                        <asp:ListItem Text="Precio: Menor a Mayor" value="1"/>
+                        <asp:ListItem Text="Precio: Mayor a Menor" value="2"/>
+                    </asp:DropDownList>
+
+                </div>
             </div>
         </div>
     </div>

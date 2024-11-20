@@ -206,8 +206,10 @@ namespace tp_TCP_equipo_19B
                 }
             }
         }
-       
 
+        protected void ddlPrecio_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }

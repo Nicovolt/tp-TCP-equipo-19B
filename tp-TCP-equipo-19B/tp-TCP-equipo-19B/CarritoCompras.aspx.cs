@@ -126,6 +126,7 @@ namespace tp_TCP_equipo_19B
 
         protected void btnComprar_Click(object sender, EventArgs e)
         {
+            ProductoNegocio pro = new ProductoNegocio();    
             List<Productos> carrito = (List<Productos>)Session["CarritoCompras"];
 
             if (carrito == null || carrito.Count == 0)
@@ -133,6 +134,20 @@ namespace tp_TCP_equipo_19B
                 lblError.Text = "El carrito está vacío. Agrega productos antes de realizar una compra.";
                 lblError.Visible = true;
                 return;
+            }
+
+
+          
+            foreach (var producto in carrito)
+            {
+                
+                var productoActualizado = pro.buscarPorID(producto.Id_producto);
+                if (productoActualizado == null || productoActualizado.stock <= producto.Cantidad)
+                {
+                    lblError.Text = $"El producto \"{producto.Nombre}\" no tiene suficiente stock. Stock disponible: {productoActualizado?.stock ?? 0}.";
+                    lblError.Visible = true;
+                    return;
+                }
             }
 
             if (Session["usuario"] == null)
