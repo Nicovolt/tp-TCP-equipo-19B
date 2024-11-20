@@ -90,7 +90,7 @@ namespace tp_TCP_equipo_19B
                 if (ex.Message.Contains("REFERENCE constraint"))
                 {
                     // Muestra un mensaje al usuario
-                    lblMensajeError.Text = "Hay productos con esta categoría. Primero elimina los productos asociados.";
+                    lblMensajeError.Text = "Hay productos con esta Categoria. Primero elimina los productos asociados.";
                     lblMensajeError.Visible = true;
                 }
 

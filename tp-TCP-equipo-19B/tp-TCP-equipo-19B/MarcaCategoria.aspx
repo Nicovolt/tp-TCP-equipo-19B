@@ -94,8 +94,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
 
     <section class="contenedor">
-        <asp:ScriptManager ID="ScriptManager2" runat="server"></asp:ScriptManager>
-
         <asp:UpdatePanel ID="UpdatePanelAgregar" runat="server">
             <ContentTemplate>
                 <div class="card-custom">

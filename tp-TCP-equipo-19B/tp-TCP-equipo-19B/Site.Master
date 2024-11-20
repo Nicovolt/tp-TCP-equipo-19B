@@ -273,7 +273,7 @@
             
     }
     .carousel-item {
-        max-height: 410px; /* Altura máxima para todas las imágenes */
+        max-height: 410px; /* Altura máxima para todas las imagenes */
         display: flex;
         justify-content: center;
         align-items: center;

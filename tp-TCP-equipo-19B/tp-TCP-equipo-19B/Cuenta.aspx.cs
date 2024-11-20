@@ -128,31 +128,6 @@ namespace tp_TCP_equipo_19B
             }
         }
 
-        private void MostrarPanelDireccion(int idDireccion)
-        {
-            // Mostrar panel y cargar datos si es edición
-            pnlNuevaDireccion.Visible = true;
-            ViewState["IdDireccionEditar"] = idDireccion;
-
-            if (idDireccion > 0)
-            {
-                try
-                {
-                    ClienteDomicilioEnvioNegocio negocio = new ClienteDomicilioEnvioNegocio();
-                    var direccion = negocio.ObtenerPorId(idDireccion);
-                    if (direccion != null)
-                    {
-                        // Cargar datos en los controles del panel
-                        // (Implementar según los controles que agregues en el panel)
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MostrarMensaje("Error al cargar la dirección: " + ex.Message, "danger");
-                }
-            }
-        }
-
         private void MostrarMensaje(string mensaje, string tipo)
         {
             pnlMensaje.CssClass = $"alert alert-{tipo} alert-dismissible fade show mb-4";
@@ -184,20 +159,26 @@ namespace tp_TCP_equipo_19B
             try
             {
                 dynamic usuario = Session["usuario"];
-                ClienteDomicilioEnvio domicilio = new ClienteDomicilioEnvio
+                ClienteDomicilioEnvio domicilio = new ClienteDomicilioEnvio();
+                domicilio.IdCliente = usuario.IdCliente;
+                domicilio.Calle = txtCalle.Text.Trim();
+                domicilio.Altura = int.Parse(txtAltura.Text);
+                domicilio.EntreCalles = txtEntreCalles.Text.Trim();
+                if (string.IsNullOrEmpty(txtPiso.Text))
                 {
-                    IdCliente = usuario.IdCliente,
-                    Calle = txtCalle.Text.Trim(),
-                    Altura = int.Parse(txtAltura.Text),
-                    EntreCalles = txtEntreCalles.Text.Trim(),
-                    Piso = string.IsNullOrEmpty(txtPiso.Text) ? null : (int?)int.Parse(txtPiso.Text),
-                    Departamento = txtDepartamento.Text.Trim(),
-                    Localidad = txtLocalidad.Text.Trim(),
-                    Provincia = ddlProvincia.SelectedValue,
-                    CodigoPostal = txtCP.Text.Trim(),
-                    Observaciones = txtObservaciones.Text.Trim(),
-                    Activo = true
-                };
+                    domicilio.Piso = null;
+                }
+                else
+                {
+                    domicilio.Piso = int.Parse(txtPiso.Text);
+                }
+                domicilio.Departamento = txtDepartamento.Text.Trim();
+                domicilio.Localidad = txtLocalidad.Text.Trim();
+                domicilio.Provincia = ddlProvincia.SelectedValue;
+                domicilio.CodigoPostal = txtCP.Text.Trim();
+                domicilio.Observaciones = txtObservaciones.Text.Trim();
+                domicilio.Activo = true;
+
 
                 ClienteDomicilioEnvioNegocio negocio = new ClienteDomicilioEnvioNegocio();
 

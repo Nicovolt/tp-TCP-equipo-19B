@@ -287,7 +287,7 @@
                                             </div>
                                         </div>
                                     </asp:Panel>
-                                </asp:Panel>
+<%--                                </asp:Panel>--%>
 
                                 <div class="text-end mt-3">
                                     <asp:Button ID="btnNuevaDireccion" runat="server" Text="Agregar Nueva Dirección"

@@ -25,7 +25,7 @@ namespace tp_TCP_equipo_19B
                 CargarDirecciones();
                 CargarMetodosEnvio();
                 CargarFormasPago();
-                CalcularTotales();
+                MostrarTotales();
             }
         }
 
@@ -106,7 +106,16 @@ namespace tp_TCP_equipo_19B
             }
         }
 
-        private void CalcularTotales()
+        private decimal calcularTotal()
+        {
+            var carrito = Session["CarritoCompras"] as List<Productos>;
+            decimal subtotal = carrito.Sum(p => p.Precio * p.Cantidad);
+            decimal costoEnvio = ObtenerCostoEnvio();
+            decimal total = subtotal + costoEnvio;
+            return total;
+        }
+
+        private void MostrarTotales()
         {
             try
             {
@@ -136,18 +145,21 @@ namespace tp_TCP_equipo_19B
                     return negocio.getCostoByIdEnvio(idMetodoEnvio);
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error al obtener los costos de envio" + ex.Message, "danger");
+            }
             return 0;
         }
 
         protected void ddlDirecciones_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CalcularTotales();
+            MostrarTotales();
         }
 
         protected void rbEnvio_CheckedChanged(object sender, EventArgs e)
         {
-            CalcularTotales();
+            MostrarTotales();
         }
 
         private int ObtenerMetodoEnvioSeleccionado()
@@ -193,8 +205,11 @@ namespace tp_TCP_equipo_19B
                 var carrito = Session["CarritoCompras"] as List<Productos>;
 
                 // Crear presupuesto
-                PresupuestoNegocio negocio = new PresupuestoNegocio();
-                var presupuesto = negocio.Crear(usuario.IdCliente, metodoEnvio, idFormaPago, idDomicilio, carrito);
+                PresupuestoNegocio presupuestoNegocio = new PresupuestoNegocio();
+                Presupuesto presupuesto = presupuestoNegocio.Crear(usuario.IdCliente, metodoEnvio, idFormaPago, idDomicilio, carrito);
+
+                //actualizar total
+                presupuestoNegocio.ActualizarTotal(presupuesto.Id, calcularTotal());
 
                 // Agregar detalles
                 PresupuestoDetalleNegocio detalleNegocio = new PresupuestoDetalleNegocio();

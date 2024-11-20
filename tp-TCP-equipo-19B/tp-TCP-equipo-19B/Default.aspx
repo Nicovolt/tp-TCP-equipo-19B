@@ -158,9 +158,9 @@
         <div class="col-md-4">
             <div class="dropdown-container">
                 <div class="dropdown-item">
-                    <label id="ddlCategoriasLabel" for="ddlCategorias">Categorías</label>
+                    <label id="ddlCategoriasLabel" for="ddlCategorias">Categorias</label>
                     <asp:DropDownList ID="ddlCategorias" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCategorias_SelectedIndexChanged" CssClass="modern-dropdown">
-                        <asp:ListItem Text="Todas las categorías" Value="0"></asp:ListItem>
+                        <asp:ListItem Text="Todas las categorias" Value="0"></asp:ListItem>
                     </asp:DropDownList>
                 </div>
 

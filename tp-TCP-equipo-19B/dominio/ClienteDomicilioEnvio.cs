@@ -21,22 +21,6 @@ namespace dominio
         public string Observaciones { get; set; }
         public bool Activo { get; set; }
         public DateTime FechaCreacion { get; set; }
-
-        public string DireccionCompleta
-        {
-            get
-            {
-                string direccion = $"{Calle} {Altura}";
-                if (!string.IsNullOrEmpty(EntreCalles))
-                    direccion += $" entre {EntreCalles}";
-                if (Piso.HasValue)
-                    direccion += $", Piso {Piso}";
-                if (!string.IsNullOrEmpty(Departamento))
-                    direccion += $", Depto {Departamento}";
-                direccion += $" - {Localidad}, {Provincia}";
-                return direccion;
-            }
-        }
     }
 
 

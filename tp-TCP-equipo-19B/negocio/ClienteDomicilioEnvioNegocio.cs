@@ -155,7 +155,7 @@ namespace negocio
             datos.setearParametro("@calle", domicilio.Calle);
             datos.setearParametro("@entreCalles", domicilio.EntreCalles);
             datos.setearParametro("@altura", domicilio.Altura);
-            datos.setearParametro("@piso", (object)domicilio.Piso);
+            datos.setearParametro("@piso", (object)domicilio.Piso ?? DBNull.Value);
             datos.setearParametro("@departamento", domicilio.Departamento);
             datos.setearParametro("@localidad", domicilio.Localidad);
             datos.setearParametro("@provincia", domicilio.Provincia);

@@ -24,13 +24,13 @@
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="ddlCategoria" class="form-label">Categoría</label>
+                                    <label for="ddlCategoria" class="form-label">Categoria</label>
                                     <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select">
-                                        <asp:ListItem Text="Seleccione una categoría" Value="" />
+                                        <asp:ListItem Text="Seleccione una categoria" Value="" />
                                     </asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="rfvCategoria" runat="server"
                                         ControlToValidate="ddlCategoria"
-                                        ErrorMessage="Seleccione una categoría"
+                                        ErrorMessage="Seleccione una categoria"
                                         CssClass="text-danger" />
                                 </div>
 
@@ -47,9 +47,9 @@
 
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="txtDescripcion" class="form-label">Descripción</label>
+                                    <label for="txtDescripcion" class="form-label">Descripcion</label>
                                     <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control"
-                                        TextMode="MultiLine" Rows="3" placeholder="Descripción del producto" />
+                                        TextMode="MultiLine" Rows="3" placeholder="Descripcion del producto" />
                                 </div>
 
                                 <div class="form-group mb-3">
@@ -78,7 +78,7 @@
                         <!-- Sección de imágenes -->
                         <div class="row">
                             <div class="col-12">
-                                <h4 class="mb-3">Imágenes del Producto</h4>
+                                <h4 class="mb-3">Imagenes del Producto</h4>
                                 <div class="image-manager mb-3">
                                     <div class="input-group">
                                         <asp:TextBox ID="txtNuevaImagen" runat="server"
