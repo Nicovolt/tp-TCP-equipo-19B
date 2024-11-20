@@ -129,7 +129,22 @@ CREATE TABLE presupuesto_detalle (
     agregado_id_usuario INT NOT NULL FOREIGN KEY REFERENCES Usuario(id_usuario)
 );
 
+-- Tabla home banner
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Home_banner')
+BEGIN
+    DROP TABLE Home_banner;
+END
+CREATE TABLE Home_banner (
+    id_banner INT IDENTITY(1,1) PRIMARY KEY,
+    url_banner TEXT NOT NULL,
+    activo TINYINT NOT NULL DEFAULT 0,
+    id_cuenta INT NOT NULL,
+    fecha DATETIME,
+    orden INT
+);
+
 -- Crear stored procedures para el manejo de usuarios
+GO
 CREATE PROCEDURE sp_EncriptarContrasena
     @contrasena NVARCHAR(4000),
     @contrasenaEncriptada VARBINARY(64) OUTPUT

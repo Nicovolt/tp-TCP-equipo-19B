@@ -63,7 +63,7 @@ namespace tp_TCP_equipo_19B
                 ddlCategoria.DataTextField = "Nombre";
                 ddlCategoria.DataValueField = "IdCategoria";
                 ddlCategoria.DataBind();
-                ddlCategoria.Items.Insert(0, new ListItem("Seleccione una categoría", ""));
+                ddlCategoria.Items.Insert(0, new ListItem("Seleccione una categoria", ""));
 
                 // Cargar Marcas
                 MarcaNegocio marcaNegocio = new MarcaNegocio();

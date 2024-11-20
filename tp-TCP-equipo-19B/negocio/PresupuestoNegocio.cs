@@ -83,5 +83,22 @@ namespace negocio
             }
             return true;
         }
+
+        public void ActualizarTotal(int idPresupuesto, decimal total)
+        {
+            AccesoDatos data = new AccesoDatos();
+            try
+            {
+                data.setearConsulta("UPDATE presupuesto SET total=@total WHERE id=@idPresu;");
+                data.setearParametro("@idPresu",idPresupuesto);
+                data.setearParametro("@total", total);
+                data.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al actualizar el total: " + ex.Message);
+            }
+        }
     }
 }
