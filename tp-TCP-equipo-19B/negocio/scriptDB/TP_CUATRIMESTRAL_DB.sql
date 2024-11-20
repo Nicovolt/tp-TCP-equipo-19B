@@ -1,53 +1,21 @@
 USE master;
+GO
 
-IF NOT EXISTS(SELECT name FROM sysdatabases WHERE name = 'TP_CUATRIMESTRAL_DB')
+-- Eliminar la base de datos si existe
+IF EXISTS(SELECT name FROM sys.databases WHERE name = 'TP_CUATRIMESTRAL_DB')
 BEGIN
-    CREATE DATABASE TP_CUATRIMESTRAL_DB;
+    ALTER DATABASE TP_CUATRIMESTRAL_DB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE TP_CUATRIMESTRAL_DB;
 END
+GO
+
+CREATE DATABASE TP_CUATRIMESTRAL_DB;
+GO
 
 USE TP_CUATRIMESTRAL_DB;
+GO
 
--- Eliminar restricciones de clave foránea de Producto
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'Producto' AND CONSTRAINT_TYPE = 'FOREIGN KEY')
-BEGIN
-    DECLARE @sql NVARCHAR(MAX) = '';
-    SELECT @sql += 'ALTER TABLE Producto DROP CONSTRAINT ' + QUOTENAME(CONSTRAINT_NAME) + '; '
-    FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-    WHERE TABLE_NAME = 'Producto' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
-    EXEC sp_executesql @sql;
-END
-
--- Eliminar restricciones de clave foránea de Imagen
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'Imagen' AND CONSTRAINT_TYPE = 'FOREIGN KEY')
-BEGIN
-    DECLARE @query NVARCHAR(MAX) = '';
-    SELECT @query += 'ALTER TABLE Imagen DROP CONSTRAINT ' + QUOTENAME(CONSTRAINT_NAME) + '; '
-    FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-    WHERE TABLE_NAME = 'Imagen' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
-    EXEC sp_executesql @query;
-END
-
--- Eliminar restricciones de clave foránea de Usuario
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'Usuario' AND CONSTRAINT_TYPE = 'FOREIGN KEY')
-BEGIN
-    DECLARE @sqlquery NVARCHAR(MAX) = '';
-    SELECT @sqlquery += 'ALTER TABLE Usuario DROP CONSTRAINT ' + QUOTENAME(CONSTRAINT_NAME) + '; '
-    FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-    WHERE TABLE_NAME = 'Usuario' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
-    EXEC sp_executesql @sqlquery;
-END
-
--- Eliminar tabla Producto primero debido a las restricciones de clave foránea
-IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Producto')
-BEGIN
-    DROP TABLE Producto;
-END
-
--- Eliminar y crear tabla Cliente
-IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Cliente')
-BEGIN
-    DROP TABLE Cliente;
-END
+-- Crear las tablas base (sin dependencias)
 CREATE TABLE Cliente (
     id_cliente INT IDENTITY(1,1) PRIMARY KEY,
     nombre VARCHAR(90) NOT NULL,
@@ -56,27 +24,65 @@ CREATE TABLE Cliente (
     telefono VARCHAR(20)
 );
 
--- Eliminar y crear tabla Marca
-IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Marca')
-BEGIN
-    DROP TABLE Marca;
-END
 CREATE TABLE Marca (
     id_marca INT IDENTITY(1,1) PRIMARY KEY,
     nombre VARCHAR(90) NOT NULL
 );
 
--- Eliminar y crear tabla Categoria
-IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Categoria')
-BEGIN
-    DROP TABLE Categoria;
-END
 CREATE TABLE Categoria (
     id_categoria INT IDENTITY(1,1) PRIMARY KEY,
     nombre VARCHAR(90) NOT NULL
 );
 
--- Crear tabla Producto después de Marca y Categoria
+CREATE TABLE envio_tipo (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(90) NOT NULL,
+    url_imagen VARCHAR(255),
+    costo DECIMAL(10,2) NOT NULL DEFAULT 0,
+    activo BIT NOT NULL DEFAULT 1
+);
+
+CREATE TABLE presupuesto_estado (
+    id SMALLINT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(150),
+    final BIT NOT NULL DEFAULT 0,
+    cancelado BIT NOT NULL DEFAULT 0,
+    vencido BIT NOT NULL DEFAULT 0,
+    orden SMALLINT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE presupuesto_forma_pago (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(150),
+    activo BIT NOT NULL DEFAULT 1
+);
+
+-- Crear tablas con dependencias nivel 1
+CREATE TABLE Usuario (
+    id_usuario INT IDENTITY(1,1) PRIMARY KEY,
+    id_cliente INT FOREIGN KEY REFERENCES Cliente(id_cliente),
+    contrasena VARBINARY(64) NOT NULL,
+    admin bit NOT NULL DEFAULT 0
+);
+
+CREATE TABLE cliente_dom_envio (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    id_cliente INT NOT NULL FOREIGN KEY REFERENCES Cliente(id_cliente),
+    calle VARCHAR(150) NOT NULL,
+    entre_calles VARCHAR(150),
+    altura INT NOT NULL,
+    piso INT,
+    departamento VARCHAR(20),
+    localidad VARCHAR(150) NOT NULL,
+    provincia VARCHAR(150) NOT NULL,
+    cp VARCHAR(10) NOT NULL,
+    observaciones VARCHAR(255),
+    activo BIT NOT NULL DEFAULT 1,
+    fecha_creacion DATETIME NOT NULL DEFAULT GETDATE()
+);
+
 CREATE TABLE Producto (
     id_producto INT IDENTITY(1,1) PRIMARY KEY,
     nombre VARCHAR(155) NOT NULL,
@@ -89,53 +95,50 @@ CREATE TABLE Producto (
     activo TINYINT NOT NULL DEFAULT 0
 );
 
--- Eliminar y crear tabla Home_banner
-IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Home_banner')
-BEGIN
-    DROP TABLE Home_banner;
-END
-CREATE TABLE Home_banner (
-    id_banner INT IDENTITY(1,1) PRIMARY KEY,
-    url_banner TEXT NOT NULL,
-    activo TINYINT NOT NULL DEFAULT 0,
-    id_cuenta INT NOT NULL,
-    fecha DATETIME,
-    orden INT
+-- Crear tablas con dependencias nivel 2
+CREATE TABLE presupuesto (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    id_cliente INT NOT NULL FOREIGN KEY REFERENCES Cliente(id_cliente),
+    id_metodo_envio INT NOT NULL FOREIGN KEY REFERENCES envio_tipo(id),
+    id_estado SMALLINT NOT NULL FOREIGN KEY REFERENCES presupuesto_estado(id),
+    id_forma_pago INT NOT NULL FOREIGN KEY REFERENCES presupuesto_forma_pago(id),
+    fecha_creacion DATETIME NOT NULL DEFAULT GETDATE(),
+    fecha_validez DATETIME NOT NULL,
+    id_cliente_envio INT NOT NULL FOREIGN KEY REFERENCES cliente_dom_envio(id),
+    costo_envio DECIMAL(10,2) NOT NULL DEFAULT 0,
+    total DECIMAL(10,2) NOT NULL DEFAULT 0,
+    ultima_actualizacion DATETIME NOT NULL DEFAULT GETDATE()
 );
 
--- Eliminar y crear tabla Usuario
-IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Usuario')
-BEGIN
-    DROP TABLE Usuario;
-END
-CREATE TABLE Usuario(
-    id_usuario INT IDENTITY(1,1) PRIMARY KEY,
-    id_cliente INT FOREIGN KEY REFERENCES Cliente(id_cliente),
-    contrasena VARBINARY(64) NOT NULL,
-    admin bit not null default 0
+CREATE TABLE Imagen (
+    Id int IDENTITY(1,1) PRIMARY KEY,
+    IdProducto int FOREIGN KEY REFERENCES Producto(id_producto),
+    ImagenUrl varchar(1000) COLLATE Modern_Spanish_CI_AS NOT NULL,
+    activo TINYINT NOT NULL DEFAULT 0
 );
 
--- Procedimiento almacenado sp_EncriptarContrasena
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_EncriptarContrasena')
-BEGIN
-    DROP PROCEDURE sp_EncriptarContrasena;
-END
-EXEC('
+-- Crear tablas con dependencias nivel 3
+CREATE TABLE presupuesto_detalle (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    id_presupuesto INT NOT NULL FOREIGN KEY REFERENCES presupuesto(id),
+    id_producto INT NOT NULL FOREIGN KEY REFERENCES Producto(id_producto),
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    cantidad INT NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    fecha_agregado DATETIME NOT NULL DEFAULT GETDATE(),
+    agregado_id_usuario INT NOT NULL FOREIGN KEY REFERENCES Usuario(id_usuario)
+);
+
+-- Crear stored procedures para el manejo de usuarios
 CREATE PROCEDURE sp_EncriptarContrasena
     @contrasena NVARCHAR(4000),
     @contrasenaEncriptada VARBINARY(64) OUTPUT
 AS
 BEGIN
-    SET @contrasenaEncriptada = HASHBYTES(''SHA2_256'', @contrasena);
-END
-');
+    SET @contrasenaEncriptada = HASHBYTES('SHA2_256', @contrasena);
+END;
+GO
 
--- Procedimiento almacenado sp_InsertarUsuario
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_InsertarUsuario')
-BEGIN
-    DROP PROCEDURE sp_InsertarUsuario;
-END
-EXEC('
 CREATE PROCEDURE sp_InsertarUsuario
     @idCliente int,
     @contrasena NVARCHAR(4000)
@@ -146,17 +149,11 @@ BEGIN
 
     INSERT INTO Usuario (id_cliente, contrasena)
     VALUES (@idCliente, @contrasenaEncriptada);
-END
-');
+END;
+GO
 
--- Procedimiento almacenado sp_VerificarLogin
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_VerificarLogin')
-BEGIN
-    DROP PROCEDURE sp_VerificarLogin;
-END
-EXEC('
 CREATE PROCEDURE sp_VerificarLogin
-    @id_cliente INT,    -- Eliminé el paréntesis extra aquí
+    @id_cliente INT,
     @contrasena NVARCHAR(4000),
     @loginExitoso BIT OUTPUT
 AS
@@ -177,197 +174,97 @@ BEGIN
     BEGIN
         SET @loginExitoso = 0;
     END
-END
-');
-
--- Eliminar y crear tabla Imagen
-IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Imagen')
-BEGIN
-    DROP TABLE Imagen;
-END
-CREATE TABLE Imagen (
-    Id int IDENTITY(1,1) NOT NULL,
-    IdProducto int FOREIGN KEY REFERENCES Producto(id_producto),
-    ImagenUrl varchar(1000) COLLATE Modern_Spanish_CI_AS NOT NULL,
-    CONSTRAINT PK_IMAGENES PRIMARY KEY (Id),
-    activo TINYINT NOT NULL DEFAULT 0
-);
-
--- Procedimiento almacenado sp_ListarImagenes
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ListarImagenes')
-BEGIN
-    DROP PROCEDURE sp_ListarImagenes;
-END
-GO
-CREATE PROCEDURE sp_ListarImagenes
-AS
-BEGIN
-    SELECT * FROM Imagen;
-END
+END;
 GO
 
--- Procedimiento almacenado sp_ListarImagenesActivas
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ListarImagenesActivas')
-BEGIN
-    DROP PROCEDURE sp_ListarImagenesActivas;
-END
-GO
-CREATE PROCEDURE sp_ListarImagenesActivas
-AS
-BEGIN
-    SELECT * FROM Imagen WHERE Activo = 1;
-END
-GO
+-- Crear índices
+CREATE INDEX IX_presupuesto_fechas ON presupuesto(fecha_creacion, fecha_validez);
+CREATE INDEX IX_presupuesto_cliente ON presupuesto(id_cliente);
+CREATE INDEX IX_presupuesto_estado ON presupuesto(id_estado);
+CREATE INDEX IX_domicilio_cliente ON cliente_dom_envio(id_cliente);
 
--- Procedimiento almacenado sp_InsertarImagen
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_InsertarImagen')
-BEGIN
-    DROP PROCEDURE sp_InsertarImagen;
-END
-GO
-CREATE PROCEDURE sp_InsertarImagen
-	@IdProducto int ,
-	@ImagenUrl varchar(1000),
-	@activo tinyint
-AS
-BEGIN
-    INSERT INTO Imagen (IdProducto, ImagenUrl, Activo)
-    VALUES (@IdProducto, @ImagenUrl, @activo);
-END
-GO
-
--- Procedimiento almacenado sp_ActualizarImagen
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ActualizarImagen')
-BEGIN
-    DROP PROCEDURE sp_ActualizarImagen;
-END
-GO
-CREATE PROCEDURE sp_ActualizarImagen
-	@id int,
-	@IdProducto int ,
-	@ImagenUrl varchar(1000),
-	@activo tinyint
-AS
-BEGIN
-    UPDATE Imagen
-    SET IdProducto = @IdProducto,
-        ImagenUrl = @ImagenUrl,
-        Activo = @Activo
-    WHERE Id = @Id;
-END
-GO
-
--- Procedimiento almacenado sp_EliminarImagen
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_EliminarImagen')
-BEGIN
-    DROP PROCEDURE sp_EliminarImagen;
-END
-GO
-CREATE PROCEDURE sp_EliminarImagen
-    @Id INT
-AS
-BEGIN
-    DELETE FROM Imagen
-    WHERE Id = @Id;
-END
-GO
-
--- Procedimiento almacenado sp_ActualizarEstadoImagen
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ActualizarEstadoImagen')
-BEGIN
-    DROP PROCEDURE sp_ActualizarEstadoImagen;
-END
-GO
-CREATE PROCEDURE sp_ActualizarEstadoImagen
-    @Id INT,
-    @Activo TINYINT
-AS
-BEGIN
-    UPDATE Imagen
-    SET Activo = @Activo
-    WHERE Id = @Id;
-END
-GO
-
--- Procedimiento almacenado sp_ListarImagenPorArticulo
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ListarImagenPorArticulo')
-BEGIN
-    DROP PROCEDURE sp_ListarImagenPorArticulo;
-END
-GO
-CREATE PROCEDURE sp_ListarImagenPorArticulo
-    @IdProducto INT
-AS
-BEGIN
-    SELECT * 
-    FROM Imagen i
-    WHERE 
-   		i.IdProducto = @IdProducto 
-   		AND activo = 1;
-END
-GO
-
--- Procedimiento almacenado sp_ListarProductos
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'sp_ListarProductos')
-BEGIN
-    DROP PROCEDURE sp_ListarProductos;
-END
-GO
-CREATE PROCEDURE sp_ListarProductos
-AS
-BEGIN
-    SELECT * 
-    FROM Producto;
-END
-GO
-
--- Insert de datos
-
+-- Insertar datos iniciales
 -- Categoria
-INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Categoria (nombre) VALUES
-	 (N'Teclados'),
-	 (N'Monitores'),
-	 (N'Procesadores'),
-	 (N'Motherboards'),
-	 (N'Memorias Ram'),
-	 (N'Notebooks'),
-	 (N'Placas de Video'),
-	 (N'Fuentes'),
-	 (N'Almacenamiento'),
-	 (N'Auriculares');
-	
+INSERT INTO Categoria (nombre) VALUES
+    ('Teclados'),
+    ('Monitores'),
+    ('Procesadores'),
+    ('Motherboards'),
+    ('Memorias Ram'),
+    ('Notebooks'),
+    ('Placas de Video'),
+    ('Fuentes'),
+    ('Almacenamiento'),
+    ('Auriculares');
+
 -- Marca
-INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Marca (nombre) VALUES
-	 (N'Asus'),
-	 (N'Wesdar'),
-	 (N'Redragon'),
-	 (N'Zotac'),
-	 (N'Viewsonic'),
-	 (N'Razer'),
-	 (N'XFX'),
-	 (N'Team'),
-	 (N'AMD'),
-	 (N'Antec');
+INSERT INTO Marca (nombre) VALUES
+    ('Asus'),
+    ('Wesdar'),
+    ('Redragon'),
+    ('Zotac'),
+    ('Viewsonic'),
+    ('Razer'),
+    ('XFX'),
+    ('Team'),
+    ('AMD'),
+    ('Antec');
 
 -- Clientes
-INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Cliente (nombre,apellido,email,telefono) VALUES
-	 (N'Lucio',N'Garcia',N'luciog@gmail.com',N'1166112254'),
-	 (N'elba',N'lazo',N'elba@gmail.com',N'2626266559'),
-	 (N'Nicolas',N'Perez',N'nicop@hotmail.com',N'1548785968'),
-	 (N'Luka',N'Gallo',N'luka@yahoo.com',N'1458795841');
-	
--- Producto
-INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Producto (nombre,descripcion,precio,id_marca,id_categoria,porcentaje_descuento,stock) VALUES
-	 (N'Teclado ASUS ROG Strix M602 Falchion Ace',N'Teclado Mecanico RGB Switch Brown',96280.00,1,1,0,50),
-	 (N'Teclado Wesdar MK10',N'Teclado Gaming Retroiluminado',11120.00,2,1,0,50),
-	 (N'Teclado Redragon K585 Diti',N'Teclado Mecanico RGB Diti Switch Brown ',36360.00,3,1,0,50),
-	 (N'Placa de Video Zotac GeForce RTX 4060 Ti',N'Placa de Video GeForce 16GB GDDR6 AMP',632930.00,4,7,0,15),
-	 (N'Placa de Video XFX Radeon RX 6650 XT',N'Placa de Video XFX Radeon 8GB GDDR6 Speedster SWFT 210',362150.00,7,7,0,30),
-	 (N'Monitor Curvo ViewSonic VX3218C-2K 32"',N'Monitor Gamer Curvo 1500R QHD 1440p 165Hz VA 1ms MPRT FreeSync Premium',538200.00,5,2,0,15),
-	 (N'Auriculares Razer BLACKSHARK V2 PRO',N'Auriculares Wireless USB-C White PC/PS5/XBOX',322990.00,6,10,0,15),
-	 (N'Memoria Team DDR5 32GB (2x16GB)',N'Memoria 32GB (2x16GB) 6400MHz T-Force Delta RGB Black CL40 Intel XMP 3.0 ',143580.00,8,5,0,100),
-	 (N'Procesador AMD RYZEN 5 3600',N'Procesador 4.2GHz Turbo AM4 Wraith Stealth Cooler ',110000.00,9,3,0,70),
-	 (N'Fuente Antec 550W',N'Fuente 80 Plus Bronze CSK550',68650.00,10,8,0,50);
+INSERT INTO Cliente (nombre, apellido, email, telefono) VALUES
+    ('Lucio', 'Garcia', 'luciog@gmail.com', '1166112254'),
+    ('elba', 'lazo', 'elba@gmail.com', '2626266559'),
+    ('Nicolas', 'Perez', 'nicop@hotmail.com', '1548785968'),
+    ('Luka', 'Gallo', 'luka@yahoo.com', '1458795841');
+
+   SET IDENTITY_INSERT presupuesto_estado ON;
+INSERT INTO presupuesto_estado (id, nombre, descripcion, final, cancelado, vencido, orden) VALUES
+    (1, 'Creado', 'Presupuesto creado', 0, 0, 0, 1),
+    (2, 'Pagado', 'Presupuesto pagado por el cliente', 0, 0, 0, 2),
+    (3, 'Vencido', 'Presupuesto vencido por falta de pago', 1, 0, 1, 3),
+    (4, 'Cancelado', 'Presupuesto cancelado', 1, 1, 0, 4),
+    (5, 'Armado', 'El pedido se encuentra armado en nuestras instalaciones', 0, 0, 0, 5),
+    (6, 'Embalado', 'El pedido se encuentra embalado en nuestras instalaciones', 0, 0, 0, 6),
+    (7, 'Despachado', 'El pedido se encuentra despachado', 1, 0, 0, 7),
+    (8, 'Entregado', 'El pedido fue entregado al cliente', 1, 0, 0, 8);
+SET IDENTITY_INSERT presupuesto_estado OFF;
+
+-- Insertar formas de pago
+SET IDENTITY_INSERT presupuesto_forma_pago ON;
+INSERT INTO presupuesto_forma_pago (id, nombre, descripcion, activo) VALUES
+    (1, 'Efectivo', 'Se abono en efectivo en la sucursal', 1),
+    (2, 'Transferencia bancaria', 'Se abono mediante el metodo de pago transferencia bancaria', 1),
+    (3, 'Deposito', 'Se abono mediante el metodo de pago deposito', 1),
+    (4, 'MercadoPago', 'Se abono mediante la plataforma Mercado Pago', 1);
+SET IDENTITY_INSERT presupuesto_forma_pago OFF;
+
+-- Insertar tipos de envío
+SET IDENTITY_INSERT envio_tipo ON;
+INSERT INTO envio_tipo (id, nombre, url_imagen, costo, activo) VALUES
+    (1, 'OCA', 'https://pbs.twimg.com/profile_images/1561766269333999616/eKl7zcmD_400x400.jpg', 1500.00, 1),
+    (2, 'Andreani', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNgTsD8HwijtWC8UrLCFPyUBy0ZO1LcWbaBQ&s', 2000.00, 1),
+    (3, 'MercadoEnvios', 'https://zonaflex.com.ar/wp-content/uploads/2021/08/Envios-flex-moto-mensajerias.jpg', 1000.00, 1);
+SET IDENTITY_INSERT envio_tipo OFF;
+
+-- Insertar productos
+INSERT INTO Producto (nombre, descripcion, precio, id_marca, id_categoria, porcentaje_descuento, stock) VALUES
+    ('Teclado ASUS ROG Strix M602 Falchion Ace', 'Teclado Mecanico RGB Switch Brown', 96280.00, 1, 1, 0, 50),
+    ('Teclado Wesdar MK10', 'Teclado Gaming Retroiluminado', 11120.00, 2, 1, 0, 50),
+    ('Teclado Redragon K585 Diti', 'Teclado Mecanico RGB Diti Switch Brown', 36360.00, 3, 1, 0, 50),
+    ('Placa de Video Zotac GeForce RTX 4060 Ti', 'Placa de Video GeForce 16GB GDDR6 AMP', 632930.00, 4, 7, 0, 15),
+    ('Placa de Video XFX Radeon RX 6650 XT', 'Placa de Video XFX Radeon 8GB GDDR6 Speedster SWFT 210', 362150.00, 7, 7, 0, 30),
+    ('Monitor Curvo ViewSonic VX3218C-2K 32"', 'Monitor Gamer Curvo 1500R QHD 1440p 165Hz VA 1ms MPRT FreeSync Premium', 538200.00, 5, 2, 0, 15),
+    ('Auriculares Razer BLACKSHARK V2 PRO', 'Auriculares Wireless USB-C White PC/PS5/XBOX', 322990.00, 6, 10, 0, 15),
+    ('Memoria Team DDR5 32GB (2x16GB)', 'Memoria 32GB (2x16GB) 6400MHz T-Force Delta RGB Black CL40 Intel XMP 3.0', 143580.00, 8, 5, 0, 100),
+    ('Procesador AMD RYZEN 5 3600', 'Procesador 4.2GHz Turbo AM4 Wraith Stealth Cooler', 110000.00, 9, 3, 0, 70),
+    ('Fuente Antec 550W', 'Fuente 80 Plus Bronze CSK550', 68650.00, 10, 8, 0, 50);
+
+-- Insertar usuarios (con contraseñas encriptadas)
+INSERT INTO Usuario (id_cliente, contrasena, admin) VALUES
+    (1, 0xBFE28E20AA89715A67BDBC4BB5DBE45D878D05E21ADFBEBBC91E437446F015EA, 1),
+    (2, 0xCC842563132899AC0068C315748E77030C8DE04B1AEB4B1BF19F313F5AB0E3E7, 0),
+    (3, 0x22B69DE3D8798A782DB25A601EEAFF0E9C0433A90830C06B6201CC726A61F057, 1),
+    (4, 0x347E23E66EDBCC4163682EDF410031121E7EF19557E018A7E7FC16C9407E8F5A, 1);
 
 -- Imagenes
 INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,activo) VALUES
@@ -395,11 +292,3 @@ INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Imagen (IdProducto,ImagenUrl,activo) VALUES
 	 (7,N'https://http2.mlstatic.com/D_NQ_NP_628847-MLU71479173112_092023-O.webp',1),
 	 (3,N'https://redragon.es/content/uploads/2021/04/DITI.png',1);
 
-
-
--- Usuarios
-INSERT INTO TP_CUATRIMESTRAL_DB.dbo.Usuario (id_cliente,contrasena,admin) VALUES
- (1,0xBFE28E20AA89715A67BDBC4BB5DBE45D878D05E21ADFBEBBC91E437446F015EA,1),
- (2,0xCC842563132899AC0068C315748E77030C8DE04B1AEB4B1BF19F313F5AB0E3E7,0),
- (3,0x22B69DE3D8798A782DB25A601EEAFF0E9C0433A90830C06B6201CC726A61F057,1),
- (4,0x347E23E66EDBCC4163682EDF410031121E7EF19557E018A7E7FC16C9407E8F5A,1);
