@@ -139,7 +139,7 @@ CREATE TABLE Home_banner (
     url_banner TEXT NOT NULL,
     activo TINYINT NOT NULL DEFAULT 0,
     id_cuenta INT NOT NULL,
-    fecha DATETIME,
+    fecha DATETIME NOT NULL DEFAULT GETDATE(),
     orden INT
 );
 
