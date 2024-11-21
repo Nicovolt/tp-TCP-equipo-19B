@@ -193,12 +193,64 @@
     font-weight: bold;
 }
 
+   .separador {
+    height: 1px;
+    background-color: #ddd; 
+    margin: 20px 0; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
 
 
+    .search-input {
+     flex: 1; 
+     width: calc(100% - 50px); 
+     border: none;
+     outline: none;
+     padding: 10px;
+     font-size: 16px;
+ }
 
+ .search-button {
+     background-color: #000000;
+     color: white;
+     border: none;
+     padding: 10px 14.5px;
+     border-radius: 0 20px 20px 0;
+     cursor: pointer;
+ }
+
+ .search-icon {
+     font-size: 20px;
+ }
+ .search-container {
+     text-align: center; 
+     margin-top: 50px; 
+     margin-bottom: 50px;
+     width: 80%; 
+     max-width: 500px;
+     border: 1px solid #ccc;
+     border-radius: 20px;
+     overflow: hidden;
+     margin: 0 auto; 
+ }
         
 
     </style>
+
+
+    <div class="search-container">
+          <asp:TextBox ID="searchTextBox" runat="server" CssClass="search-input" placeholder="Buscar..." onkeydown="enter(event)"></asp:TextBox>
+          <asp:LinkButton ID="btnSearch" runat="server" CssClass="search-button" OnClick="btnSearch_Click" type="button">
+           <i class="fas fa-search"></i>
+          </asp:LinkButton>
+    </div>
+
+     <div class="row row-cols-1 row-cols-md-3 g-4">
+        <asp:Literal ID="Resultados" runat="server"></asp:Literal>
+    </div>
+       <div class="separador"></div>
 
     <div class="container">
         <h3>PRODUCTOS</h3>
@@ -290,7 +342,14 @@
 
 
  
-
+    <script>
+        function enter(event) {
+            if (event.keyCode === 13 || event.which === 13) {
+                event.preventDefault();
+                document.getElementById('<%= btnSearch.ClientID %>').click();
+            }
+        }
+    </script>
 
     <script type="text/javascript">
         function confirmDelete() {

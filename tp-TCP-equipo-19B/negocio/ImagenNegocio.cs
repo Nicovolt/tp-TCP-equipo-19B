@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using dominio;
@@ -220,6 +221,78 @@ namespace negocio
             }
         }
 
+        public string listarUna(int idProducto)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Imagen imagen = new Imagen();
+
+            try
+            {
+                datos.setearConsulta("SELECT TOP 1 * FROM IMAGEN WHERE IdProducto = @IdProducto;");
+                datos.setearParametro("@IdProducto", idProducto);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    imagen.Id = datos.Lector.GetInt32(0);
+                    imagen.IdProducto = datos.Lector.GetInt32(1);
+
+                    if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("ImagenUrl")))
+                    {
+                        string url = datos.Lector.GetString(datos.Lector.GetOrdinal("ImagenUrl"));
+                        if (UrlExiste(url))
+                        {
+                            imagen.ImagenUrl = url;
+                        }
+                        else
+                        {
+                            imagen.ImagenUrl = "https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg";
+                        }
+                    }
+                    else
+                    {
+                        imagen.ImagenUrl = "https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg";
+                    }
+                }
+                else
+                {
+                    imagen.ImagenUrl = "https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg";
+                }
+
+                datos.cerrarConexion();
+
+                return imagen.ImagenUrl;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private bool UrlExiste(string url)
+        {
+            try
+            {
+                Uri uri = new Uri(url);
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+                request.Method = "HEAD";
+
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return response.StatusCode == HttpStatusCode.OK;
+                }
+            }
+            catch (UriFormatException)
+            {
+                return false;
+            }
+            catch (WebException)
+            {
+                return false;
+            }
+        }
 
     }
 }

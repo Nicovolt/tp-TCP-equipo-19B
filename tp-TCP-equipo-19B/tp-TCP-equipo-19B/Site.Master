@@ -338,12 +338,7 @@
                     <span class="visually-hidden">Next</span>
                   </button>
                </div>
-                   <div class="search-container">
-                         <asp:TextBox ID="searchTextBox" runat="server" CssClass="search-input" placeholder="Buscar..." onkeydown="enter(event)"></asp:TextBox>
-                         <asp:LinkButton ID="btnSearch" runat="server" CssClass="search-button" OnClick="btnSearch_Click" type="button">
-                          <i class="fas fa-search"></i>
-                         </asp:LinkButton>
-                   </div>
+                
 
 <nav class="navegacion">
     <ul class="menu">
@@ -404,11 +399,4 @@
     </footer>
 </body>
 </html>
- <script>
-     function enter(event) {
-         if (event.keyCode === 13 || event.which === 13) {
-             event.preventDefault();
-             document.getElementById('<%= btnSearch.ClientID %>').click();
-         }
-     }
- </script>
+ 

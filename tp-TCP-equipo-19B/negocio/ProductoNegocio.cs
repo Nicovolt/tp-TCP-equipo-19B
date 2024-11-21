@@ -379,6 +379,55 @@ namespace negocio
             }
         }
 
+
+        public List<Productos> BuscarPorNombre(string nombre)
+        {
+            List<Productos> lista = new List<Productos>();
+            AccesoDatos datos = new AccesoDatos();
+            MarcaNegocio marcaNegocio = new MarcaNegocio();
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+
+            try
+            {
+                datos.setearConsulta("SELECT * FROM Producto WHERE Nombre LIKE @Nombre");
+                datos.setearParametro("@Nombre", "%" + nombre + "%");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Productos producto = new Productos();
+
+                    producto.Id_producto = (int)datos.Lector["id_producto"];
+                    producto.Nombre = datos.Lector["nombre"].ToString();
+                    producto.Descripcion = datos.Lector["descripcion"].ToString();
+                    producto.Precio = (decimal)datos.Lector["precio"];
+                    producto.Id_categoria = (int)datos.Lector["id_categoria"];
+                    producto.Id_marca = (int)datos.Lector["id_marca"];
+
+                    producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
+
+
+
+                    lista.Add(producto);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+
+
+
     }
 
 
