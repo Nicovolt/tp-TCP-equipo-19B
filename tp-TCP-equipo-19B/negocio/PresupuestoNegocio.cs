@@ -319,5 +319,78 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Presupuesto> ObtenerPresupuestosConDetalles()
+        {
+            List<Presupuesto> presupuestos = new List<Presupuesto>();
+            AccesoDatos data = new AccesoDatos();
+
+            try
+            {
+                data.setearConsulta(@"
+            SELECT 
+    pre.id AS IdPresupuesto,
+    c.nombre AS NombreCliente,
+    c.apellido AS ApellidoCliente,
+    p.nombre AS NombreProducto,
+    pre.total AS Total,
+    fp.nombre AS FormaPago,
+    pre.fecha_creacion AS FechaCreacion
+FROM 
+    presupuesto pre
+INNER JOIN 
+    cliente c ON pre.id_cliente = c.id_cliente
+INNER JOIN 
+    presupuesto_detalle pd ON pre.id = pd.id_presupuesto
+INNER JOIN 
+    producto p ON pd.id_producto = p.Id_producto
+INNER JOIN 
+    presupuesto_forma_pago fp ON pre.id_forma_pago = fp.id");
+
+                data.ejecutarLectura();
+
+                while (data.Lector.Read())
+                {
+                    var presupuesto = new Presupuesto
+                    {
+                        Id = Convert.ToInt32(data.Lector["IdPresupuesto"]),
+                        Total = Convert.ToDecimal(data.Lector["Total"]),
+                        FechaCreacion = Convert.ToDateTime(data.Lector["FechaCreacion"]),
+                        FormaPago = new PresupuestoFormaPago
+                        {
+                            Nombre = data.Lector["FormaPago"].ToString()
+                        },
+                        Cliente = new Cliente
+                        {
+                            Nombre = data.Lector["NombreCliente"].ToString(),
+                            Apellido = data.Lector["ApellidoCliente"].ToString()
+                        },
+                        Detalles = new List<PresupuestoDetalle>
+        {
+            new PresupuestoDetalle
+            {
+                Producto = new Productos
+                {
+                    Nombre = data.Lector["NombreProducto"].ToString()
+                }
+            }
+        }
+                    };
+
+                    presupuestos.Add(presupuesto);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener los presupuestos: " + ex.Message);
+            }
+            finally
+            {
+                data.cerrarConexion();
+            }
+
+            return presupuestos;
+        }
     }
 }

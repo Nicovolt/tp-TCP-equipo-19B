@@ -253,41 +253,50 @@
                 </asp:Repeater>
             </div>
 
-            <!-- Método de Envío -->
-            <h2 class="Center">Método de Envío</h2>
-            <div class="shipping-methods">
-                <asp:Repeater ID="rptMetodosEnvio" runat="server">
-                    <ItemTemplate>
-                        <div class="payment-card">
-                            <label>
-                                <asp:RadioButton ID="rbEnvio" runat="server"
-                                    GroupName="metodoEnvio"
-                                    AutoPostBack="true"
-                                    OnCheckedChanged="rbEnvio_CheckedChanged"
-                                    Value='<%# Eval("Id") %>' />
-                                <span><%# Eval("Nombre") %> - $<%# Eval("Costo") %></span>
-                            </label>
+               <asp:Repeater ID="Repeater1" runat="server">
+                <ItemTemplate>
+                    <div class="address-card">
+                        <div class="address-content">
+                            <!-- GroupName: direccionGroup -->
+                            <asp:RadioButton ID="rbDireccion" runat="server"
+                                GroupName="direccionGroup"
+                                CssClass="address-radio"
+                                Value='<%# Eval("Id") %>' />
+                            <div class="address-details">
+                                <h5><%# Eval("Calle") %> <%# Eval("Altura") %></h5>
+                                <p>
+                                    <%# Eval("EntreCalles") %><br />
+                                    <%# (Eval("Piso") != DBNull.Value ? "Piso " + Eval("Piso") : "") %>
+                                    <%# (Eval("Departamento") != DBNull.Value ? (Eval("Piso") != DBNull.Value ? ", " : "") + "Depto " + Eval("Departamento") : "") %><br />
+                                    <%# Eval("Localidad") %>, <%# Eval("Provincia") %> (<%# Eval("CodigoPostal") %>)
+                                </p>
+                                <small class="text-muted"><%# Eval("Observaciones") %></small>
+                            </div>
                         </div>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </div>
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
 
-            <!-- Método de Pago -->
-            <h2 class="Center">Método de Pago</h2>
-            <div class="payment-methods">
-                <asp:Repeater ID="rptFormasPago" runat="server">
-                    <ItemTemplate>
-                        <div class="payment-card">
-                            <label>
-                                <asp:RadioButton ID="rbPago" runat="server"
-                                    GroupName="formaPago"
-                                    Value='<%# Eval("Id") %>' />
-                                <span><%# Eval("Nombre") %></span>
-                            </label>
-                        </div>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </div>
+
+            <asp:Repeater ID="rptMetodosEnvio" runat="server">
+                <ItemTemplate>
+                    <!-- GroupName: metodoEnvioGroup -->
+                    <asp:RadioButton ID="rbEnvio" runat="server"
+                        GroupName="metodoEnvioGroup"
+                        Value='<%# Eval("Id") %>' />
+                    <label><%# Eval("Nombre") %></label>
+                </ItemTemplate>
+            </asp:Repeater>
+
+            <asp:Repeater ID="rptFormasPago" runat="server">
+                <ItemTemplate>
+                    <asp:RadioButton ID="rbPago" runat="server"
+                        GroupName="formaPagoGroup" Value='<%# Eval("Id") %>' />
+                    <label><%# Eval("Nombre") %></label>
+                </ItemTemplate>
+            </asp:Repeater>
+
+
 
             <!-- Botones -->
             <div class="button-group">

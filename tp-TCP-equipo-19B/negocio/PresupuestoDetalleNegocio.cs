@@ -11,6 +11,7 @@ namespace negocio
     {
         public void AgregarDetallePresupuesto(int idPresupuesto, List<Productos> detalles, int idUser)
         {
+      
             foreach (var producto in detalles)
             {
                 AccesoDatos data = new AccesoDatos();
@@ -29,6 +30,8 @@ namespace negocio
                     data.setearParametro("@usuario",idUser);
 
                     data.ejecutarAccion();
+
+                 
                 }
                 catch (Exception ex)
                 {
@@ -39,7 +42,10 @@ namespace negocio
                 {
                     data.cerrarConexion();
                 }
+
+
             }
+          
         }
 
         public List<PresupuestoDetalle> ListarDetalles(int idPresupuesto)

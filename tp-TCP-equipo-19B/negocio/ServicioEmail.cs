@@ -95,19 +95,14 @@ namespace negocio
                                  <td>{nombre} {apellido}</td>
                              </tr>
                              <tr>
-                                 <td><strong>Te enviaremos seguimiento al numero:</strong></td>
+                                 <td><strong>Te enviaremos seguimiento al telefono:</strong></td>
                                  <td>{telefono}</td>
                              </tr>
                              <tr>
                                  <td><strong>Fecha:</strong></td>
                                  <td>{DateTime.Now}</td>
                              </tr>
-                         </table>
-                         <h3>Detalles del Producto:</h3>
-                         <ul>
-                             <li>------------------</li>
-                             <li>-------------------</li>
-                         </ul>
+
                          <p>Gracias por tu compra. Si tienes alguna pregunta, no dudes en contactarnos.</p>
                          <p>Saludos,<br/>Equipo19B</p>
                      </div>
