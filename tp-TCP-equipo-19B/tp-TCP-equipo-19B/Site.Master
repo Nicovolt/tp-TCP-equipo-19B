@@ -348,7 +348,6 @@
 <nav class="navegacion">
     <ul class="menu">
         <li><a href="Default.aspx">Inicio</a></li>
-        <li><a href="#">Informacion</a></li>
         <li id="adminMenu" runat="server"><a href="#">Administrar</a>
             <ul class="sudmenu">
                 <li><a href="productos.aspx">Nuevo Producto</a></li>
