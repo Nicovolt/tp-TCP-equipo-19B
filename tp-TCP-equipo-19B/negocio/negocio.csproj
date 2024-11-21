@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
-    <Compile Include="BannerNegocio.cs" />
     <Compile Include="CategoriaNegocio.cs" />
     <Compile Include="ClienteDomicilioEnvioNegocio.cs" />
     <Compile Include="ClienteNegocio.cs" />

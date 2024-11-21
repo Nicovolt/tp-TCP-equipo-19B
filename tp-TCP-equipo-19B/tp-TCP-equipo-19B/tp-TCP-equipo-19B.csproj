@@ -120,9 +120,6 @@
     <Content Include="favicon.ico" />
     <Content Include="CarritoCompras.aspx" />
     <Content Include="Compras.aspx" />
-    <Content Include="Banner.aspx">
-      <BrowseToURL>~/Banner.aspx</BrowseToURL>
-    </Content>
     <Content Include="ListadoPresupuesto.aspx">
       <BrowseToURL>~/ListadoPresupuesto.aspx</BrowseToURL>
     </Content>
@@ -237,13 +234,6 @@
     </Compile>
     <Compile Include="Compras.aspx.designer.cs">
       <DependentUpon>Compras.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Banner.aspx.cs">
-      <DependentUpon>Banner.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Banner.aspx.designer.cs">
-      <DependentUpon>Banner.aspx</DependentUpon>
     </Compile>
     <Compile Include="ListadoPresupuesto.aspx.cs">
       <DependentUpon>ListadoPresupuesto.aspx</DependentUpon>
