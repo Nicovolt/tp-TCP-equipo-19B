@@ -164,6 +164,9 @@
     <Content Include="Login.aspx" />
     <Content Include="ListadoAdministradores.aspx" />
     <Content Include="Cuenta.aspx" />
+    <Content Include="Pedidos.aspx" />
+    <Content Include="PedidoDetalle.aspx" />
+    <Content Include="ListadoPresupuestoDetalle.aspx" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -315,6 +318,27 @@
     </Compile>
     <Compile Include="Cuenta.aspx.designer.cs">
       <DependentUpon>Cuenta.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pedidos.aspx.cs">
+      <DependentUpon>Pedidos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pedidos.aspx.designer.cs">
+      <DependentUpon>Pedidos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PedidoDetalle.aspx.cs">
+      <DependentUpon>PedidoDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PedidoDetalle.aspx.designer.cs">
+      <DependentUpon>PedidoDetalle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoPresupuestoDetalle.aspx.cs">
+      <DependentUpon>ListadoPresupuestoDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListadoPresupuestoDetalle.aspx.designer.cs">
+      <DependentUpon>ListadoPresupuestoDetalle.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

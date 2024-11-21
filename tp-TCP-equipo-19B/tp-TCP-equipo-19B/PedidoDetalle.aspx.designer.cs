@@ -11,151 +11,133 @@ namespace tp_TCP_equipo_19B
 {
 
 
-    public partial class SiteMaster
+    public partial class PedidoDetalle
     {
 
         /// <summary>
-        /// head control.
+        /// ltlNroPedido control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Literal ltlNroPedido;
 
         /// <summary>
-        /// form1 control.
+        /// badgeEstado control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl badgeEstado;
 
         /// <summary>
-        /// ScriptManager1 control.
+        /// ltlFecha control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.Literal ltlFecha;
 
         /// <summary>
-        /// searchTextBox control.
+        /// ltlEstado control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox searchTextBox;
+        protected global::System.Web.UI.WebControls.Literal ltlEstado;
 
         /// <summary>
-        /// btnSearch control.
+        /// ltlUltimaActualizacion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSearch;
+        protected global::System.Web.UI.WebControls.Literal ltlUltimaActualizacion;
 
         /// <summary>
-        /// adminMenu control.
+        /// rptDetalles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminMenu;
+        protected global::System.Web.UI.WebControls.Repeater rptDetalles;
 
         /// <summary>
-        /// UpdatePanelCarrito control.
+        /// ltlMetodoEnvio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelCarrito;
+        protected global::System.Web.UI.WebControls.Literal ltlMetodoEnvio;
 
         /// <summary>
-        /// LabelCompras control.
+        /// ltlCostoEnvio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelCompras;
+        protected global::System.Web.UI.WebControls.Literal ltlCostoEnvio;
 
         /// <summary>
-        /// liCuenta control.
+        /// ltlDireccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liCuenta;
+        protected global::System.Web.UI.WebControls.Literal ltlDireccion;
 
         /// <summary>
-        /// lblUsuario control.
+        /// ltlMetodoPago control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUsuario;
+        protected global::System.Web.UI.WebControls.Literal ltlMetodoPago;
 
         /// <summary>
-        /// liLogin control.
+        /// ltlSubtotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liLogin;
+        protected global::System.Web.UI.WebControls.Literal ltlSubtotal;
 
         /// <summary>
-        /// liPerfil control.
+        /// ltlEnvio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liPerfil;
+        protected global::System.Web.UI.WebControls.Literal ltlEnvio;
 
         /// <summary>
-        /// liPedidos control.
+        /// ltlTotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liPedidos;
+        protected global::System.Web.UI.WebControls.Literal ltlTotal;
 
         /// <summary>
-        /// liCerrarSesion control.
+        /// btnVolver control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liCerrarSesion;
-
-        /// <summary>
-        /// btnCerrarSesion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnCerrarSesion;
-
-        /// <summary>
-        /// ContentPlaceHolder control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder;
+        protected global::System.Web.UI.WebControls.Button btnVolver;
     }
 }

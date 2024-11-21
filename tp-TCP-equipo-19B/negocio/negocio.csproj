@@ -50,6 +50,7 @@
     <Compile Include="ImagenNegocio.cs" />
     <Compile Include="MarcaNegocio.cs" />
     <Compile Include="PresupuestoDetalleNegocio.cs" />
+    <Compile Include="PresupuestoEstadoNegocio.cs" />
     <Compile Include="PresupuestoFormaPagoNegocio.cs" />
     <Compile Include="PresupuestoNegocio.cs" />
     <Compile Include="ProductoNegocio.cs" />
