@@ -41,27 +41,25 @@
         left: 50%;
         transform: translate(-50%, -50%);
         font-size: 14px;
-        color: transparent; /* Inicialmente transparente */
-        opacity: 0; /* No visible al inicio */
+        color: transparent; 
+        opacity: 0; 
         transition: opacity 0.3s ease;
         pointer-events: none;
     }
 
-    /* Estilo cuando el botón se hace clic */
+    
     .add-to-cart-btn.agregado::after {
         content: "✓ Agregado!";
-        color: white; /* Color blanco para el texto */
-        opacity: 1; /* Hace el texto visible */
-        z-index: 10; /* Asegura que el texto esté por encima del contenido original */
-        animation: resetText 2s forwards; /* La animación durará 2 segundos */
+        color: white; 
+        opacity: 1; 
+        z-index: 10; 
+        animation: resetText 2s forwards; 
     }
 
-    /* Anima la transición de fondo y texto */
     .add-to-cart-btn.agregado {
-        background-color: #218838; /* Verde más oscuro al agregar al carrito */
+        background-color: #218838; 
     }
 
-    /* Animación para restaurar el texto original después de 2 segundos */
     @keyframes resetText {
         0% {
             opacity: 1;
@@ -70,7 +68,7 @@
             opacity: 1;
         }
         100% {
-            opacity: 0; /* Restaura el texto a invisible */
+            opacity: 0; 
         }
     }
 
@@ -114,26 +112,22 @@
     background: #f9f9f9;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     position: relative;
-    appearance: none; /* Ocultar flecha predeterminada */
+    appearance: none; 
     -webkit-appearance: none;
     -moz-appearance: none;
 }
 
-/* Cambios al hacer hover */
 .modern-dropdown:hover {
     border-color: #4CAF50;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Enfoque (focus) */
 .modern-dropdown:focus {
     outline: none;
     border-color: #2196F3;
     box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
 }
 
-/* Personalizar categorías y marcas */
-/* Estilo base para todos los dropdowns */
 .modern-dropdown {
     width: 100%;
     max-width: 100%;
@@ -141,19 +135,18 @@
     font-size: 16px;
     font-weight: bold;
     color: #333;
-    background: #f9f9f9; /* Fondo gris claro */
-    border: 2px solid #ccc; /* Borde gris claro */
-    border-radius: 8px; /* Esquinas redondeadas */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-    appearance: none; /* Elimina estilo predeterminado */
-    -webkit-appearance: none; /* Safari */
-    -moz-appearance: none; /* Firefox */
+    background: #f9f9f9;
+    border: 2px solid #ccc; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    appearance: none; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
     position: relative;
-    transition: all 0.3s ease; /* Suavidad en hover/focus */
+    transition: all 0.3s ease; 
     cursor: pointer;
 }
 
-/* Flecha personalizada para los dropdowns */
 .modern-dropdown::after {
     content: '▼';
     position: absolute;
@@ -235,6 +228,9 @@
      overflow: hidden;
      margin: 0 auto; 
  }
+
+
+
         
 
     </style>
@@ -247,9 +243,10 @@
           </asp:LinkButton>
     </div>
 
-     <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="card">
         <asp:Literal ID="Resultados" runat="server"></asp:Literal>
     </div>
+
        <div class="separador"></div>
 
     <div class="container">

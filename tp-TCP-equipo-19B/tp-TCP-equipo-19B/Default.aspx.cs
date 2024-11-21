@@ -10,6 +10,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 
+
+
 namespace tp_TCP_equipo_19B
 {
 
@@ -355,32 +357,34 @@ namespace tp_TCP_equipo_19B
                         : img;
 
                     htmlString += $@"
-                <div class='col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch'>
-                    <div class='card'>
-                        <img src='{imageUrl}' class='card-img-top' alt='Imagen del artículo'>
-                        <div class='card-body'>
-                            <h5 class='card-title'>{producto.Nombre}</h5>
-                            <p class='card-text'>{producto.Descripcion}</p>
-                            <p class='card-text'><strong>Precio: </strong>${producto.Precio}</p>
-                            <div class='separador'></div>
-                            <div class='d-flex justify-content-between align-items-center mt-auto'>
-                                <a href='VerDetalle.aspx?id={producto.Id_producto}' class='btn btn-primary'>Ver detalle</a>
+                    <div class='col'>
+                        <div class='card'>
+                            <img src='{imageUrl}' class='card-img-top' alt='Imagen del artículo'>
+                            <div class='card-body'>
+                                <h5 class='card-title'>{producto.Nombre}</h5>
+                                <p class='card-text'>{producto.Descripcion}</p>
+                                <p class='card-text'><strong>Precio: </strong>${producto.Precio}</p>
+                                <div class='d-flex justify-content-between align-items-center mt-auto'>
+                                    <a href='VerDetalle.aspx?id={producto.Id_producto}' class='btn btn-primary btn-block'>Ver detalle</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>";
+                    </div>";
                 }
 
-                Resultados.Text = $@"
+                    Resultados.Text = $@"
             <div class='row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4'>
                 {htmlString}
             </div>";
-            }
-            else
-            {
-                Resultados.Text = "<h2>No se encontraron productos que coincidan</h2>";
-            }
+                }
+                else
+                {
+                    Resultados.Text = "<h2>No se encontraron productos que coincidan</h2>";
+                }
         }
+
+
+
 
     }
 }

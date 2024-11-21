@@ -167,7 +167,6 @@ namespace negocio
 
             try
             {
-                // Consulta directa a la tabla Imagen
                 data.setearConsulta("SELECT Id, IdProducto, ImagenUrl, Activo FROM Imagen WHERE IdProducto = @IdProducto");
                 data.setearParametro("@IdProducto", id);
                 data.ejecutarLectura();

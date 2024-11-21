@@ -49,10 +49,8 @@ namespace tp_TCP_equipo_19B
                 ClienteNegocio clienteNegocio = new ClienteNegocio();
                 Cliente cliente = clienteNegocio.ObtenerClientePorId(usuario.IdCliente);
 
-                // Actualizar la UI
                 lblUsuario.Text = $"{cliente.Nombre} {cliente.Apellido}";
 
-                // Mostrar/ocultar elementos según estado de sesión
                 liLogin.Visible = false;
                 liPerfil.Visible = true;
                 liPedidos.Visible = true;

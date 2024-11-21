@@ -30,11 +30,11 @@
 
     .navegacion {
     width: 100%;
-    margin: 0 auto; /* Para centrar horizontalmente */
+    margin: 0 auto; 
     background: black;
     color: white;
     box-shadow: 0 0 6px 0 rgb(0, 0, 0);
-    text-align: center; /* Para centrar los elementos internos */
+    text-align: center; 
     }
 
     .menu {
@@ -42,12 +42,12 @@
         display: flex;
         justify-content: center;
         padding: 0;
-        margin-top: 10px; /* Espacio entre el header y los elementos del menú */
+        margin-top: 10px; 
     }
 
     .menu > li {
         position: relative;
-        margin-right: 20px; /* Espacio entre los elementos del menú */
+        margin-right: 20px; 
     }
 
     .menu > li > a {
@@ -74,15 +74,15 @@
         background: white;
         z-index: 1000;
         transition: opacity 0.3s, visibility 0.3s;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Agregar sombra para el submenú */
-        border-radius: 4px; /* Opcional: bordes redondeados */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+        border-radius: 4px; 
 
     }
     .sudmenu a {
-        padding: 10px; /* Espaciado dentro de los enlaces */
-        text-decoration: none; /* Sin subrayado */
-        color: black; /* Color del texto */
-        display: block; /* Para que el área de clic sea más grande */
+        padding: 10px; 
+        text-decoration: none; 
+        color: black; 
+        display: block; 
     }
 
 
@@ -240,20 +240,19 @@
         cursor: pointer;
     }
 
-    /* Estilos para el ícono de lupa */
     .search-icon {
         font-size: 20px;
     }
     .search-container {
-        text-align: center; /* Centra el contenedor horizontalmente */
-        margin-top: 50px; /* Espacio superior entre la imagen y el contenedor de búsqueda */
+        text-align: center; 
+        margin-top: 50px;
         margin-bottom: 50px;
-        width: 80%; /* Ancho del contenedor de búsqueda como un porcentaje del contenedor padre */
-        max-width: 500px; /* Ancho máximo del contenedor de búsqueda para limitar su tamaño */
+        width: 80%; 
+        max-width: 500px; 
         border: 1px solid #ccc;
         border-radius: 20px;
         overflow: hidden;
-        margin: 0 auto; /* Centra el contenedor horizontalmente */
+        margin: 0 auto; 
     }
 
     body, html {
@@ -273,7 +272,7 @@
             
     }
     .carousel-item {
-        max-height: 410px; /* Altura máxima para todas las imagenes */
+        max-height: 410px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -320,7 +319,7 @@
                   </div>
                   <div class="carousel-inner">
                     <div class="carousel-item active">
-                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU7or0JD4pAegHylElz4SV49NTT_y_4yDtoA&s" class="d-block w-100" alt="">
+                      <img src="https://www.redusers.com/noticias/wp-content/uploads/2023/09/Banner-Informe-Users-GIF-650x450.jpg" class="d-block w-100" alt="">
                     </div>
                     <div class="carousel-item">
                       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjrIokQ9Y4fAg9C3u1ur5MFQbuX_GXREtcQg&s" class="d-block w-100" alt="">
@@ -328,6 +327,12 @@
                     <div class="carousel-item">
                       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVIQeHTo_bU_AHr-g7CNpPqd7yVDwTOqfAmg&s" class="d-block w-100" alt="">
                     </div>
+                      <div class="carousel-item">
+                          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvVmcdGVw3VG6W3SoHiTbClJVp8oJSh1H9ew&s" class="d-block w-100" alt="">
+                      </div>
+                      <div class="carousel-item">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWn0tr3TlLl5V6lCzoarIRkPBEJBHYVE046g&s" class="d-block w-100" alt="">
+                      </div>
                   </div>
                   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
