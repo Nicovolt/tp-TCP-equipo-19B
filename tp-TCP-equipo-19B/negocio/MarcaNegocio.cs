@@ -40,6 +40,11 @@ namespace negocio
        
         public void Agregar(string nuevaMarca)
         {
+            if (ExisteMarca(nuevaMarca))
+            {
+                throw new Exception("La marca ya existe.");
+            }
+
             AccesoDatos datos = new AccesoDatos();
             try
             {
@@ -126,6 +131,30 @@ namespace negocio
 
 
                 return marca;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public bool ExisteMarca(string nombreMarca)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM Marca WHERE nombre = @nombreMarca");
+                datos.setearParametro("@nombreMarca", nombreMarca);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    return (int)datos.Lector[0] > 0;
+                }
+                return false;
             }
             catch (Exception ex)
             {

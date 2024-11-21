@@ -22,18 +22,39 @@ namespace tp_TCP_equipo_19B
 
         protected void Agregar(object sender, EventArgs e)
         {
-            MarcaNegocio marcaNegocio = new MarcaNegocio(); 
-            
+            MarcaNegocio MarcaNegocio = new MarcaNegocio();
 
+            try
+            {
+                string nueva = inpNombreMar.Text;
 
-            string nueva = inpNombreMar.Text;
-          
+                if (string.IsNullOrWhiteSpace(nueva))
+                {
+                    lblError.Text = "El nombre de la marca no puede estar vacío.";
+                    lblError.Visible = true;
+                    return;
+                }
 
-            marcaNegocio.Agregar(nueva);
+                MarcaNegocio.Agregar(nueva);
 
-            inpNombreMar.Text = "";
-            CarcarMarca();
+                inpNombreMar.Text = "";
+                lblError.Visible = false;
+                CarcarMarca();
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "La categoría ya existe.")
+                {
+                    lblError.Text = "Ya existe una categoría con este nombre.";
+                }
+                else
+                {
+                    lblError.Text = "Ocurrió un error al agregar la categoría.";
+                }
+                lblError.Visible = true;
+            }
         }
+
 
         protected void Modificar(object sender, EventArgs e)
         {
@@ -42,13 +63,13 @@ namespace tp_TCP_equipo_19B
             {
                 if (string.IsNullOrEmpty(ddlMarcape.SelectedValue))
                 {
-                    // Mostrar mensaje de error - debes seleccionar una marca
+                    
                     return;
                 }
 
                 if (string.IsNullOrEmpty(inpNombreMarcaNueva.Text))
                 {
-                    // Mostrar mensaje de error - debes ingresar un nuevo nombre
+                  
                     return;
                 }
 
@@ -75,7 +96,7 @@ namespace tp_TCP_equipo_19B
             ddlMarcape.DataTextField = "nombre";
             ddlMarcape.DataValueField = "IdMarca";
             ddlMarcape.DataBind();
-            ddlMarcape.Items.Insert(0, new ListItem("Seleccione la Marca", "")); // Para que al momento de cargar aparezca este texto.
+            ddlMarcape.Items.Insert(0, new ListItem("Seleccione la Marca", "")); 
         }
 
         protected void Eliminar(object sender, EventArgs e)
@@ -100,7 +121,7 @@ namespace tp_TCP_equipo_19B
             {
                 if (ex.Message.Contains("REFERENCE constraint"))
                 {
-                    // Muestra un mensaje al usuario
+                    
                     lblMensaje.Text = "Hay productos con esta marca. Primero elimina los productos asociados.";
                     lblMensaje.Visible = true;
                 }

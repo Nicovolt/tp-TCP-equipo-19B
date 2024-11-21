@@ -76,6 +76,12 @@ namespace negocio
 
         public void Agregar(string NuevaCategoria)
         {
+            if (ExisteCategoria(NuevaCategoria))
+            {
+                throw new Exception("La categoría ya existe.");
+            }
+
+
             AccesoDatos datos = new AccesoDatos();
             try
             {
@@ -136,7 +142,29 @@ namespace negocio
             }
         }
 
-        
+        public bool ExisteCategoria(string nombreCategoria)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM Categoria WHERE nombre = @NombreCategoria");
+                datos.setearParametro("@NombreCategoria", nombreCategoria);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    return (int)datos.Lector[0] > 0;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

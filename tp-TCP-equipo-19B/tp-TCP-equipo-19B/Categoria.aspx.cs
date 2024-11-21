@@ -32,14 +32,38 @@ namespace tp_TCP_equipo_19B
 
         protected void Agregar(object sender, EventArgs e)
         {
-            CategoriaNegocio categoria = new CategoriaNegocio();
 
-            string nueva = inpCat.Text;
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
 
-            categoria.Agregar(nueva);
+            try
+            {
+                string nueva = inpCat.Text;
 
-            inpCat.Text = "";
-            CargarCategoria();
+                if (string.IsNullOrWhiteSpace(nueva))
+                {
+                    lblError.Text = "El nombre de la categoría no puede estar vacío.";
+                    lblError.Visible = true;
+                    return;
+                }
+
+                categoriaNegocio.Agregar(nueva);
+
+                inpCat.Text = "";
+                lblError.Visible = false;
+                CargarCategoria();
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == "La categoría ya existe.")
+                {
+                    lblError.Text = "Ya existe una categoría con este nombre.";
+                }
+                else
+                {
+                    lblError.Text = "Ocurrió un error al agregar la categoría.";
+                }
+                lblError.Visible = true;
+            }
 
         }
 
