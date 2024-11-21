@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace negocio
 {
+
     public class ProductoNegocio
     {
         AccesoDatos AccesoDatos = new AccesoDatos();
@@ -17,7 +18,7 @@ namespace negocio
         {
             List<Productos> lista = new List<Productos>();
             AccesoDatos datos = new AccesoDatos();
-            ImagenNegocio imagenNegocio = new ImagenNegocio(); 
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
 
             try
             {
@@ -30,7 +31,7 @@ namespace negocio
                     aux.Id_producto = (int)datos.Lector["id_producto"];
                     aux.Nombre = (string)datos.Lector["nombre"];
                     aux.Descripcion = (string)datos.Lector["descripcion"];
-                    aux.Precio = (decimal)datos.Lector["precio"];  
+                    aux.Precio = (decimal)datos.Lector["precio"];
                     aux.PorcentajeDescuento = datos.Lector["porcentaje_descuento"] != DBNull.Value ? (int)(byte)datos.Lector["porcentaje_descuento"] : 0; // Manejo de tinyint
                     aux.Id_marca = datos.Lector["id_marca"] != DBNull.Value ? (int)datos.Lector["id_marca"] : 0;
                     aux.Id_categoria = datos.Lector["id_categoria"] != DBNull.Value ? (int)datos.Lector["id_categoria"] : 0;
@@ -65,7 +66,7 @@ namespace negocio
                 while (datos.Lector.Read())
                 {
                     Productos producto = new Productos();
-                    
+
                     producto.Id_producto = (int)datos.Lector["id_producto"];
                     producto.Nombre = datos.Lector["nombre"].ToString();
                     producto.Descripcion = datos.Lector["descripcion"].ToString();
@@ -112,7 +113,7 @@ namespace negocio
             {
                 datos.setearConsulta("INSERT INTO Producto(nombre, descripcion, precio, id_marca, id_categoria, stock) " +
                                      "VALUES(@nombre, @Descripcion, @Precio, @Id_marca, @Id_categoria, @stock); " +
-                                     "SELECT SCOPE_IDENTITY();");  
+                                     "SELECT SCOPE_IDENTITY();");
 
                 datos.setearParametro("@nombre", producto.Nombre);
                 datos.setearParametro("@Descripcion", producto.Descripcion);
@@ -191,7 +192,7 @@ namespace negocio
                         producto.Id_categoria = (int)datos.Lector["id_categoria"];
                         producto.Id_marca = (int)datos.Lector["id_marca"];
                         producto.Precio = (decimal)datos.Lector["precio"];
-                        producto.stock = (int) datos.Lector["stock"];
+                        producto.stock = (int)datos.Lector["stock"];
 
                         producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
                     }
@@ -233,7 +234,7 @@ namespace negocio
             }
         }
 
-        public void Modificar(Productos pro)  
+        public void Modificar(Productos pro)
         {
             AccesoDatos datos = new AccesoDatos();
             try
@@ -274,7 +275,7 @@ namespace negocio
 
                 datos.ejecutarAccion();
 
-               
+
             }
             catch (Exception ex)
             {
@@ -286,5 +287,99 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Productos> listarPorMayorPrecio()
+        {
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+            AccesoDatos datos = new AccesoDatos();
+            {
+                datos.setearConsulta("select * from Producto order by precio desc");
+
+                datos.ejecutarLectura();
+
+                List<Productos> productos = new List<Productos>();
+                while (datos.Lector.Read())
+                {
+                    Productos producto = new Productos();
+
+                    producto.Id_producto = (int)datos.Lector["id_producto"];
+                    producto.Nombre = datos.Lector["nombre"].ToString();
+                    producto.Descripcion = datos.Lector["descripcion"].ToString();
+                    producto.Precio = (decimal)datos.Lector["precio"];
+                    producto.Id_categoria = (int)datos.Lector["id_marca"];
+                    producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
+                    productos.Add(producto);
+                }
+                return productos;
+            }
+        }
+
+        public List<Productos> listarPorMenorPrecio()
+        {
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+            AccesoDatos datos = new AccesoDatos();
+            {
+                datos.setearConsulta("select * from Producto order by precio asc");
+
+                datos.ejecutarLectura();
+
+                List<Productos> productos = new List<Productos>();
+                while (datos.Lector.Read())
+                {
+                    Productos producto = new Productos();
+
+                    producto.Id_producto = (int)datos.Lector["id_producto"];
+                    producto.Nombre = datos.Lector["nombre"].ToString();
+                    producto.Descripcion = datos.Lector["descripcion"].ToString();
+                    producto.Precio = (decimal)datos.Lector["precio"];
+                    producto.Id_categoria = (int)datos.Lector["id_marca"];
+                    producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
+                    productos.Add(producto);
+                }
+                return productos;
+            }
+        }
+
+
+        public List<Productos> listarPorCategoriaYMarca(int categoriaID, int marcaID)
+        {
+            ImagenNegocio imagenNegocio = new ImagenNegocio();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+
+                datos.setearConsulta("SELECT * FROM Producto WHERE id_categoria = @id_categoria AND id_marca = @id_marca");
+                datos.setearParametro("@id_categoria", categoriaID);
+                datos.setearParametro("@id_marca", marcaID);
+                datos.ejecutarLectura();
+
+                List<Productos> productos = new List<Productos>();
+                while (datos.Lector.Read())
+                {
+                    Productos producto = new Productos();
+                    producto.Id_producto = (int)datos.Lector["id_producto"];
+                    producto.Nombre = datos.Lector["nombre"].ToString();
+                    producto.Descripcion = datos.Lector["descripcion"].ToString();
+                    producto.Precio = (decimal)datos.Lector["precio"];
+                    producto.Id_categoria = (int)datos.Lector["id_categoria"];
+                    producto.Id_marca = (int)datos.Lector["id_marca"];
+                    producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
+                    productos.Add(producto);
+                }
+
+                return productos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
+
+
 }

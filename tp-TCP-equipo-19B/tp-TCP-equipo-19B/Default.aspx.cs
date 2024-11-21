@@ -12,6 +12,7 @@ using System.Web.UI.WebControls;
 
 namespace tp_TCP_equipo_19B
 {
+
     public partial class _Default : System.Web.UI.Page
     {
 
@@ -21,13 +22,13 @@ namespace tp_TCP_equipo_19B
         {
             if (!IsPostBack)
             {
-                CargarProductos(); 
+                CargarProductos();
                 CarcarCategoria();
                 CarcarMarca();
                 ListProductos = ProductoNegocio.listar();
                 repProductos.DataSource = ListProductos;
                 repProductos.DataBind();
-                
+
 
 
             }
@@ -36,9 +37,9 @@ namespace tp_TCP_equipo_19B
         private void CargarProductos()
         {
             ProductoNegocio productoNegocio = new ProductoNegocio();
-            List<Productos> productos = productoNegocio.listar(); 
-            repProductos.DataSource = productos; 
-            repProductos.DataBind(); 
+            List<Productos> productos = productoNegocio.listar();
+            repProductos.DataSource = productos;
+            repProductos.DataBind();
         }
 
 
@@ -55,7 +56,7 @@ namespace tp_TCP_equipo_19B
                 int ProductoID = int.Parse(e.CommandArgument.ToString());
                 proNeg.Eliminar(ProductoID);
                 CargarProductos();
-             
+
             }
             if (e.CommandName == "VerDetalle")
             {
@@ -65,7 +66,7 @@ namespace tp_TCP_equipo_19B
 
             if (e.CommandName == "AgregarAlCarrito")
             {
-                if(Session["CarritoCompras"] == null)
+                if (Session["CarritoCompras"] == null)
                 {
                     Session["CarritoCompras"] = new List<Productos>();
                 }
@@ -90,7 +91,7 @@ namespace tp_TCP_equipo_19B
                         producto.Cantidad = 1;
                         carrito.Add(producto);
                     }
-                    
+
                     Session["CarritoCompras"] = carrito;
 
                     List<Productos> carritoActual = (List<Productos>)Session["CarritoCompras"];
@@ -111,28 +112,54 @@ namespace tp_TCP_equipo_19B
 
         private void CarcarCategoria()
         {
+
+            if (ddlCategorias.Items.Count == 0)
+            {
+                ddlCategorias.Items.Add(new ListItem("Todas las categorias", "0"));
+            }
+
+
             CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
-            ddlCategorias.DataSource = categoriaNegocio.ListarCategorias();
-            ddlCategorias.DataTextField = "nombre";
-            ddlCategorias.DataValueField = "IdCategoria";
-            ddlCategorias.DataBind();
+            List<Categoria> categorias = categoriaNegocio.ListarCategorias();
+            foreach (var categoria in categorias)
+            {
+                ddlCategorias.Items.Add(new ListItem(categoria.Nombre, categoria.IdCategoria.ToString()));
+            }
 
         }
 
         private void CarcarMarca()
         {
-            MarcaNegocio MarcaNegocio = new MarcaNegocio();
-            ddlMarcas.DataSource = MarcaNegocio.ListarMarcas();
-            ddlMarcas.DataTextField = "nombre";
-            ddlMarcas.DataValueField = "IdMarca";
-            ddlMarcas.DataBind();
+
+            if (ddlMarcas.Items.Count == 0)
+            {
+                ddlMarcas.Items.Add(new ListItem("Todas las marcas", "0"));
+            }
+
+
+            MarcaNegocio marcaNegocio = new MarcaNegocio();
+            List<Marca> marcas = marcaNegocio.ListarMarcas();
+            foreach (var marca in marcas)
+            {
+                ddlMarcas.Items.Add(new ListItem(marca.Nombre, marca.IdMarca.ToString()));
+            }
 
         }
 
         protected void ddlCategorias_SelectedIndexChanged(object sender, EventArgs e)
         {
             int categoriaID = int.Parse(ddlCategorias.SelectedValue);
-            CargarProductosCategoria(categoriaID);
+
+
+            if (categoriaID == 0)
+            {
+                CargarProductos();
+            }
+            else
+            {
+                ddlMarcas.SelectedIndex = 0;
+                CargarProductosCategoria(categoriaID);
+            }
         }
 
 
@@ -143,12 +170,12 @@ namespace tp_TCP_equipo_19B
 
             if (categoriaID == 0)
             {
-               
+
                 productos = productoNegocio.listar();
             }
             else
             {
-               
+
                 productos = productoNegocio.listarPorCategoria(categoriaID);
             }
 
@@ -159,8 +186,30 @@ namespace tp_TCP_equipo_19B
         protected void ddlMarcas_SelectedIndexChanged(object sender, EventArgs e)
         {
             int marcaID = int.Parse(ddlMarcas.SelectedValue);
-            CargarProductosMarca(marcaID);
+            int categoriaID = int.Parse(ddlCategorias.SelectedValue);
+
+            if (categoriaID == 0 && marcaID == 0)
+            {
+
+                CargarProductos();
+            }
+            else if (categoriaID != 0 && marcaID == 0)
+            {
+
+                CargarProductosCategoria(categoriaID);
+            }
+            else if (categoriaID == 0 && marcaID != 0)
+            {
+
+                CargarProductosMarca(marcaID);
+            }
+            else
+            {
+
+                CargarProductosCategoriaMarca(categoriaID, marcaID);
+            }
         }
+
 
         private void CargarProductosMarca(int marcaID)
         {
@@ -181,39 +230,59 @@ namespace tp_TCP_equipo_19B
             repProductos.DataSource = productos;
             repProductos.DataBind();
         }
-
-        protected void repProductos_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        private void CargarProductosCategoriaMarca(int categoriaID, int marcaID)
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                Button btnBorrar = (Button)e.Item.FindControl("btnBorrar");
-                Button btnModificar = (Button)e.Item.FindControl("btnModificar");
-                Button btnDetalle = (Button)e.Item.FindControl("btnDetalle");
-                Button btnCarrito = (Button)e.Item.FindControl("btnCarrito");
-                dynamic User = Session["usuario"];
-                if (User != null || User.EsAdmin==false)
-                {
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+            List<Productos> productos;
 
-                    btnBorrar.Visible = false;
-                    btnModificar.Visible = false;
-                    btnDetalle.Visible = false;
-                    btnCarrito.Visible = false;
 
-                }
-                else 
-                {
-                    btnBorrar.Visible = false;
-                    btnModificar.Visible = false;
-                    btnDetalle.Visible = false;
-                    btnCarrito.Visible = false;
+            productos = productoNegocio.listarPorCategoriaYMarca(categoriaID, marcaID);
 
-                }
-            }
+            repProductos.DataSource = productos;
+            repProductos.DataBind();
         }
+
 
         protected void ddlPrecio_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int ordernPrecio = int.Parse(ddlPrecio.SelectedValue);
 
+
+            if (ordernPrecio == 0)
+            {
+                CargarProductos();
+            }
+            else
+            {
+                CargarProductosPrecio(ordernPrecio);
+            }
+
+        }
+
+        private void CargarProductosPrecio(int x)
+        {
+            ProductoNegocio productoNegocio = new ProductoNegocio();
+            List<Productos> productos;
+
+            if (x == 1)
+            {
+
+                productos = productoNegocio.listarPorMenorPrecio();
+                repProductos.DataSource = productos;
+            }
+            if (x == 2)
+            {
+
+                productos = productoNegocio.listarPorMayorPrecio();
+                repProductos.DataSource = productos;
+            }
+            if (x == 0)
+            {
+                CargarProductos();
+            }
+
+
+            repProductos.DataBind();
         }
     }
 }

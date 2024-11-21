@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="tp_TCP_equipo_19B._Default" %>
+﻿
+<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="tp_TCP_equipo_19B._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
 
@@ -205,19 +206,18 @@
      <div class="row mb-4">
         <div class="col-md-4">
             <div class="dropdown-container">
-                <div class="dropdown-item">
-                    <label id="ddlCategoriasLabel" for="ddlCategorias">Categorias</label>
-                    <asp:DropDownList ID="ddlCategorias" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCategorias_SelectedIndexChanged" CssClass="modern-dropdown">
-                        <asp:ListItem Text="Todas las categorias" Value="0"></asp:ListItem>
-                    </asp:DropDownList>
-                </div>
+               <div class="dropdown-item">
+    <label id="ddlCategoriasLabel" for="ddlCategorias">Categorias</label>
+  <asp:DropDownList ID="ddlCategorias" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCategorias_SelectedIndexChanged" CssClass="modern-dropdown">
+    <asp:ListItem Text="Todas las categorias" Value="0" />
+    
+</asp:DropDownList>
 
-                <div class="dropdown-item">
-                    <label id="ddlMarcasLabel" for="ddlMarcas">Marcas</label>
-                    <asp:DropDownList ID="ddlMarcas" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlMarcas_SelectedIndexChanged" CssClass="modern-dropdown">
-                        <asp:ListItem Text="Todas las marcas" Value="0"></asp:ListItem>
-                    </asp:DropDownList>
-                </div>
+<asp:DropDownList ID="ddlMarcas" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlMarcas_SelectedIndexChanged" CssClass="modern-dropdown">
+    <asp:ListItem Text="Todas las marcas" Value="0" />
+
+</asp:DropDownList>
+</div>
 
 
 
@@ -297,3 +297,5 @@
     </script>
 
 </asp:Content>
+
+
