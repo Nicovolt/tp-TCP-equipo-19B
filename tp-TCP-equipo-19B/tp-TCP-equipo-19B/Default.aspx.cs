@@ -284,5 +284,30 @@ namespace tp_TCP_equipo_19B
 
             repProductos.DataBind();
         }
+
+        protected List<Imagen> GetImagenesOrDefault(object listaImagenes)
+        {
+            var imagenes = listaImagenes as List<Imagen>;
+
+            if (imagenes == null || !imagenes.Any())
+            {
+                // Crear una lista con una imagen por defecto
+                return new List<Imagen>
+        {
+            new Imagen
+            {
+                ImagenUrl = ImagenDefault()
+            }
+        };
+            }
+
+            return imagenes;
+        }
+
+        public static string ImagenDefault()
+        {
+            string defaultImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9cSGzVkaZvJD5722MU5A-JJt_T5JMZzotcw&s";
+            return defaultImageUrl;
+        }
     }
 }

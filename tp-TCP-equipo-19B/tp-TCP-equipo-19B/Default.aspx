@@ -249,7 +249,7 @@
 
                                     <div id='carouselArticulo<%# Eval("Id_producto") %>' class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
-                                            <asp:Repeater ID="repImagenes" runat="server" DataSource='<%# Eval("ListaImagenes") %>'>
+                                            <asp:Repeater ID="repImagenes" runat="server" DataSource='<%# GetImagenesOrDefault(Eval("ListaImagenes")) %>'>
                                                 <ItemTemplate>
                                                     <div class='carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>'>
                                                         <img src='<%# Eval("ImagenUrl") %>' class="d-block w-100 card-img-top" alt="Imagen del artículo">
@@ -257,14 +257,16 @@
                                                 </ItemTemplate>
                                             </asp:Repeater>
                                         </div>
-                                        <button class="carousel-control-prev" type="button" data-bs-target='#carouselArticulo<%# Eval("Id_producto") %>' data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Anterior</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button" data-bs-target='#carouselArticulo<%# Eval("Id_producto") %>' data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Siguiente</span>
-                                        </button>
+                                        <asp:Panel runat="server" Visible='<%# (GetImagenesOrDefault(Eval("ListaImagenes"))).Count > 1 %>'>
+                                            <button class="carousel-control-prev" type="button" data-bs-target='#carouselArticulo<%# Eval("Id_producto") %>' data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Anterior</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target='#carouselArticulo<%# Eval("Id_producto") %>' data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Siguiente</span>
+                                            </button>
+                                        </asp:Panel>
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-title"><%# Eval("Nombre") %></h5>

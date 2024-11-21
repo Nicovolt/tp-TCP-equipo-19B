@@ -2,6 +2,7 @@
 using negocio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI;
 using static dominio.Enums;
 
@@ -41,18 +42,23 @@ namespace tp_TCP_equipo_19B
             {
                 PresupuestoNegocio negocioPresupuesto = new PresupuestoNegocio();
                 List<Presupuesto> presupuestos = negocioPresupuesto.ObtenerPresupuestosConDetalles();
-                RepeaterPresupuestos.DataSource = presupuestos;
-                RepeaterPresupuestos.DataBind();
+                if (presupuestos.Any())
+                {
+                    RepeaterPresupuestos.DataSource = presupuestos;
+                    RepeaterPresupuestos.DataBind();
+                    pnlNoResults.Visible = false;
+                }
+                else
+                {
+                    RepeaterPresupuestos.DataSource = null;
+                    RepeaterPresupuestos.DataBind();
+                    pnlNoResults.Visible = true;
+                }
             }
             catch (Exception ex)
             {
                 MostrarError("Error al cargar presupuestos: " + ex.Message);
             }
-        }
-
-        protected string GetEstadoClassFromCode(object estado)
-        {
-            return GetEstadoClass(estado);
         }
 
         public static string GetEstadoClass(object estado)

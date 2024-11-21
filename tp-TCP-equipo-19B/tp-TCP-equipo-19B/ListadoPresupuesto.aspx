@@ -14,7 +14,7 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="card-title mb-0">Presupuesto #<%# Eval("Id") %></h5>
-                                    <span class='badge <%# GetEstadoClassFromCode(Eval("IdEstado")) %>'>
+                                    <span class='badge <%# GetEstadoClass((short)Eval("IdEstado")) %>'>
                                         <%# Eval("Estado.Nombre") %>
                                     </span>
                                 </div>
@@ -39,7 +39,12 @@
                 </ItemTemplate>
             </asp:Repeater>
         </div>
-    </div>
+            <asp:Panel ID="pnlNoResults" runat="server" CssClass="text-center py-5" Visible="false">
+                <i class="fas fa-shopping-bag fa-3x mb-3 text-muted"></i>
+                <h4>No hay pedidos para mostrar</h4>
+                <p class="text-muted">¡Difundi tu pagina para que los clientes puedan realizar pedidos!</p>
+            </asp:Panel>
+        </div>
 
     <style>
         .badge {
