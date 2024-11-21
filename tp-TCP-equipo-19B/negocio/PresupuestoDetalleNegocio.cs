@@ -41,5 +41,46 @@ namespace negocio
                 }
             }
         }
+
+        public List<PresupuestoDetalle> ListarDetalles(int idPresupuesto)
+        {
+            AccesoDatos data = new AccesoDatos();
+            List<PresupuestoDetalle> lista = new List<PresupuestoDetalle>();
+
+            try
+            {
+                data.setearConsulta("SELECT id, id_presupuesto, id_producto, precio_unitario, cantidad, subtotal, fecha_agregado, agregado_id_usuario " +
+                    "FROM presupuesto_detalle pd " +
+                    "WHERE id_presupuesto = @id_presupuesto;");
+                data.setearParametro("@id_presupuesto",idPresupuesto);
+                data.ejecutarLectura();
+
+                while (data.Lector.Read())
+                {
+                    PresupuestoDetalle aux = new PresupuestoDetalle();
+
+                    aux.Id = (int)data.Lector["id"];
+                    aux.IdPresupuesto = (int)data.Lector["id_presupuesto"];
+                    aux.IdProducto = (int)data.Lector["id_producto"];
+                    aux.PrecioUnitario = (decimal)data.Lector["precio_unitario"];
+                    aux.Cantidad = (int)data.Lector["cantidad"];
+                    aux.Subtotal = (decimal)data.Lector["subtotal"];
+                    aux.FechaAgregado = (DateTime)data.Lector["fecha_agregado"];
+                    aux.AgregadoIdUsuario = (int)data.Lector["agregado_id_usuario"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar los detalles del presupuesto: " + idPresupuesto + ex.Message);
+            }
+            finally
+            {
+                data.cerrarConexion();
+            }
+        }
     }
 }

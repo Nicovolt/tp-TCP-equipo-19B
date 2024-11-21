@@ -18,5 +18,6 @@ namespace dominio
         public DateTime FechaAgregado { get; set; }
         public int AgregadoIdUsuario { get; set; }
         public Productos Producto { get; set; }
+        public string NombreProducto { get; set; }
     }
 }
