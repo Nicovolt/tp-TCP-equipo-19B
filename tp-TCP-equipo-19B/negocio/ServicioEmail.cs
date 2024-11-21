@@ -88,14 +88,14 @@ namespace negocio
                      <div class='invoice-details'>
                          <p>Estimado/a <strong>{nombre} {apellido}</strong>,</p>
                          <p>Gracias por tu compra en Equipo19B.</p>
-                         <h2>Detalle de la compra:</h2>
+                         <h2>Detalles:</h2>
                          <table>
                              <tr>
                                  <td><strong>Nombre:</strong></td>
                                  <td>{nombre} {apellido}</td>
                              </tr>
                              <tr>
-                                 <td><strong>Te enviaremos seguimiento al telefono:</strong></td>
+                                 <td><strong>Contacto: </strong></td>
                                  <td>{telefono}</td>
                              </tr>
                              <tr>
