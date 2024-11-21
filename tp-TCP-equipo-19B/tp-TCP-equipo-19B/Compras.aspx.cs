@@ -55,7 +55,7 @@ namespace tp_TCP_equipo_19B
                 ClienteDomicilioEnvioNegocio negocio = new ClienteDomicilioEnvioNegocio();
                 var direcciones = negocio.ListarPorCliente(usuario.IdCliente);
 
-                if (direcciones == null || !direcciones.Any())
+                if (direcciones == null || direcciones.count ==0)
                 {
                     MostrarMensaje("No tienes direcciones guardadas.", "warning");
                     Response.Redirect("Cuenta.aspx");

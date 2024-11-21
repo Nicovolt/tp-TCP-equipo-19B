@@ -66,7 +66,7 @@ namespace tp_TCP_equipo_19B
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rptMetodosEnvio;
+        protected global::System.Web.UI.WebControls.Repeater rptMetodosEnvio;
 
         /// <summary>
         /// Control rptFormasPago.
@@ -112,5 +112,23 @@ namespace tp_TCP_equipo_19B
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMensaje;
+
+        /// <summary>
+        /// Control pnlMensajeEmergente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlMensajeEmergente;
+
+        /// <summary>
+        /// Control lblMensajeEmergente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMensajeEmergente;
     }
 }
