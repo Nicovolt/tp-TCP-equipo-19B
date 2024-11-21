@@ -287,7 +287,6 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-<<<<<<< Updated upstream
 
         public List<Productos> listarPorMayorPrecio()
         {
@@ -358,32 +357,10 @@ namespace negocio
                 while (datos.Lector.Read())
                 {
                     Productos producto = new Productos();
-=======
-        
-        public List<Productos> BuscarPorNombre(string nombre)
-        {
-            List<Productos> lista = new List<Productos>();
-            AccesoDatos datos = new AccesoDatos();
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
-            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
-
-            try
-            {
-                datos.setearConsulta("SELECT * FROM Producto WHERE Nombre LIKE @Nombre");
-                datos.setearParametro("@Nombre", "%" + nombre + "%");
-                datos.ejecutarLectura();
-
-
-                while (datos.Lector.Read())
-                {
-                    Productos producto = new Productos();
-
->>>>>>> Stashed changes
                     producto.Id_producto = (int)datos.Lector["id_producto"];
                     producto.Nombre = datos.Lector["nombre"].ToString();
                     producto.Descripcion = datos.Lector["descripcion"].ToString();
                     producto.Precio = (decimal)datos.Lector["precio"];
-<<<<<<< Updated upstream
                     producto.Id_categoria = (int)datos.Lector["id_categoria"];
                     producto.Id_marca = (int)datos.Lector["id_marca"];
                     producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
@@ -396,34 +373,12 @@ namespace negocio
             {
                 throw ex;
             }
-=======
-                    producto.Id_marca = (int)datos.Lector["id_categoria"];
-
-                    ImagenNegocio imagenNegocio = new ImagenNegocio();
-
-                    producto.ListaImagenes = imagenNegocio.listaImagenesPorArticulo(producto.Id_producto);
-                    lista.Add(producto);
-
-                }
-                return lista;
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
->>>>>>> Stashed changes
             finally
             {
                 datos.cerrarConexion();
             }
         }
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
     }
 
 

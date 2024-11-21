@@ -23,15 +23,6 @@
         transform: translateY(-2px);
     }
 
-    .separador {
-    height: 1px;
-    background-color: #ddd; /* Color gris claro */
-    margin: 20px 0; /* Espaciado superior e inferior */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle un toque moderno */
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
-
     .card-body {
     display: flex;
     flex-direction: column;
@@ -202,64 +193,15 @@
     font-weight: bold;
 }
 
-.h3{
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
- .search-input {
-     flex: 1; /* Expande el campo de entrada para ocupar el espacio disponible */
-     width: calc(100% - 50px); /* Ajusta el ancho del campo de entrada */
-     border: none;
-     outline: none;
-     padding: 10px;
-     font-size: 16px;
- }
-
- .search-button {
-     background-color: #000000;
-     color: white;
-     border: none;
-     padding: 10px 14.5px;
-     border-radius: 0 20px 20px 0;
-     cursor: pointer;
- }
-
- /* Estilos para el ícono de lupa */
- .search-icon {
-     font-size: 20px;
- }
- .search-container {
-     text-align: center; /* Centra el contenedor horizontalmente */
-     margin-top: 50px; /* Espacio superior entre la imagen y el contenedor de búsqueda */
-     margin-bottom: 50px;
-     width: 80%; /* Ancho del contenedor de búsqueda como un porcentaje del contenedor padre */
-     max-width: 500px; /* Ancho máximo del contenedor de búsqueda para limitar su tamaño */
-     border: 1px solid #ccc;
-     border-radius: 20px;
-     overflow: hidden;
-     margin: 0 auto; /* Centra el contenedor horizontalmente */
- }
-
-  </style>
 
 
-    
-    <div class="search-container">
-          <asp:TextBox ID="searchTextBox" runat="server" CssClass="search-input" placeholder="Buscar..." onkeydown="enter(event)"></asp:TextBox>
-          <asp:LinkButton ID="btnSearch" runat="server" CssClass="search-button" OnClick="btnSearch_Click" type="button">
-           <i class="fas fa-search"></i>
-          </asp:LinkButton>
-    </div>
 
-  
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-     <asp:Literal ID="Resultados" runat="server"></asp:Literal>
- </div>
+        
 
-    <div class="separador"></div>
+    </style>
+
     <div class="container">
-        <h3>PRODUCTOS </h3>
+        <h3>PRODUCTOS</h3>
 
      <div class="row mb-4">
         <div class="col-md-4">
@@ -344,14 +286,7 @@
         </asp:UpdatePanel> 
     </div>
 
-     <script>
-         function enter(event) {
-             if (event.keyCode === 13 || event.which === 13) {
-                 event.preventDefault();
-                 document.getElementById('<%= btnSearch.ClientID %>').click();
-             }
-         }
-     </script>
+
  
 
 

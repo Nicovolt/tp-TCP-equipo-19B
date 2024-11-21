@@ -29,7 +29,12 @@ namespace tp_TCP_equipo_19B
             LabelCompras.Text = contador.ToString();
         }
 
-       
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string busqueda = searchTextBox.Text;
+
+
+        }
 
         protected void btnCerrarSesion_Click(object sender, EventArgs e)
         {
@@ -78,9 +83,5 @@ namespace tp_TCP_equipo_19B
                 adminMenu.Visible = false;
             }
         }
-
-
-
-
     }
 }

@@ -240,6 +240,7 @@
     </Compile>
     <Compile Include="Banner.aspx.cs">
       <DependentUpon>Banner.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Banner.aspx.designer.cs">
       <DependentUpon>Banner.aspx</DependentUpon>
