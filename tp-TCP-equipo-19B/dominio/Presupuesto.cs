@@ -24,5 +24,7 @@ namespace dominio
         public PresupuestoEstado Estado { get; set; }
         public PresupuestoFormaPago FormaPago { get; set; }
         public ClienteDomicilioEnvio DomicilioEnvio { get; set; }
+        public Cliente Cliente { get; set; } // Propiedad agregada
     }
+
 }
