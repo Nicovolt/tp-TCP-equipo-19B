@@ -69,12 +69,6 @@ namespace tp_TCP_equipo_19B
                 PresupuestoNegocio negocio = new PresupuestoNegocio();
                 Presupuesto pedido = negocio.ObtenerPorId(idPresupuesto);
 
-                if (pedido == null || pedido.IdCliente != usuario.IdCliente)
-                {
-                    Response.Redirect("Pedidos.aspx");
-                    return;
-                }
-
                 if (pedido == null)
                 {
                     Response.Redirect("ListadoPresupuesto.aspx");
