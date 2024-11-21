@@ -27,6 +27,7 @@ namespace tp_TCP_equipo_19B
                 CargarFormasPago();
                 MostrarTotales();
             }
+
         }
 
         private bool ValidarSesion()
@@ -53,6 +54,12 @@ namespace tp_TCP_equipo_19B
                 var usuario = (dynamic)Session["usuario"];
                 ClienteDomicilioEnvioNegocio negocio = new ClienteDomicilioEnvioNegocio();
                 var direcciones = negocio.ListarPorCliente(usuario.IdCliente);
+
+                if (direcciones == null || !direcciones.Any())
+                {
+                    MostrarMensaje("No tienes direcciones guardadas.", "warning");
+                    Response.Redirect("Cuenta.aspx");
+                }
 
                 rptDirecciones.DataSource = direcciones;
                 rptDirecciones.DataBind();
