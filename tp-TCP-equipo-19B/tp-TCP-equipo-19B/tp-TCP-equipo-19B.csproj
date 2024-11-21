@@ -166,6 +166,7 @@
     <Content Include="Cuenta.aspx" />
     <Content Include="Pedidos.aspx" />
     <Content Include="PedidoDetalle.aspx" />
+    <Content Include="ListadoPresupuestoDetalle.aspx" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -331,6 +332,13 @@
     </Compile>
     <Compile Include="PedidoDetalle.aspx.designer.cs">
       <DependentUpon>PedidoDetalle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoPresupuestoDetalle.aspx.cs">
+      <DependentUpon>ListadoPresupuestoDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListadoPresupuestoDetalle.aspx.designer.cs">
+      <DependentUpon>ListadoPresupuestoDetalle.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

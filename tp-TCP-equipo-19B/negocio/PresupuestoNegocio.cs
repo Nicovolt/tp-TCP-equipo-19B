@@ -185,12 +185,14 @@ namespace negocio
                        et.nombre as envio_nombre, et.costo as envio_costo,
                        pfp.nombre as forma_pago_nombre, pfp.descripcion as forma_pago_descripcion,
                        cde.calle, cde.altura, cde.entre_calles, cde.piso, cde.departamento,
-                       cde.localidad, cde.provincia, cde.cp as codigo_postal
+                       cde.localidad, cde.provincia, cde.cp as codigo_postal,
+                        c.nombre as nombre_cliente, c.apellido as apellido_cliente, c.email as email_cliente, c.telefono as telefono_cliente
                 FROM presupuesto p
                 INNER JOIN presupuesto_estado pe ON p.id_estado = pe.id
                 INNER JOIN envio_tipo et ON p.id_metodo_envio = et.id
                 INNER JOIN presupuesto_forma_pago pfp ON p.id_forma_pago = pfp.id
                 INNER JOIN cliente_dom_envio cde ON p.id_cliente_envio = cde.id
+                INNER JOIN Cliente c ON c.id_cliente = p.id_cliente
                 WHERE p.id = @idPresupuesto";
 
                 datos.setearConsulta(consulta);
@@ -269,6 +271,15 @@ namespace negocio
                     CodigoPostal = (string)lector["codigo_postal"]
                 };
 
+                presupuesto.Cliente = new Cliente
+                {
+                    Id_cliente = (int)lector["id_cliente"],
+                    Nombre = (string)lector["nombre_cliente"],
+                    Apellido = (string)lector["apellido_cliente"],
+                    Mail = (string)lector["email_cliente"],
+                    Telefono = (string)lector["telefono_cliente"]
+                };
+
                 // Cargar detalles
                 presupuesto.Detalles = CargarDetallesPresupuesto(presupuesto.Id);
             }
@@ -327,31 +338,26 @@ namespace negocio
 
             try
             {
-                data.setearConsulta(@"
-            SELECT 
-    pre.id AS IdPresupuesto,
-    c.nombre AS NombreCliente,
-    c.apellido AS ApellidoCliente,
-    p.nombre AS NombreProducto,
-    pre.total AS Total,
-    fp.nombre AS FormaPago,
-    pre.fecha_creacion AS FechaCreacion
-FROM 
-    presupuesto pre
-INNER JOIN 
-    cliente c ON pre.id_cliente = c.id_cliente
-INNER JOIN 
-    presupuesto_detalle pd ON pre.id = pd.id_presupuesto
-INNER JOIN 
-    producto p ON pd.id_producto = p.Id_producto
-INNER JOIN 
-    presupuesto_forma_pago fp ON pre.id_forma_pago = fp.id");
+                            data.setearConsulta(@"
+                        SELECT 
+                pre.id AS IdPresupuesto,
+                c.nombre AS NombreCliente,
+                c.apellido AS ApellidoCliente,
+                pre.total AS Total,
+                fp.nombre AS FormaPago,
+                pre.fecha_creacion AS FechaCreacion,
+                pe.id as id_presu_estado,
+                pe.nombre as nombre_estado
+                FROM presupuesto pre
+                INNER JOIN cliente c ON pre.id_cliente = c.id_cliente
+                INNER JOIN presupuesto_forma_pago fp ON pre.id_forma_pago = fp.id
+                INNER JOIN presupuesto_estado pe ON pe.id = pre.id_estado");
 
                 data.ejecutarLectura();
 
                 while (data.Lector.Read())
                 {
-                    var presupuesto = new Presupuesto
+                    Presupuesto presupuesto = new Presupuesto
                     {
                         Id = Convert.ToInt32(data.Lector["IdPresupuesto"]),
                         Total = Convert.ToDecimal(data.Lector["Total"]),
@@ -365,16 +371,11 @@ INNER JOIN
                             Nombre = data.Lector["NombreCliente"].ToString(),
                             Apellido = data.Lector["ApellidoCliente"].ToString()
                         },
-                        Detalles = new List<PresupuestoDetalle>
-        {
-            new PresupuestoDetalle
-            {
-                Producto = new Productos
-                {
-                    Nombre = data.Lector["NombreProducto"].ToString()
-                }
-            }
-        }
+                        Estado = new PresupuestoEstado
+                        {
+                            Id = (short)data.Lector["id_presu_estado"],
+                            Nombre = (string)data.Lector["nombre_estado"]
+                        }
                     };
 
                     presupuestos.Add(presupuesto);
@@ -391,6 +392,30 @@ INNER JOIN
             }
 
             return presupuestos;
+        }
+
+        public void ActualizarEstado(int idPresupuesto, int nuevoEstado)
+        {
+            AccesoDatos data = new AccesoDatos();
+            try
+            {
+                data.setearConsulta("UPDATE presupuesto " +
+                    "SET id_estado=@id_estado, ultima_actualizacion= @fecha_update " +
+                    "WHERE id=@id_presu;");
+                data.setearParametro("@id_estado", nuevoEstado);
+                data.setearParametro("@fecha_update",DateTime.Now);
+                data.setearParametro("@id_presu",idPresupuesto);
+                data.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al actualizar el estado del presupuesto: " + ex.Message);
+            }
+            finally
+            {
+                data.cerrarConexion();
+            }
         }
     }
 }
